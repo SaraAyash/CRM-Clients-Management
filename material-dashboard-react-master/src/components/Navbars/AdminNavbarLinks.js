@@ -14,7 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
 import Dashboard from "@material-ui/icons/Dashboard";
-import Search from "@material-ui/icons/Search";
+import SearchIcon from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
@@ -62,7 +62,7 @@ export default function AdminNavbarLinks() {
           }}
         />
         <Button color="white" aria-label="edit" justIcon round>
-          <Search />
+          <SearchIcon />
         </Button>
       </div>
       <Button

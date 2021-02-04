@@ -8,6 +8,10 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Search from "components/Search/Search.js"
+
+import Button from "components/CustomButtons/Button.js";
+import SearchIcon from "@material-ui/icons/Search";
 
 const styles = {
   cardCategoryWhite: {
@@ -41,11 +45,24 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+
 export default function TableList() {
-  const classes = useStyles();
+
+  //
+
+  function searchClient(value) {
+    alert(value);
+
+  }
+ const classes = useStyles();
   return (
     <GridContainer>
+
       <GridItem xs={12} sm={12} md={12}>
+        <Search
+        searchClient={searchClient}
+        />
+
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Simple Table</h4>
@@ -110,3 +127,4 @@ export default function TableList() {
     </GridContainer>
   );
 }
+
