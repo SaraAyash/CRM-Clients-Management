@@ -59,14 +59,7 @@ const dashboardRoutes = [
     component: TableList,
     layout: "/admin"
   },
-  // {
-  //   path: "/upgrade-to-pro",
-  //   name: "Upgrade To PRO",
-  //   rtlName: "التطور للاحترافية",
-  //   icon: Unarchive,
-  //   component: UpgradeToPro,
-  //   layout: "/admin"
-  // }
+  
 ];
 
 export default dashboardRoutes;

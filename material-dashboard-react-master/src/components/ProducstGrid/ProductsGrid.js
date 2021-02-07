@@ -19,7 +19,7 @@ export default function ProductsGrid(props) {
   const { children, ...rest } = props;
   return (
     <div>
-      
+            
     </div>
      
   );
