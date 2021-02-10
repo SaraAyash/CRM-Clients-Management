@@ -19,7 +19,7 @@ const clients = {
   setLastName(state, action) {    
     state.client.lastName = action.payload;
   },
-  setEmail(state, action) {
+  setEmail(state, action) { 
     state.client.email = action.payload;
   },
   setMobile(state, action) {
