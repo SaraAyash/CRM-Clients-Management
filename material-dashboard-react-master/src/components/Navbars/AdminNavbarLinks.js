@@ -61,9 +61,7 @@ export default function AdminNavbarLinks() {
             }
           }}
         />
-        <Button color="white" aria-label="edit" justIcon round>
-          <SearchIcon />
-        </Button>
+       
       </div>
       <Button
         color={window.innerWidth > 959 ? "transparent" : "white"}

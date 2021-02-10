@@ -1,99 +1,98 @@
+
+
 import React from "react";
-import PropTypes from "prop-types";
+import { connect } from 'react-redux'
+import { actions } from '../../redux/actions'
+
+// import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
-import UserDetails from "./../DisplayUser/UserDetails.js"
-import { Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
-import { createBrowserHistory } from "history";
+// import UserDetails from "./../DisplayUser/UserDetails.js"
+import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
+// import { createBrowserHistory } from "history";
+// import { render } from "react-dom";
+// import { Component } from "react";
+import { Table } from 'react-bootstrap';
 
-const useStyles = makeStyles(styles);
 
-export default withRouter(function CustomTable(props) {
+function mapStateToProps(state) {
+  // debugger;
+  return {
+    client: state.clientReducer.client
+  };
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  setFirstName: (client_name) => dispatch(actions.setFirstName(client_name)),
+  setLastName: (client_last_name) => dispatch(actions.setLastName(client_last_name)),
+  setEmail: (client_email) => dispatch(actions.setEmail(client_email)),
+  setMobile: (client_mobile) => dispatch(actions.setMobile(client_mobile))
+
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function CustomTable(props) {
+
+  const useStyles = makeStyles(styles);
   const classes = useStyles();
-  const { tableHead, tableData, tableHeaderColor, history } = props;
+  const { tableHead, tableData } = props;
 
   function clickRow(value) {
 
-    // return Redirect
-    history.push("/admin/table/sara")
-    
+    props.history.push("/admin/table/" + value[0]);
+    props.setFirstName(value[0]);
+    props.setLastName(value[1]);
+    props.setEmail(value[2]);
+    props.setMobile(value[3]);
+
   }
-  const hist = createBrowserHistory();
   return (
-     
-      <Switch>
-        <Route path="/admin/table" >
-          <div className={classes.tableResponsive}>
-            <Table className={classes.table}>
-              {tableHead !== undefined ? (
-                <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
-                  <TableRow className={classes.tableHeadRow}>
-                    {tableHead.map((prop, key) => {
-                      return (
-                        <TableCell
-                          className={classes.tableCell + " " + classes.tableHeadCell}
-                          key={key}
-                        >
-                          {prop}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                </TableHead>
-              ) : null}
-              <TableBody>
-                {tableData.map((prop, key) => {
+
+    <div className={classes.tableResponsive}>
+      <label>{props.client.firstName}</label>
+      <Table  >
+        <thead>
+          <tr>
+            {tableHead !== undefined ? (tableHead.map((prop, key) => {
+              return (
+                <th
+                  className={classes.tableCell + " " + classes.tableHeadCell}
+                  key={key}
+                >
+                  {prop}
+                </th>
+              );
+            })) : null}
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {tableData.map((prop, key) => {
+            return (
+              <tr key={key} className={classes.tableBodyRow} onClick={() => clickRow(prop)}>
+                {prop.map((prop, key) => {
                   return (
-                    <TableRow key={key} className={classes.tableBodyRow} type="button" onClick={() => clickRow(prop)} >
-                      {prop.map((prop, key) => {
-                        return (
-                          <TableCell className={classes.tableCell} key={key}>
-                            {prop}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+                    <td className={classes.tableCell} key={key}>
+                      {prop}
+                    </td>
                   );
                 })}
-              </TableBody>
-            </Table>
-          </div>
+              </tr>
+            );
+          })}
 
-        </Route>
-        <Route path="/admin/table/sara">
-          <UserDetails />
-        </Route>
 
-        <Redirect from="/" to="/admin/dashboard" />
-      </Switch>
-    
+
+        </tbody>
+      </Table>
+
+    </div>
 
   );
 
 
-  CustomTable.defaultProps = {
-    tableHeaderColor: "gray"
-  };
 
-  CustomTable.propTypes = {
-    tableHeaderColor: PropTypes.oneOf([
-      "warning",
-      "primary",
-      "danger",
-      "success",
-      "info",
-      "rose",
-      "gray"
-    ]),
-    tableHead: PropTypes.arrayOf(PropTypes.string),
-    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
-  };
-
-});
+}));

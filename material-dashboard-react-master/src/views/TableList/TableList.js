@@ -1,4 +1,6 @@
 import React from "react";
+import { Provider } from 'react-redux'
+import store from "../../redux/Store.js"
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -10,9 +12,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Search from "components/Search/Search.js"
 
-import Button from "components/CustomButtons/Button.js";
-import SearchIcon from "@material-ui/icons/Search";
+import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 
+import { createBrowserHistory } from "history";
+ 
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -44,87 +47,52 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-
+const hist = createBrowserHistory();
 
 export default function TableList() {
 
-  //
+
 
   function searchClient(value) {
     alert(value);
 
   }
- const classes = useStyles();
+  const classes = useStyles();
+  // debugger;
   return (
-    <GridContainer>
+     
+      <GridContainer>
 
-      <GridItem xs={12} sm={12} md={12}>
-        <Search
-        searchClient={searchClient}
-        />
+        <GridItem xs={12} sm={12} md={12}>
+          <Search
+            searchClient={searchClient}
+          />
 
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-      {/* <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Table on Plain Background
-            </h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID", "Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                [
-                  "4",
-                  "Philip Chaney",
-                  "$38,735",
-                  "Korea, South",
-                  "Overland Park"
-                ],
-                [
-                  "5",
-                  "Doris Greene",
-                  "$63,542",
-                  "Malawi",
-                  "Feldkirchen in Kärnten"
-                ],
-                ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem> */}
-    </GridContainer>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Clients Table</h4>
+              <p></p>
+
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["First Name", "Last Name", "Email", "Mobile"]}
+                tableData={[
+                  ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
+                  ["Minerva", "Hooper", "sara05485@gmail.com","7866669"],
+                  ["Sage", "Rodriguez", "sara05485@gmail.com","0876786878"],
+                  ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
+                  ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
+                  ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
+                ]}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+
+      </GridContainer>
+  
   );
 }
 

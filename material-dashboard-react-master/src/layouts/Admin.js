@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -9,17 +9,31 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import routes from "routes.js";
+import { viewRoutes, generalRoutes } from "routes.js";
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+import UserDetails from "./../components/DisplayUser/UserDetails.js"
+
 
 let ps;
 
 const switchRoutes = (
   <Switch>
-     
-    {routes.map((prop, key) => {
+{/* add all routing  */}
+    {generalRoutes.map((prop, key) => {
+      return (
+        <Route
+          path={prop.path}
+          component={prop.component}
+
+        />
+      );
+    })
+    }
+{/* add routing for view  */}
+    {viewRoutes.map((prop, key) => {
+
       if (prop.layout === "/admin") {
         return (
           <Route
@@ -27,17 +41,20 @@ const switchRoutes = (
             component={prop.component}
             key={key}
           />
+          // <Redirect to={prop.layout + prop.path} /> 
         );
       }
+
       return null;
-    })}
+    })
+    }
     <Redirect from="/admin" to="/admin/user" />
   </Switch>
 );
 
 const useStyles = makeStyles(styles);
 
-export default function Admin({ ...rest }) {
+export default withRouter(function Admin({ ...rest }) {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -48,7 +65,7 @@ export default function Admin({ ...rest }) {
   // const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -78,11 +95,11 @@ export default function Admin({ ...rest }) {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
-  
+
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={routes}
+        routes={viewRoutes}
         logoText={"CRM"}
         logo={logo}
         image={image}
@@ -93,21 +110,21 @@ export default function Admin({ ...rest }) {
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         <Navbar
-          routes={routes}
+          routes={viewRoutes}
           handleDrawerToggle={handleDrawerToggle}
           {...rest}
         />
-        {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+
         {getRoute() ? (
           <div className={classes.content}>
             <div className={classes.container}>{switchRoutes}</div>
           </div>
-        ) : (
-            <div className={classes.map}>{switchRoutes}</div>
-          )}
-        {getRoute() ? <Footer /> : null}
-        
+        ) : null
+        }
+        {
+          getRoute() ? <Footer /> : null}
+
       </div>
     </div>
   );
-}
+});

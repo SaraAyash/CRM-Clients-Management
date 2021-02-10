@@ -13,8 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
-import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
-
+ import {withRouter} from   "react-router-dom";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
 const useStyles = makeStyles(styles);
@@ -27,6 +26,7 @@ export default function Sidebar(props) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
   const { color, logo, image, logoText, routes } = props;
+  // debugger;
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
@@ -134,7 +134,7 @@ export default function Sidebar(props) {
       </Hidden>
     </div>
   );
-}
+} 
 
 Sidebar.propTypes = {
   rtlActive: PropTypes.bool,
