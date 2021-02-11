@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "history": "4.10.1",
     "mongodb": "^3.6.4",
+    "multiselect-react-dropdown": "^1.6.7",
     "perfect-scrollbar": "1.5.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
