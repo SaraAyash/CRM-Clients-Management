@@ -24,11 +24,7 @@ ReactDOM.render(
   <Provider store ={store}>
     <Router history={hist}>
       <Switch>
-<<<<<<< HEAD
         <Route path="/login" component={Login}/>
-=======
-        <Route path="/login" component={Login} />
->>>>>>> e911b54165fc7ee881ff9bde7a343298bc8d5c3e
         <Route path="/admin" component={Admin} />
         <Redirect from="/" to="/login" />
       </Switch>
