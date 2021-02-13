@@ -1,10 +1,12 @@
-import React from "react";
+
+import React, { useState, moment } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
+import { FcDataProtection, FcBusinessman } from "react-icons/fc";
 import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
@@ -17,6 +19,7 @@ import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
 // core components
+// import Class  from '@material-ui/icons/Class ';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
@@ -28,6 +31,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -38,15 +45,37 @@ import {
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import { card } from "assets/jss/material-dashboard-react";
 
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
+  const [products, setPro] = useState(["atarahhhhhh", "sarakkkkkkkkkkkkkk"]);
+  const [newClients, setClients] = useState(["sara ", "atara"]);
+  //setPro([...products,"f"]);
   const classes = useStyles();
   return (
     <div>
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
+          <Card>
+            <CardHeader color="danger" stats icon>
+              <CardIcon color="danger">
+                <Icon>info_outline</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Fixed Issues</p>
+              <h3 className={classes.cardTitle}>75</h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <LocalOffer />
+                Tracked from Github
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={12} sm={6} md={2}>
           <Card>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
@@ -69,14 +98,24 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
                 <Store />
               </CardIcon>
-              <p className={classes.cardCategory}>Revenue</p>
-              <h3 className={classes.cardTitle}>$34,245</h3>
+              <h1 className={classes.cardCategory} > New policy</h1>
+
+              {
+                products.map((l, i) => (
+                  <ListItem key={i} >
+
+                    <div className={classes.cardCategory} ><FcDataProtection /> </div>
+                    <div className={classes.cardCategory} >{l} </div>
+                  </ListItem>
+                ))
+              }
+
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -88,38 +127,31 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
-                <Icon>info_outline</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
             <CardHeader color="info" stats icon>
               <CardIcon color="info">
                 <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Followers</p>
-              <h3 className={classes.cardTitle}>+245</h3>
+              <p className={classes.cardCategory}>New Client</p>
+              {
+                newClients.map((client, i) => (
+                  <ListItem key={i} >
+
+                    <div className={classes.cardCategory} ><FcBusinessman /> </div>
+                    <div className={classes.cardCategory} >{client} </div>
+                  </ListItem>
+                ))
+              }
+
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Just Updated
-              </div>
+      Just Updated
+    </div>
             </CardFooter>
           </Card>
         </GridItem>
+
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
