@@ -10,7 +10,11 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Products from "views/Products/Products.js";
-import UserDetails from "components/DisplayUser/UserDetails.js" 
+import UserDetails from "components/DisplayUser/UserDetails.js"  
+
+import Login from "layouts/Login.js"  
+
+
 export const viewRoutes = [
    {
     path: "/user",
@@ -51,8 +55,13 @@ export const generalRoutes = [
   {
    path: "/admin/table/:name",  
    component: UserDetails
-    
+      
  },
+//  {
+//    path: "/login",  
+//  component: Login ,
+ 
+//  }
  
  
 ];

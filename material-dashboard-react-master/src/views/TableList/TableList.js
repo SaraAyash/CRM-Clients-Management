@@ -11,11 +11,11 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Search from "components/Search/Search.js"
-
+import AddClient from "components/Clients/AddClient.js"
 import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 import { createBrowserHistory } from "history";
- 
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -60,39 +60,39 @@ export default function TableList() {
   const classes = useStyles();
   // debugger;
   return (
-     
-      <GridContainer>
 
-        <GridItem xs={12} sm={12} md={12}>
-          <Search
-            searchClient={searchClient}
-          />
+    <GridContainer>
 
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Clients Table</h4>
-              <p></p>
+      <GridItem xs={12} sm={12} md={12}>
+        <Search
+          searchClient={searchClient}
+        />
+        <AddClient />
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Clients Table</h4>
+            <p></p>
 
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={["First Name", "Last Name", "Email", "Mobile"]}
-                tableData={[
-                  ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
-                  ["Minerva", "Hooper", "sara05485@gmail.com","7866669"],
-                  ["Sage", "Rodriguez", "sara05485@gmail.com","0876786878"],
-                  ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
-                  ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
-                  ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
-                ]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
+          </CardHeader>
+          <CardBody>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["First Name", "Last Name", "Email", "Mobile"]}
+              tableData={[
+                ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
+                ["Minerva", "Hooper", "sara05485@gmail.com", "7866669"],
+                ["Sage", "Rodriguez", "sara05485@gmail.com", "0876786878"],
+                ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
+                ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
+                ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
+              ]}
+            />
+          </CardBody>
+        </Card>
+      </GridItem>
 
-      </GridContainer>
-  
+    </GridContainer>
+
   );
 }
 
