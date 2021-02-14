@@ -10,6 +10,7 @@
     "@types/googlemaps": "3.39.6",
     "@types/markerclustererplus": "2.1.33",
     "ajv": "6.12.2",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
     "chartist": "0.10.1",

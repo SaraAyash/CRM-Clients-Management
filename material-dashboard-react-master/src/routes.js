@@ -12,7 +12,6 @@ import TableList from "views/TableList/TableList.js";
 import Products from "views/Products/Products.js";
 import UserDetails from "components/DisplayUser/UserDetails.js"  
 
-import Login from "layouts/Login.js"  
 
 
 export const viewRoutes = [

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"
+
 import { Provider } from 'react-redux'
 import store from "../../redux/Store.js"
 // @material-ui/core components
@@ -50,8 +52,43 @@ const useStyles = makeStyles(styles);
 const hist = createBrowserHistory();
 
 export default function TableList() {
+  const [clients, setClients] = useState([]);
+  // const [clients, setClients] = useState();
+  useEffect(() => {
+    axios.get('http://localhost:8080/clients').then((response) => {
+
+      const cl = response.data;
+      console.log(response.data);
+
+      // Object.values(cl).map(
+      //   client=>setClients(...clients,[client.id, client.first_name, client.last_name, client.email, client.gender]));
+      var arr = []
+      Object.values(cl).map(client => arr.push([client.id, client.first_name, client.last_name, client.email, client.gender]))
+      updateClients(arr);
+      // Object.entries(response.data).map(
+      //   ([key, value]) => ({ [key]: value })
+      // );
 
 
+      // Object.values(response.data).forEach(client => {
+      //   const arr = []
+      //   Object.keys(client).forEach(key => arr.push([client.id, client.first_name, client.last_name, client.email, client.gender]))
+      //   setClients(...clients,arr);
+      // });
+      // {"id":1,"first_name":"Andris","last_name":"Inchboard","email":"ainchboard0@weibo.com","gender":"Agender"}
+      //        setClients(...clients, [client.id, client.first_name, client.last_name, client.email, client.gender])
+
+      debugger;
+    }).catch(err => {
+      console.log(err);
+    });
+
+
+  });
+  function updateClients(arr) {
+    setClients(arr);
+    debugger;
+  }
 
   function searchClient(value) {
     alert(value);
@@ -77,15 +114,18 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["First Name", "Last Name", "Email", "Mobile"]}
-              tableData={[
-                ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
-                ["Minerva", "Hooper", "sara05485@gmail.com", "7866669"],
-                ["Sage", "Rodriguez", "sara05485@gmail.com", "0876786878"],
-                ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
-                ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
-                ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
-              ]}
+              tableHead={["id", "First Name", "Last Name", "Email", "Mobile"]}
+              tableData ={clients}
+              // tableData={
+              //   [
+              //     ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
+              //     ["Minerva", "Hooper", "sara05485@gmail.com", "7866669"],
+              //     ["Sage", "Rodriguez", "sara05485@gmail.com", "0876786878"],
+              //     ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
+              //     ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
+              //     ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
+              //   ]
+              // }
             />
           </CardBody>
         </Card>
