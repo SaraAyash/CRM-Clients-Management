@@ -16,7 +16,7 @@ export default function ProductCard(props) {
   
 
   return (
-    <Card style={{ width: '17rem' ,height:'26rem',margin:'1rem'}}>
+    <Card style={{ width: '17rem' ,height:'27rem',margin:'1rem'}}>
       <p></p>
       <Card.Img variant="top" style={{ width: '6rem', position: 'relative', left: '100px' }} src={picture}/>
 
