@@ -13,12 +13,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
- import {withRouter} from   "react-router-dom";
+import { withRouter } from "react-router-dom";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function Sidebar(props) {
+export default withRouter(function Sidebar(props) {
   const classes = useStyles();
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
@@ -33,7 +33,7 @@ export default function Sidebar(props) {
         // debugger;
         var activePro = " ";
         var listItemClasses;
-        
+
         listItemClasses = classNames({
           [" " + classes[color]]: activeRoute(prop.layout + prop.path)
         });
@@ -47,16 +47,19 @@ export default function Sidebar(props) {
             className={activePro + classes.item}
             activeClassName="active"
             key={key}
+
           >
-            <ListItem button className={classes.itemLink + listItemClasses}>
+            <ListItem button
+              onClick={()=>{props.history.push(prop.layout + prop.path)}}
+              className={classes.itemLink + listItemClasses}>
               {typeof prop.icon === "string" ? (
                 <Icon
                   className={classNames(classes.itemIcon, whiteFontClasses)}
                 >
                   {prop.icon}
                 </Icon>
-              ) 
-              : (
+              )
+                : (
                   <prop.icon
                     className={classNames(classes.itemIcon, whiteFontClasses)}
                   />
@@ -134,15 +137,17 @@ export default function Sidebar(props) {
       </Hidden>
     </div>
   );
-} 
+}
 
-Sidebar.propTypes = {
-  rtlActive: PropTypes.bool,
-  handleDrawerToggle: PropTypes.func,
-  bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
-  logo: PropTypes.string,
-  image: PropTypes.string,
-  logoText: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object),
-  open: PropTypes.bool
-};
+// Sidebar.propTypes = {
+//   rtlActive: PropTypes.bool,
+//   handleDrawerToggle: PropTypes.func,
+//   bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
+//   logo: PropTypes.string,
+//   image: PropTypes.string,
+//   logoText: PropTypes.string,
+//   routes: PropTypes.arrayOf(PropTypes.object),
+//   open: PropTypes.bool
+// }
+);
+ 

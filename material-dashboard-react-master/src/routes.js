@@ -52,7 +52,7 @@ export const viewRoutes = [
 ];
 export const generalRoutes = [
   {
-   path: "/admin/table/:name",  
+   path: "/admin/table/client/:name",  
    component: UserDetails
       
  },

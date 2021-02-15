@@ -42,7 +42,7 @@ export default function ProductCard(props) {
   }
 
   return (
-    <Card style={{ width: '1rem' }}>
+    <Card style={{ width: '23rem', height:'30rem',  margin:'1rem'}}>
       <p></p>
       {image}
 
