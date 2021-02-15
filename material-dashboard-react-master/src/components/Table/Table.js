@@ -41,7 +41,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
   function clickRow(value) {
 
-    props.history.push("/admin/table/" + value[0]);
+    props.history.push("/admin/table/client/" + value[0]);
     props.setFirstName(value[0]);
     props.setLastName(value[1]);
     props.setEmail(value[2]);

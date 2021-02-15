@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import axios from "axios"
+
 import { Provider } from 'react-redux'
 import store from "../../redux/Store.js"
 // @material-ui/core components
@@ -49,12 +51,56 @@ const styles = {
 const useStyles = makeStyles(styles);
 const hist = createBrowserHistory();
 
-export default function TableList() {
+export default withRouter(function TableList(props) {
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    getAllClientFromServer();
+    listenURL();
+  }, []);
+
+  function listenURL() {
+    props.history.listen((location, action) => {
+      if (location.pathname === "/admin/table") {
+        getAllClientFromServer();
+      }
+    })
+  }
+
+  function updateClients(clientJson) {
+    var arr = [];
+    Object.values(clientJson).map(client => arr.push([client.id, client.first_name, client.last_name, client.email, client.gender]))
+    setClients(arr);
+  }
+
+  const getAllClientFromServer = async () => {
+    axios.get('http://localhost:8080/clients').then((response) => {
+      debugger;
+      const clientJson = response.data;
+      updateClients(clientJson);
+
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
 
+  const searchClient = async (clientName) => {
 
-  function searchClient(value) {
-    alert(value);
+    const clientToSearch = [{ "id": "1", "first_name": "Andris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "Agender" }];
+    // var clientToShowInTable = [];
+    // clientToShowInTable.push([clientToSearch.id, clientToSearch.first_name, clientToSearch.last_name, clientToSearch.email, clientToSearch.gender]);
+    props.history.push("/admin/table/search")
+    updateClients(clientToSearch);
+
+
+    // axios.get('http://localhost:8080/search/' + clientName).then((response) => {
+
+    //   clientToSearch = response.data;
+
+    // }).catch(err => {
+    //   console.log(err);
+    // });
 
   }
   const classes = useStyles();
@@ -77,15 +123,18 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["First Name", "Last Name", "Email", "Mobile"]}
-              tableData={[
-                ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
-                ["Minerva", "Hooper", "sara05485@gmail.com", "7866669"],
-                ["Sage", "Rodriguez", "sara05485@gmail.com", "0876786878"],
-                ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
-                ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
-                ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
-              ]}
+              tableHead={["id", "First Name", "Last Name", "Email", "Mobile"]}
+              tableData={clients}
+            // tableData={
+            //   [
+            //     ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
+            //     ["Minerva", "Hooper", "sara05485@gmail.com", "7866669"],
+            //     ["Sage", "Rodriguez", "sara05485@gmail.com", "0876786878"],
+            //     ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
+            //     ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
+            //     ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
+            //   ]
+            // }
             />
           </CardBody>
         </Card>
@@ -94,5 +143,5 @@ export default function TableList() {
     </GridContainer>
 
   );
-}
+});
 

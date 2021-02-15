@@ -12,7 +12,6 @@ import TableList from "views/TableList/TableList.js";
 import Products from "views/Products/Products.js";
 import UserDetails from "components/DisplayUser/UserDetails.js"  
 
-import Login from "layouts/Login.js"  
 
 
 export const viewRoutes = [
@@ -53,7 +52,7 @@ export const viewRoutes = [
 ];
 export const generalRoutes = [
   {
-   path: "/admin/table/:name",  
+   path: "/admin/table/client/:name",  
    component: UserDetails
       
  },
