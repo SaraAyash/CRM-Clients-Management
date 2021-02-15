@@ -11,8 +11,6 @@ import store from "redux/Store.js"
 // core components
 import Admin from "layouts/Admin.js";
 //import RTL from "layouts/RTL.js";
-import Login from "layouts/Login.js"  
-
 import Login from "layouts/login/Login.js";
 
 import "assets/css/material-dashboard-react.css?v=1.9.0";
@@ -24,11 +22,7 @@ ReactDOM.render(
   <Provider store ={store}>
     <Router history={hist}>
       <Switch>
-<<<<<<< HEAD
         <Route path="/login" component={Login}/>
-=======
-        <Route path="/login" component={Login} />
->>>>>>> e911b54165fc7ee881ff9bde7a343298bc8d5c3e
         <Route path="/admin" component={Admin} />
         <Redirect from="/" to="/login" />
       </Switch>
