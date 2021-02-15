@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components 
-import { Card } from 'react-bootstrap';
 import life from '../../assets/img/life.jpg'
-import { CardGroup } from 'react-bootstrap';
+import { CardGroup, CardDeck } from 'react-bootstrap';
 import ProductCard from "./../../components/ProductsGroup/PruductCard.js"
-export default function Products() {
+import AddProduct from "components/Products/AddProduct";
+import { Card, Container, Row, Col } from 'react-bootstrap';
 
+export default function Products() {
+  const [products, setProducts] = useState([]);
+
+
+
+  function addProduct(insuranceName, insuranceDescription, insurancePrice, insurancePicture) {
+    const product = <Col md="4" > <ProductCard
+      title={insuranceName}
+      text={insuranceDescription}
+      price={insurancePrice}
+      picture={insurancePicture}
+    /></Col>
+
+    setProducts([...products, product]);
+
+  }
 
   return (
     <>
-      <CardGroup  >
+      <AddProduct addProduct={addProduct} ></AddProduct>
+      <Container>
+        <Row>
 
+          {products}
+
+        </Row>
+      </Container>
+
+
+      {/* 
         <ProductCard  
 
           title="Life insurance"
@@ -22,7 +47,7 @@ export default function Products() {
 
         <ProductCard 
           title="Home insurance"
-          text=" The insurance covers damage to the property structure (walls, ceiling and floor) and accessories attached to it such as windows, doors, carpets from floor to floor, and damage to infrastructure such as water pipes, electricity, telephone, heating system."
+          text="The insurance covers damage to the property structure (walls, ceiling and floor) and accessories attached to it such as windows, doors, carpets from floor to floor, and damage to infrastructure such as water pipes, electricity, telephone, heating system."
           footer="Price: Starting from 30 ILS per month"
           id={1}
         />
@@ -50,11 +75,11 @@ export default function Products() {
         <ProductCard
           title="Work incapacity insurance"
           text=" Insurance designed to guarantee the insured a monthly benefit in the event that he loses his ability to work due to illness, accident, etc., for a period or permanently.
-          The benefit paid under the insurance coverage comes to replace the income from work, occupation or business that the insured has (taxable income), and therefore will usually be determined according to this income. This taxable income can be salary (employee) or self-employed income and the like"
+          The benefit paid under the insurance coverage comes to replace the income from work, occupation or business that the insured has (taxable income), and therefore will usually be determined according to this income"
           footer="Price: Starting from 25 ILS per month"
           id={5}
-        />
-      </CardGroup>
+        /> */}
+
     </>
   );
 }
