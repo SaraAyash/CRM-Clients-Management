@@ -24,28 +24,25 @@ export default function Search({ searchClient }) {
     function search() {
 
         searchClient(clientName);
-        
+
     }
-    const BarStyling = { width: "15rem", background: "white", border: "1px solid black"  };
+    const BarStyling = { width: "15rem", background: "white", border: "1px solid black" };
 
-     
+
     return (
-        <div>
-            <div className={classes.searchWrapper}>
-                  <input
-                    style={{ width: "10rem",outline:0, border:0, borderBottom: "0.5px solid gray", background: "none" }}
-                    // class="form-control border-0"
-                    // type="text"
-                    placeholder={"Search Client"}
-                    onChange={(e) => changeClientName(e)}
-                />
-                <Button onClick={search} color="white" aria-label="edit" justIcon round >
-                    <SearchIcon />
-                </Button>
+        <>
+            <input
+                style={{ width: "10rem", outline: 0, border: 0, borderBottom: "0.5px solid gray", background: "none" }}
+                // class="form-control border-0"
+                // type="text"
+                placeholder={"Search Client"}
+                onChange={(e) => changeClientName(e)}
+            />
+            <Button onClick={search} color="white" aria-label="edit" justIcon round >
+                <SearchIcon />
+            </Button>
 
-            </div>
-
-        </div >
+        </>
     );
 
 

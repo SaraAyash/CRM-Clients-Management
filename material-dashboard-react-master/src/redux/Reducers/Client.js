@@ -4,6 +4,7 @@ import createReducer from "./ReducerUtils";
 
 const initialState = {
   client: {
+    id:"",
     firstName: "",
     lastName: "",
     email: "",
@@ -13,6 +14,10 @@ const initialState = {
   
 }
 const clients = {
+  
+  setId(state, action) {    
+    state.client.id = action.payload;
+  },
   setFirstName(state, action) {    
     state.client.firstName = action.payload;
   },
