@@ -75,7 +75,7 @@ export default withRouter(function TableList(props) {
 
   const getAllClientFromServer = async () => {
     axios.get('http://localhost:8080/clients').then((response) => {
-      debugger;
+     
       const clientJson = response.data;
       updateClients(clientJson);
 
