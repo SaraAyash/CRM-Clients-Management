@@ -31,7 +31,8 @@ export default function Search({ searchClient }) {
 
     return (
         <>
-            <input
+        <div>
+             <input
                 style={{ width: "10rem", outline: 0, border: 0, borderBottom: "0.5px solid gray", background: "none" }}
                 // class="form-control border-0"
                 // type="text"
@@ -41,6 +42,8 @@ export default function Search({ searchClient }) {
             <Button onClick={search} color="white" aria-label="edit" justIcon round >
                 <SearchIcon />
             </Button>
+        </div>
+           
 
         </>
     );

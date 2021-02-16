@@ -13,9 +13,8 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Search from "components/Search/Search.js"
-import AddClient from "components/Clients/AddClient.js"
-import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
-
+import ClientModal from "components/Clients/ClientModal.js" 
+import { withRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 const styles = {
@@ -67,7 +66,7 @@ export default withRouter(function TableList(props) {
     })
   }
 
-  function updateClients(clientJson) {
+  function updateClientsTable(clientJson) {
     var arr = [];
     Object.values(clientJson).map(client => arr.push([client.id, client.first_name, client.last_name, client.email, client.gender]))
     setClients(arr);
@@ -77,13 +76,24 @@ export default withRouter(function TableList(props) {
     axios.get('http://localhost:8080/clients').then((response) => {
       debugger;
       const clientJson = response.data;
-      updateClients(clientJson);
+      updateClientsTable(clientJson);
 
     }).catch(err => {
       console.log(err);
     })
   }
+  
+  function addNewClient(clientJson) {
+    axios.post('http://localhost:8080/newClient', clientJson)
+      .then(response =>
+        getAllClientFromServer()
 
+      ).catch(err => {
+        alert(err);
+      });
+
+
+  }
 
   const searchClient = async (clientName) => {
 
@@ -91,7 +101,7 @@ export default withRouter(function TableList(props) {
     // var clientToShowInTable = [];
     // clientToShowInTable.push([clientToSearch.id, clientToSearch.first_name, clientToSearch.last_name, clientToSearch.email, clientToSearch.gender]);
     props.history.push("/admin/table/search")
-    updateClients(clientToSearch);
+    updateClientsTable(clientToSearch);
 
 
     // axios.get('http://localhost:8080/search/' + clientName).then((response) => {
@@ -103,17 +113,22 @@ export default withRouter(function TableList(props) {
     // });
 
   }
+
   const classes = useStyles();
-  // debugger;
+   
   return (
 
     <GridContainer>
 
       <GridItem xs={12} sm={12} md={12}>
-        <Search
-          searchClient={searchClient}
-        />
-        <AddClient />
+
+
+        <div className="d-flex justify-content-between">
+          <div className="p-2 col-example text-left"><ClientModal handleFunction={addNewClient} addOrUpdate="Add "/></div>
+          <div className="p-2 col-example text-left"><Search searchClient={searchClient} /> </div>
+        </div>
+
+
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Clients Table</h4>
@@ -125,22 +140,13 @@ export default withRouter(function TableList(props) {
               tableHeaderColor="primary"
               tableHead={["id", "First Name", "Last Name", "Email", "Mobile"]}
               tableData={clients}
-            // tableData={
-            //   [
-            //     ["Dakota", "Rice", "sara05485@gmail.com", "856454"],
-            //     ["Minerva", "Hooper", "sara05485@gmail.com", "7866669"],
-            //     ["Sage", "Rodriguez", "sara05485@gmail.com", "0876786878"],
-            //     ["Philip", "Chaney", "sara05485@gmail.com ", "$38,735"],
-            //     ["Doris", "Greene", "sara05485@gmail.com", "64653562"],
-            //     ["Mason", "Porter", "sara05485@gmail.com", "785453535"]
-            //   ]
-            // }
+
             />
           </CardBody>
         </Card>
       </GridItem>
 
-    </GridContainer>
+    </GridContainer >
 
   );
 });

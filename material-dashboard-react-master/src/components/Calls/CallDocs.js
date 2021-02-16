@@ -61,15 +61,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
     }
     const getAllCalls = async () => {
         const callsJson = [{ "date": "date", "CauseOfCall": "CauseOfCall", "description": "description", "selectedProducts": [] }, { "date": "date1", "CauseOfCall1": "CauseOfCall1", "description1": "description1", "selectedProducts": [] }]
-        updateCalls(callsJson);
-        // axios.get('http://localhost:8080/Calls/'+ props.client.id).then((response) => {
-        //   debugger;
-        //   const callsJson = response.data;
-        //   updateCalls(callsJson);
+        updateCalls(callsJson);  // until server start work
+        axios.get('http://localhost:8080/Calls/'+ props.client.id).then((response) => {
+          debugger;
+          const callsJson = response.data;
+          updateCalls(callsJson);
 
-        // }).catch(err => {
-        //   console.log(err);
-        // })
+        }).catch(err => {
+          alert(err);
+        })
     }
 
 

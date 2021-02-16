@@ -11,7 +11,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 export default function Call(props) {
     const {CauseOfCall, date, description, selectedProducts } = props;
     const products =selectedProducts.map((prod) => { return prod.name +", "});
-    debugger;
+    
 
     return (
         <>

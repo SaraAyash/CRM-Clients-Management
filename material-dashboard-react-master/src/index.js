@@ -9,8 +9,7 @@ import { Provider } from 'react-redux'
 import store from "redux/Store.js"
 
 // core components
-import Admin from "layouts/Admin.js";
-//import RTL from "layouts/RTL.js";
+import Admin from "layouts/Admin.js"; 
 import Login from "layouts/login/Login.js";
 
 import "assets/css/material-dashboard-react.css?v=1.9.0";
