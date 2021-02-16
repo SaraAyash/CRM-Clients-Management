@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
+import _uniqueId from 'lodash/uniqueId';
 
 // @material-ui/core components 
 import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
+
 // import { Router, Route, Switch } from "react-router"
 // import Button from "@material-ui/core/Button"
 
 
-export default function AddProduct({addProduct}) {
+export default function ProductModal(props) {
     
     const [show, setShow] = useState(false);
     const [insuranceName, setInsuranceName] = useState("");
@@ -18,18 +20,27 @@ export default function AddProduct({addProduct}) {
     const [insurancePicture, setInsurancePicture] = useState("");
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [error, setError] = useState(false);
+    const [idProduct, setIdProduct] = useState("");
     function UdpateDetails() {
         // setFirstName();
+        if(insuranceName==""||insuranceDescription==""||insurancePrice==""||insurancePicture=="")
+        setError(true);
+        else{
         
-        
-        addProduct(insuranceName,insuranceDescription,insurancePrice,insurancePicture);
+        props.handleFunction(insuranceName,insuranceDescription,insurancePrice,insurancePicture);
+        setInsuranceName("");
+        setInsuranceDescription("");
+        setInsurancePrice("");
+        setInsurancePicture("");
         // action to update details
         handleClose();
+    }
     }
     return (
         <>
             {/* <label >hello {props.client.firstName}</label> */}
-            <Button variant="success" color="primary" onClick={handleShow}>Add product</Button>{' '}
+            <Button variant="success" color="primary" onClick={handleShow}>{props.addOrUpdate}</Button>{' '}
 
             <Modal
                 show={show}
@@ -41,6 +52,8 @@ export default function AddProduct({addProduct}) {
                     <Modal.Title>Fill details:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                {error ? <Form.Label style={{color: "red"}}>Please fill all fiels.</Form.Label> : ''}
+
                     <Form>
                         <Form.Group as={Row} controlId="NameInsurance">
                             <Form.Label column sm="3">Name of Insurance:</Form.Label>
@@ -53,7 +66,7 @@ export default function AddProduct({addProduct}) {
                         <Form.Group as={Row} controlId="InsuranceDescription">
                             <Form.Label column sm="3">Description of insurance:</Form.Label>
                             <Col sm="9">
-                            <Form.Control maxLength="400" placeholder="enter until 100 characters" onChange={e =>setInsuranceDescription(e.target.value)} />
+                            <Form.Control maxLength="250" placeholder="enter until 250 characters" onChange={e =>setInsuranceDescription(e.target.value)} />
                             </Col>
                         </Form.Group>
 

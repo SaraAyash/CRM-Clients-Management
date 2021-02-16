@@ -1,34 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components 
+import axios from "axios"
 import life from '../../assets/img/life.jpg'
 import { CardGroup, CardDeck } from 'react-bootstrap';
 import ProductCard from "./../../components/ProductsGroup/PruductCard.js"
-import AddProduct from "components/Products/AddProduct";
+import ProductModal from "components/Products/ProductModal";
 import { Card, Container, Row, Col } from 'react-bootstrap';
-
+import Button from "@material-ui/core/Button";
+import _uniqueId from 'lodash/uniqueId';
 export default function Products() {
   const [products, setProducts] = useState([]);
+  
+  const [jsonString,setJsonString] = useState([{ "insuranceName": "life", "insuranceDescription": "insuranceDescription...", "insurancePrice": "70", "insurancePicture": "lll/nnn" }
+    , { "insuranceName": "home", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
+  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
+  function displayProducts(jsonString) {
+    const items = jsonString.map((item) =>
+    
+    <Col md="4" > <ProductCard
+    IdProduct={"6"}
+    title={item.insuranceName}
+    text={item.insuranceDescription}
+    price={item.insurancePrice}
+    picture={item.insurancePicture}
+  /></Col>
+)
+setProducts(...products,items);
+    
+  }
+  function initialize(productJson) {
 
+  //   axios.get('http://localhost:8080/products').then((response) => {
+  //     const productJson = response.data;
+  //     displayProducts(jsonString);
 
+  //   }).catch(err => {
+  //     console.log(err);
 
+    
+  // })
+  displayProducts(jsonString);}
+  
   function addProduct(insuranceName, insuranceDescription, insurancePrice, insurancePicture) {
+    
     const product = <Col md="4" > <ProductCard
+   
+      IdProduct={_uniqueId('prefix-')}
       title={insuranceName}
       text={insuranceDescription}
       price={insurancePrice}
       picture={insurancePicture}
     /></Col>
-
+   
     setProducts([...products, product]);
 
   }
 
+  useEffect(() => { initialize(jsonString) }, []);
+
+ //initialize(jsonString);
   return (
     <>
-      <AddProduct addProduct={addProduct} ></AddProduct>
+   
+
+      <ProductModal handleFunction={addProduct} addOrUpdate="add product" ></ProductModal>
+      
       <Container>
         <Row>
-
           {products}
 
         </Row>

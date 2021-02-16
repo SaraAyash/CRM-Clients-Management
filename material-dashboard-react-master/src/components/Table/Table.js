@@ -25,6 +25,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  setId: (client_id) => dispatch(actions.setId(client_id)),
   setFirstName: (client_name) => dispatch(actions.setFirstName(client_name)),
   setLastName: (client_last_name) => dispatch(actions.setLastName(client_last_name)),
   setEmail: (client_email) => dispatch(actions.setEmail(client_email)),
@@ -41,11 +42,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
   function clickRow(value) {
 
-    props.history.push("/admin/table/client/" + value[0]);
-    props.setFirstName(value[0]);
-    props.setLastName(value[1]);
-    props.setEmail(value[2]);
-    props.setMobile(value[3]);
+    props.history.push("/admin/table/client/" + value[1]);
+    props.setId(value[0]);
+    props.setFirstName(value[1]);
+    props.setLastName(value[2]);
+    props.setEmail(value[3]);
+    props.setMobile(value[4]);
 
   }
   return (

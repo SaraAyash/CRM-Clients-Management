@@ -11,7 +11,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Products from "views/Products/Products.js";
 import UserDetails from "components/DisplayUser/UserDetails.js"  
-
+import ProductDetails from "components/DisplayProduct/ProductDetails.js"
 
 
 export const viewRoutes = [
@@ -56,6 +56,11 @@ export const generalRoutes = [
    component: UserDetails
       
  },
+ {
+  path: "/admin/products/:insuranceName",  
+  component: ProductDetails
+     
+},
 //  {
 //    path: "/login",  
 //  component: Login ,
