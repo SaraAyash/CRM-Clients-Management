@@ -33,7 +33,8 @@ var ClientSchema = new Schema({
 		//validate: [validateType, 'Please fill a valid type(people/nature), default type is nature)']
 	},
 	email: {
-        type: Email,
+		type: String,
+        //type: Email,
         required: false,
         //validate: [ isEmail, 'Invalid email' ]
 	},
@@ -42,7 +43,10 @@ var ClientSchema = new Schema({
         enum : ['Male','Female'],
         default: 'Male'
     },
-    register_date: {
+	age: {
+		type: Number
+	},
+    start_connection_date: {
         type: Date, 
         default: minuteFromNow
     }

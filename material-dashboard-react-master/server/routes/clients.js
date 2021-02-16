@@ -1,21 +1,97 @@
 var Client = require('../models/client_model');
 var mongoose = require('mongoose');
 
-var clients=[{"id":"1","first_name":"Andris","last_name":"Inchboard","email":"ainchboard0@weibo.com","gender":"Agender"},
-{"id":"2","first_name":"Marcellina","last_name":"Grovier","email":"mgrovier1@tamu.edu","gender":"Female"},
-{"id":"3","first_name":"Marge","last_name":"McCullagh","email":"mmccullagh2@desdev.cn","gender":"Genderqueer"},
-{"id":"4","first_name":"Dolley","last_name":"Echalier","email":"dechalier3@hhs.gov","gender":"Non-binary"},
-{"id":"5","first_name":"Mala","last_name":"Duffus","email":"mduffus4@pbs.org","gender":"Agender"},
-{"id":"6","first_name":"Hendrick","last_name":"Roony","email":"hroony5@free.fr","gender":"Male"},
-{"id":"7","first_name":"Randie","last_name":"Ogan","email":"rogan6@google.com.hk","gender":"Agender"},
-{"id":"8","first_name":"Nobie","last_name":"Garron","email":"ngarron7@bloglines.com","gender":"Agender"},
-{"id":"9","first_name":"Lenard","last_name":"Giannassi","email":"lgiannassi8@zdnet.com","gender":"Male"},
-{"id":"10","first_name":"Freeman","last_name":"Witch","email":"fwitch9@sun.com","gender":"Male"}];
-
 module.exports = {
 
     //clients list
     get_clients_list: function(req, res) {
-		  res.status(200).send(clients)
-    } 
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error:");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            Client.find({
+            }, function(err, result) {
+                if (err) {
+                    res.status(400).send("Error: " + err);
+                    return;
+                } else {
+                    //var data = JSON.parse(result);
+                    //res.send(Object.getOwnPropertyNames(result[0].pictures).sort());return;
+                    res.status(200).send(result);
+                    return;
+                }
+            })
+        });
+            
+        
+    } ,
+
+    //add client
+    add_client: function(req, res) {
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error:");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            var new_client = new Client();
+            new_client.client_id = '10'
+            new_client.first_name = 'a'
+            new_client.last_name = 'b'
+            new_client.phone_number = '1234'
+            new_client.email = 'fwitch9@sun.com'
+        
+            //save model to database
+            new_client.save(function(err, album) {
+                if (err) {
+                    res.status(400).send("err: " + err + " while trying to insert client.");
+                } else {
+                    res.status(200).send("client: " + new_client.first_name + " added!");
+                }
+            });
+        });
+            
+        
+    },
+
+    //get_client_details
+    get_client_details: function (req, res) {
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error:");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            var client_name = req.params.clientName;
+        
+            Client.find({"first_name":client_name}, (err, client) => {
+                if (err) return res.status(500).send(err);
+                return res.status(200).send(client);
+            })
+        });
+    }
+
 }

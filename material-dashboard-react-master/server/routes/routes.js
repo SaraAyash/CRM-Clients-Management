@@ -6,8 +6,8 @@ var router = express.Router();
 
 
 router.post('/login', login.login);
-router.get('/dashboard/tasks', dashboard.tasks);
-router.get('/dashboard/products', dashboard.products);
 router.get('/clients', clients.get_clients_list);
+router.post('/clients', clients.add_client);
+router.get('/clients', clients.get_client_details);
  
 module.exports = router;
