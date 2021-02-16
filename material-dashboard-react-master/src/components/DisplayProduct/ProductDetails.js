@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 // @material-ui/core components 
 import { useParams, BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
-import UpdateDetails from "components/DisplayUser/UpdateDetails.js"
-import PrintClient from "components/DisplayUser/PrintClient.js"
 // import { Router, Route, Switch } from "react-router"
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import CallDocs from "../Calls/CallDocs.js"
