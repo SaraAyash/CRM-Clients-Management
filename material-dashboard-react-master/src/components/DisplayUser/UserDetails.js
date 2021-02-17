@@ -33,7 +33,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
 
     function updateClientDetails(clientJson) {
 
-        axios.put('http://localhost:8080/updateClient', clientJson)
+        axios.put('http://localhost:8080/clients', clientJson)
             .then(response => {
                 props.setId(clientJson.id);
                 props.setFirstName(clientJson.firstName);

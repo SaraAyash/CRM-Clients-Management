@@ -46,8 +46,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
     }
 
 
-    const postNewCall = async (newCall) => {
-        axios.post('http://localhost:8080/newCall', newCall)
+    const addNewCall = async (newCall) => {
+        axios.post('http://localhost:8080/calls', newCall)
             .then(response =>
                 getAllCalls()
 
@@ -85,7 +85,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
             description: description,
             selectedProducts: selectedProducts
         };
-        // postNewCall(newCall);
+        addNewCall(newCall);
 
     }
 

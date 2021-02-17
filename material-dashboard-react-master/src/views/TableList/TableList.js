@@ -84,7 +84,7 @@ export default withRouter(function TableList(props) {
   }
   
   function addNewClient(clientJson) {
-    axios.post('http://localhost:8080/newClient', clientJson)
+    axios.post('http://localhost:8080/clients', clientJson)
       .then(response =>
         getAllClientFromServer()
 
@@ -104,13 +104,11 @@ export default withRouter(function TableList(props) {
     updateClientsTable(clientToSearch);
 
 
-    // axios.get('http://localhost:8080/search/' + clientName).then((response) => {
-
-    //   clientToSearch = response.data;
-
-    // }).catch(err => {
-    //   console.log(err);
-    // });
+    axios.get('http://localhost:8080/clients/' + clientName).then((response) => {
+      clientToSearch = response.data;
+    }).catch(err => {
+      alert(err);
+    });
 
   }
 
@@ -119,16 +117,12 @@ export default withRouter(function TableList(props) {
   return (
 
     <GridContainer>
-
       <GridItem xs={12} sm={12} md={12}>
-
-
         <div className="d-flex justify-content-between">
           <div className="p-2 col-example text-left"><ClientModal handleFunction={addNewClient} addOrUpdate="Add "/></div>
           <div className="p-2 col-example text-left"><Search searchClient={searchClient} /> </div>
         </div>
-
-
+        
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Clients Table</h4>
