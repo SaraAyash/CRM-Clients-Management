@@ -8,6 +8,7 @@ import ProductModal from "components/Products/ProductModal";
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import Button from "@material-ui/core/Button";
 import _uniqueId from 'lodash/uniqueId';
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   
@@ -30,29 +31,40 @@ setProducts(...products,items);
   }
   function initialize(productJson) {
 
-  //   axios.get('http://localhost:8080/products').then((response) => {
-  //     const productJson = response.data;
-  //     displayProducts(jsonString);
+    axios.get('http://localhost:8080/products').then((response) => {
+      const productJson = response.data;
+      displayProducts(jsonString);
 
-  //   }).catch(err => {
+    }).catch(err => {
   //     console.log(err);
 
     
-  // })
+   })
   displayProducts(jsonString);}
   
-  function addProduct(insuranceName, insuranceDescription, insurancePrice, insurancePicture) {
-    
-    const product = <Col md="4" > <ProductCard
-   
+  function addProduct(productJson) {
+    axios.post('http://localhost:8080/products', productJson)
+       .then(response => {
+        const productCol = <Col md="4" > <ProductCard
       IdProduct={_uniqueId('prefix-')}
-      title={insuranceName}
-      text={insuranceDescription}
-      price={insurancePrice}
-      picture={insurancePicture}
+      title={productJson.insuranceName}
+      text={productJson.insuranceDescription}
+      price={productJson.insurancePrice}
+      picture={productJson.insurancePicture}
     /></Col>
    
-    setProducts([...products, product]);
+    setProducts([...products, productCol]);
+       }
+
+
+       ).catch(err => {
+           alert(err);
+       });
+
+
+
+
+    
 
   }
 
