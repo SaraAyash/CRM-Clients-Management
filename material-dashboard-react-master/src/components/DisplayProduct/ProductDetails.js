@@ -7,6 +7,7 @@ import { useParams, BrowserRouter, Router, Switch, Route, Redirect, withRouter }
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import CallDocs from "../Calls/CallDocs.js"
 import ProductModal from "components/Products/ProductModal";
+import axios from "axios"
 function mapStateToProps(state) {
     // debugger;
     return {
@@ -29,12 +30,25 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
     const [printState, setPrintState] = useState(false);
     const { name } = useParams();
-    function updateProduct(insuranceName, insuranceDescription, insurancePrice, insurancePicture) 
+    function updateProduct(productJson) 
     {
-       props.setInsuranceName(insuranceName);
-       props.setInsuranceDescription(insuranceDescription);
-       props.setInsurancePrice(insurancePrice)  ;
-       props.setInsurancePicture(insurancePrice, insurancePicture);
+       axios.put('http://localhost:8080/products', productJson)
+       .then(response => {
+
+        props.setInsuranceName(productJson.insuranceName);
+        props.setInsuranceDescription(productJson.insuranceDescription);
+        props.setInsurancePrice(productJson.insurancePrice)  ;
+        props.setInsurancePicture(productJson.insurancePicture);
+       }
+
+
+       ).catch(err => {
+           alert(err);
+       });
+
+
+
+
          }
     function printCard() {
         setPrintState(true);
