@@ -13,7 +13,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Search from "components/Search/Search.js"
-import ClientModal from "components/Clients/ClientModal.js" 
+import ClientModal from "components/Clients/ClientModal.js"
 import { withRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
@@ -72,21 +72,27 @@ export default withRouter(function TableList(props) {
     setClients(arr);
   }
 
-  const getAllClientFromServer = async () => {
+  function getAllClientFromServer() {
+
     axios.get('http://localhost:8080/clients').then((response) => {
-     
+
+      debugger;
       const clientJson = response.data;
+      alert(clientJson);
       updateClientsTable(clientJson);
 
     }).catch(err => {
-      console.log(err);
+      alert(err);
     })
+    debugger;
   }
-  
+
   function addNewClient(clientJson) {
     axios.post('http://localhost:8080/clients', clientJson)
-      .then(response =>
-        getAllClientFromServer()
+      .then(response => {
+        getAllClientFromServer();
+        alert(response.data);
+      }
 
       ).catch(err => {
         alert(err);
@@ -113,16 +119,16 @@ export default withRouter(function TableList(props) {
   }
 
   const classes = useStyles();
-   
+
   return (
 
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <div className="d-flex justify-content-between">
-          <div className="p-2 col-example text-left"><ClientModal handleFunction={addNewClient} addOrUpdate="Add "/></div>
+          <div className="p-2 col-example text-left"><ClientModal handleFunction={addNewClient} addOrUpdate="Add " /></div>
           <div className="p-2 col-example text-left"><Search searchClient={searchClient} /> </div>
         </div>
-        
+
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Clients Table</h4>
