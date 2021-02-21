@@ -1,7 +1,8 @@
 
-import React, { useState, moment } from "react";
+import React, { useState, moment, useEffect } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
@@ -18,6 +19,8 @@ import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
+import PolicyIcon from '@material-ui/icons/Policy';
+import Typography from '@material-ui/core/Typography';
 // core components
 // import Class  from '@material-ui/icons/Class ';
 import GridItem from "components/Grid/GridItem.js";
@@ -50,32 +53,88 @@ import { card } from "assets/jss/material-dashboard-react";
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
-  const [products, setPro] = useState(["atarahhhhhh", "sarakkkkkkkkkkkkkk"]);
-  const [newClients, setClients] = useState(["sara ", "atara"]);
-  //setPro([...products,"f"]);
+  const [products, setPro] = useState(["atara", "sara"]);
+  //const [newClients, setClients] = useState(["sara", "atara"]);
+  const [amountPurchases, setAmountPurchases] = useState();
+  const [newProducts, setNewProducts] = useState([]);
+  const [newClients, setNewClients] = useState([]);
+  const [jsonString,setJsonString] = useState([{ "insuranceName": "life", "insuranceDescription": "insuranceDescription...", "insurancePrice": "70", "insurancePicture": "lll/nnn" }
+    , { "insuranceName": "home", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
+  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
   const classes = useStyles();
+  function getAmountOfRecentPurchases(){
+    //axios.get('http://localhost:8080/Purchases/')
+      // .then(response => {
+        setAmountPurchases("response.data")
+       // setAmountPurchases(response.data)
+       //}
+     //  ).catch(err => {
+         //  alert(err);
+     //  });
+   
+  }
+  function  getNewPolicy() {
+    //axios.get('http://localhost:8080/products/new')
+      // .then(response => {
+        //jsonString=response.data
+        const items = jsonString.map((item,i) =>
+        <ListItem key={i} >
+
+        <div className={classes.cardCategory} ><FcDataProtection /> </div>
+        <div className={classes.cardCategory} >{item.insuranceName} </div>
+      </ListItem>
+        )
+        setNewProducts([items]) 
+       // setAmountPurchases(response.data)
+       //}
+     //  ).catch(err => {
+         //  alert(err);
+     //  });
+  }
+  function  getNewclients() {
+    //axios.get('http://localhost:8080/clients/new')
+      // .then(response => {
+        const items = jsonString.map((client, i) => (
+          <ListItem key={i} >
+
+            <div className={classes.cardCategory} ><FcBusinessman /> </div>
+            <div className={classes.cardCategory} >{client.insuranceName} </div>
+          </ListItem>
+        ))
+        setNewClients([items])
+       // setAmountPurchases(response.data)
+       //}
+     //  ).catch(err => {
+         //  alert(err);
+     //  });
+  }
+  useEffect(() =>
+   { getAmountOfRecentPurchases();
+    getNewPolicy();
+    getNewclients();
+   }, []);
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-                <Icon>info_outline</Icon>
+              <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
               </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <p className={classes.cardCategory}>amount of recent purchases:</p>
+              <h3 className={classes.cardTitle}> {amountPurchases}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
+                <DateRange />
+                Purchases from the last week
               </div>
             </CardFooter>
           </Card>
         </GridItem>
 
-        <GridItem xs={12} sm={6} md={2}>
+        {/* <GridItem xs={12} sm={6} md={2}>
           <Card>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
@@ -97,24 +156,15 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-        </GridItem>
+        </GridItem> */}
         <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
-                <Store />
+                <PolicyIcon />
               </CardIcon>
-              <h1 className={classes.cardCategory} > New policy</h1>
-
-              {
-                products.map((l, i) => (
-                  <ListItem key={i} >
-
-                    <div className={classes.cardCategory} ><FcDataProtection /> </div>
-                    <div className={classes.cardCategory} >{l} </div>
-                  </ListItem>
-                ))
-              }
+              <h1 className={classes.cardCategory} > New policy:</h1>
+              {newProducts}
 
             </CardHeader>
             <CardFooter stats>
@@ -131,16 +181,8 @@ export default function Dashboard() {
               <CardIcon color="info">
                 <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>New Client</p>
-              {
-                newClients.map((client, i) => (
-                  <ListItem key={i} >
-
-                    <div className={classes.cardCategory} ><FcBusinessman /> </div>
-                    <div className={classes.cardCategory} >{client} </div>
-                  </ListItem>
-                ))
-              }
+              <p className={classes.cardCategory}>New Client:</p>
+              {newClients}
 
             </CardHeader>
             <CardFooter stats>
