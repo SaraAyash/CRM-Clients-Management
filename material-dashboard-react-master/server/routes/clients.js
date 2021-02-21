@@ -61,7 +61,7 @@ module.exports = {
             new_client.age = req.body.age
         
             //save model to database
-            new_client.save(function(err, album) {
+            new_client.save(function(err) {
                 if (err) {
                     console.log("error in adding the new client");
                     db.close()
@@ -151,21 +151,21 @@ module.exports = {
             res.status(400).send("connection error");
             return;
         })
-        db.once('open', function() {
-            console.log("connection successful!");
-            Client.find(, req.body, {
-                new: true
-            }, (err, client) => {
-                if (err) {
-                    console.log("error in updating the details of client with id " + req.params["id"]);
-                    db.close()
-                    res.status(500).send(err);
-                }
-                db.close()
-                console.log("client " + client + "updated succesfuly!");
-                res.status(200).send(client);
-            })
-        })
+        // db.once('open', function() {
+        //     console.log("connection successful!");
+        //     Client.find(, req.body, {
+        //         new: true
+        //     }, (err, client) => {
+        //         if (err) {
+        //             console.log("error in updating the details of client with id " + req.params["id"]);
+        //             db.close()
+        //             res.status(500).send(err);
+        //         }
+        //         db.close()
+        //         console.log("client " + client + "updated succesfuly!");
+        //         res.status(200).send(client);
+        //     })
+        // })
     }
 
 
