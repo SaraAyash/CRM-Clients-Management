@@ -5,6 +5,7 @@ import { actions } from '../../redux/actions'
 import { useParams, BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import PrintClient from "components/DisplayUser/PrintClient.js"
 import ClientModal from "components/Clients/ClientModal.js"
+import Purchases from "components/Purchases/Purchases.js"
 import axios from "axios"
 
 // import { Router, Route, Switch } from "react-router"
@@ -28,21 +29,18 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails(props) {
 
     const [printState, setPrintState] = useState(false);
-    const { name } = useParams();
- 
+
 
     function updateClientDetails(clientJson) {
 
         axios.put('http://localhost:8080/clients', clientJson)
-            .then(response => {
+            .then(() => {
                 props.setId(clientJson.id);
                 props.setFirstName(clientJson.firstName);
                 props.setLastName(clientJson.lastName);
                 props.setEmail(clientJson.email);
                 props.setMobile(clientJson.mobile);
             }
-
-
             ).catch(err => {
                 alert(err);
             });
@@ -50,10 +48,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
 
     }
     useEffect(() => {
-         if (printState) {
+        if (printState) {
             window.print();
             setPrintState(false);
-        } 
+        }
     }, [printState]);
 
 
@@ -77,11 +75,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
             <h4>Last Name: {props.client.lastName}</h4>
             <h4>Email: {props.client.email}</h4>
             <h4>Mobile: {props.client.mobile}</h4>
+
+            <hr></hr>
+            <h3> Purchases:</h3>
+            <Purchases />
             <hr></hr>
             <h3> Call documentation:</h3>
             <CallDocs />
- 
-
         </div>
 
 

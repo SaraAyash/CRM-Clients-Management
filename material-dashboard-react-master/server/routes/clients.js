@@ -37,6 +37,7 @@ module.exports = {
 
     //add client
     add_client: function(req, res) {
+        
         mongoose.connect('mongodb://localhost:27017/CRM', {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -56,7 +57,7 @@ module.exports = {
             new_client.last_name = 'b'
             new_client.phone_number = '1234'
             new_client.email = 'fwitch9@sun.com'
-        
+            alert("in server");
             //save model to database
             new_client.save(function(err, album) {
                 if (err) {
