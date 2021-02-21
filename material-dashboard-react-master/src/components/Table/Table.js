@@ -3,7 +3,7 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-
+import { FaSort } from "react-icons/fa";
 // import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -39,56 +39,117 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const { tableHead, tableData } = props;
+  const useSortableData = (items, config = null) => {
+    const [sortConfig, setSortConfig] = React.useState(config);
+
+    const sortedItems = React.useMemo(() => {
+      let sortableItems = [...items];
+      if (sortConfig !== null) {
+        sortableItems.sort((a, b) => {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      return sortableItems;
+    }, [items, sortConfig]);
+
+    const requestSort = (key) => {
+
+      let direction = 'ascending';
+      if (
+        sortConfig &&
+        sortConfig.key === key &&
+        sortConfig.direction === 'ascending'
+      ) {
+        direction = 'descending';
+      }
+      setSortConfig({ key, direction });
+    };
+
+    return { items: sortedItems, requestSort, sortConfig };
+  };
+  const { items, requestSort, sortConfig } = useSortableData(tableData);
+
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+
 
   function clickRow(value) {
-
+    
     props.history.push("/admin/table/client/" + value[1]);
-    props.setId(value[0]);
-    props.setFirstName(value[1]);
-    props.setLastName(value[2]);
-    props.setEmail(value[3]);
-    props.setMobile(value[4]);
+    props.setId(value.id);
+    props.setFirstName(value.first_name);
+    props.setLastName(value.last_name);
+    props.setEmail(value.email);
+    props.setMobile(value.mobile);
 
   }
   return (
 
     <div className={classes.tableResponsive}>
-      <label>{props.client.firstName}</label>
+     
       <Table  >
         <thead>
           <tr>
-            {tableHead !== undefined ? (tableHead.map((prop, key) => {
-              return (
-                <th
-                  className={classes.tableCell + " " + classes.tableHeadCell}
-                  key={key}
-                >
-                  {prop}
-                </th>
-              );
-            })) : null}
-          </tr>
+            <th className={getClassNamesFor('first_name ')}>
+              {"First name  "}
+              <FaSort onClick={() => requestSort('first_name')} />
+            </th>
+            
+              <th className={getClassNamesFor('last_name')}>
+                {"Last name  "}
+                <FaSort onClick={() => requestSort('last_name')} />
+              </th>
+
+              
+              <th className={getClassNamesFor('gender')}>
+                {"Gender "}
+                <FaSort onClick={() => requestSort('gender')} />
+              </th>
+              <th>
+                  {"email"}
+              </th> 
+              <th>
+                
+                  {"mobile"}
+                
+              </th>
+
+            </tr>
         </thead>
 
-        <tbody>
+          <tbody>
 
-          {tableData.map((prop, key) => {
-            return (
-              <tr key={key} className={classes.tableBodyRow} onClick={() => clickRow(prop)}>
-                {prop.map((prop, key) => {
-                  return (
-                    <td className={classes.tableCell} key={key}>
-                      {prop}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+            {items.map((prop, key) => {
+
+              return (
+                <tr key={key} className={classes.tableBodyRow} onClick={() => clickRow(prop)}>
+                  {/* {"name":atara,"last":elmal} */}
+                  {
+                    [prop.first_name, prop.last_name, prop.gender, prop.email, prop.mobile].map((prop, key) => {
+
+                      return (
+                        <td className={classes.tableCell} key={key}>
+                          {prop}
+                        </td>
+                      );
+                    })}
+                </tr>
+              );
+            })}
 
 
 
-        </tbody>
+          </tbody>
       </Table>
 
     </div>
