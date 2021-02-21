@@ -18,7 +18,16 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(function CallModal({ addCall }) {
+const getCurrentDate = () => {
+
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+
+    return date + '-' + month + '-' + year;
+}
+export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(props) {
 
 
     const [products, setProducts] = useState([{ name: 'Insurance 1', id: 1 }, { name: 'Insurance 2', id: 2 }, { name: 'Insurance 3', id: 3 }]);
@@ -26,9 +35,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal({
 
     const [show, setShow] = useState(false);
     const [dropdownTitle, setDropdownTitle] = useState("Select cause of call");
-    const [date, setDate] = useState("");
-    const [description, setDescription] = useState("");
     const [error, setError] = useState(false);
+
+    const [call, setCall] = useState({ "clientId": props.client.id, "date": getCurrentDate(), "CauseOfCall": "Select cause of call", "description": "", "selectedProducts": selectedProducts });
 
 
 
@@ -36,11 +45,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal({
     const handleShow = () => setShow(true);
     function SubmitCall() {
         debugger;
-        if (dropdownTitle === "Select cause of call" || date === "" || description === "") {
+        if (Object.values(call).indexOf("") != -1 || call.CauseOfCall === "Select cause of call") {
             setError(true);
         }
         else {
-            addCall(dropdownTitle, date, description, selectedProducts);
+
+            props.addCall(call);
             handleClose();
         }
 
@@ -71,12 +81,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal({
 
                 <Modal.Body>
                     <Form.Group controlId="date">
-                        {error ? <Form.Label style={{color: "red"}}>Please fill all fiels.</Form.Label> : ''}
+                        {error ? <Form.Label style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''}
                         <DropdownButton
                             alignRight
-                            title={dropdownTitle}
+                            title={call.CauseOfCall}
                             id="dropdown-menu-align-right"
-                            onSelect={(eventKey) => setDropdownTitle(eventKey)}
+                            onSelect={(eventKey) =>setCall({ ...call, CauseOfCall: eventKey }) }
                         >
                             <Dropdown.Item eventKey="complaint">complaint</Dropdown.Item>
                             <Dropdown.Item eventKey="Product purchase">Product purchase</Dropdown.Item>
@@ -87,15 +97,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal({
 
 
                     </Form.Group>
-                    <Form.Group controlId="date">                        
+                    <Form.Group controlId="date">
                         <Form.Label>Select Date</Form.Label>
-                        <Form.Control type="date" onChange={(event) => setDate(event.target.value)} />
+                        <Form.Control type="date" onChange={(event) => setCall({ ...call, date: event.target.value })} />
 
                     </Form.Group>
 
                     <Form.Group controlId="CallDescription">
                         <Form.Label>Call Description:</Form.Label>
-                        <Form.Control as="textarea" rows={6} onChange={(event) => setDescription(event.target.value)} />
+                        <Form.Control as="textarea" rows={6} onChange={(event) => setCall({ ...call, description: event.target.value })} />
 
                     </Form.Group>
 

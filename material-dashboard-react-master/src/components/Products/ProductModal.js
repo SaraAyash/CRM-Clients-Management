@@ -14,25 +14,19 @@ import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 export default function ProductModal(props) {
     
     const [show, setShow] = useState(false);
-    const [insuranceName, setInsuranceName] = useState("");
-    const [insuranceDescription, setInsuranceDescription] = useState("");
-    const [insurancePrice, setInsurancePrice] = useState("");
-    const [insurancePicture, setInsurancePicture] = useState("");
+    const [product, setProduct] = useState({ "insuranceId": "","insuranceName": "", "insuranceDescription": "", "insurancePrice": "","insurancePicture": "" });
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [error, setError] = useState(false);
-    const [idProduct, setIdProduct] = useState("");
+   
     function UdpateDetails() {
         // setFirstName();
-        if(insuranceName==""||insuranceDescription==""||insurancePrice==""||insurancePicture=="")
+        if(product.insuranceName==""||product.insuranceDescription==""||product.insurancePrice==""||product.insurancePicture=="")
         setError(true);
         else{
         
-        props.handleFunction(insuranceName,insuranceDescription,insurancePrice,insurancePicture);
-        setInsuranceName("");
-        setInsuranceDescription("");
-        setInsurancePrice("");
-        setInsurancePicture("");
+        props.handleFunction(product);
+        setProduct({ ...product, insuranceName: "",insuranceDescription: "",insurancePrice: "" ,insurancePicture: "" } ) 
         // action to update details
         handleClose();
     }
@@ -58,7 +52,7 @@ export default function ProductModal(props) {
                         <Form.Group as={Row} controlId="NameInsurance">
                             <Form.Label column sm="3">Name of Insurance:</Form.Label>
                             <Col sm="9">
-                            <Form.Control   onChange={e =>setInsuranceName(e.target.value)} />
+                            <Form.Control   onChange={(e) => { setProduct({ ...product, insuranceName: e.target.value }) }} />
                             
                             </Col>
                         </Form.Group>
@@ -66,20 +60,20 @@ export default function ProductModal(props) {
                         <Form.Group as={Row} controlId="InsuranceDescription">
                             <Form.Label column sm="3">Description of insurance:</Form.Label>
                             <Col sm="9">
-                            <Form.Control maxLength="250" placeholder="enter until 250 characters" onChange={e =>setInsuranceDescription(e.target.value)} />
+                            <Form.Control maxLength="250" placeholder="enter until 250 characters" onChange={(e) => { setProduct({ ...product, insuranceDescription: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="InsurancePrice">
                             <Form.Label column sm="4">Price of insurance:</Form.Label>
                             <Col sm="8">
-                                <Form.Control type="email"  onChange={e =>setInsurancePrice(e.target.value)}/>
+                                <Form.Control type="email"  onChange={(e) => { setProduct({ ...product, insurancePrice: e.target.value }) }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="InsurancePicture">
                             <Form.Label column sm="5">Picture of insurance:</Form.Label>
                             <Col sm="8">
-                                <Form.Control  onChange={e =>setInsurancePicture(e.target.value)} />
+                                <Form.Control  onChange={(e) => { setProduct({ ...product, insurancePicture: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 

@@ -8,12 +8,20 @@ import ProductModal from "components/Products/ProductModal";
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import Button from "@material-ui/core/Button";
 import _uniqueId from 'lodash/uniqueId';
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   
-  const [jsonString,setJsonString] = useState([{ "insuranceName": "life", "insuranceDescription": "insuranceDescription...", "insurancePrice": "70", "insurancePicture": "lll/nnn" }
-    , { "insuranceName": "home", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
-  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
+  const [jsonString,setJsonString] = useState([
+    { "insuranceName": "life Insurance", 
+    "insuranceDescription": "Life insurance is an insurance agreement between an insurance company and the insured, which provides a monetary benefit in case of injury to the body of the insured, especially in the case of his death.", 
+    "insurancePrice": "70", 
+    "insurancePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGtMW6q6PcE_aVdYNXlJLGevi3O64ClNmvXx9z_gmn1WzGdBC8&" }
+    , { "insuranceName": "home", 
+    "insuranceDescription": "insuranceDescription...", 
+    "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
+  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", 
+  "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
   function displayProducts(jsonString) {
     const items = jsonString.map((item) =>
     
@@ -30,29 +38,40 @@ setProducts(...products,items);
   }
   function initialize(productJson) {
 
-  //   axios.get('http://localhost:8080/products').then((response) => {
-  //     const productJson = response.data;
-  //     displayProducts(jsonString);
+    axios.get('http://localhost:8080/products').then((response) => {
+      const productJson = response.data;
+      displayProducts(jsonString);
 
-  //   }).catch(err => {
+    }).catch(err => {
   //     console.log(err);
 
     
-  // })
+   })
   displayProducts(jsonString);}
   
-  function addProduct(insuranceName, insuranceDescription, insurancePrice, insurancePicture) {
-    
-    const product = <Col md="4" > <ProductCard
-   
+  function addProduct(productJson) {
+    axios.post('http://localhost:8080/products', productJson)
+       .then(response => {
+        const productCol = <Col md="4" > <ProductCard
       IdProduct={_uniqueId('prefix-')}
-      title={insuranceName}
-      text={insuranceDescription}
-      price={insurancePrice}
-      picture={insurancePicture}
+      title={productJson.insuranceName}
+      text={productJson.insuranceDescription}
+      price={productJson.insurancePrice}
+      picture={productJson.insurancePicture}
     /></Col>
    
-    setProducts([...products, product]);
+    setProducts([...products, productCol]);
+       }
+
+
+       ).catch(err => {
+           alert(err);
+       });
+
+
+
+
+    
 
   }
 

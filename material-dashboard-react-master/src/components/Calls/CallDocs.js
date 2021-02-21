@@ -60,7 +60,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
 
     }
     const getAllCalls = async () => {
-        const callsJson = [{ "date": "date", "CauseOfCall": "CauseOfCall", "description": "description", "selectedProducts": [] }, { "date": "date1", "CauseOfCall1": "CauseOfCall1", "description1": "description1", "selectedProducts": [] }]
+        const callsJson = [{ "date": "17/02/2021", "CauseOfCall": "Complain", "description": "insurence not apply", "selectedProducts": [] }, { "date": "17/02/2021", "CauseOfCall": "Products", "description1": "buy  insurence", "selectedProducts": ["Insurance 1","Insurance 2"] }]
         updateCalls(callsJson);  // until server start work
         axios.get('http://localhost:8080/Calls/'+ props.client.id).then((response) => {
           debugger;
@@ -73,18 +73,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
     }
 
 
-    function addCall(CauseOfCall, date, description, selectedProducts) {
-        const call = <Call CauseOfCall={CauseOfCall} date={date} description={description} selectedProducts={selectedProducts} />;
-        setCalls([...calls, call]);
-
-        const newCall = {
-            callId: Math.random(),
-            clientId: props.client.id,
-            date: date,
-            CauseOfCall: CauseOfCall,
-            description: description,
-            selectedProducts: selectedProducts
-        };
+    function addCall(newCall) {
+        const call = <Call CauseOfCall={newCall.CauseOfCall} date={newCall.date} description={newCall.description} selectedProducts={newCall.selectedProducts} />;
+        setCalls([...calls, call]);        
         addNewCall(newCall);
 
     }

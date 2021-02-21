@@ -28,11 +28,11 @@ const getCurrentDate = () => {
 
     //Alert.alert(date + '-' + month + '-' + year);
     // You can turn it in to your desired format
-    return date + '/' + month + '/' + year;//format: dd-mm-yyyy;
+    return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal(props) {
-    
+
     const [error, setError] = useState(false);
     const [show, setShow] = useState(false);
     const genders = [{ name: 'Male', value: 'Male' }, { name: 'Female', value: 'Female' }];
@@ -87,9 +87,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="id">
-                            <Form.Label column sm="3">ID:</Form.Label>
+                            <Form.Label column sm="3">ID: </Form.Label>
                             <Col sm="9">
-                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, id: e.target.value }) }} />
+                                {(props.addOrUpdate === "Update ") ?
+                                    <Form.Control readOnly value={props.client.id} type="number" onChange={(e) => { setClient({ ...client, id: e.target.value }) }} />
+                                    :
+                                    <Form.Control type="number" onChange={(e) => { setClient({ ...client, id: e.target.value }) }} />
+                                }
+
                             </Col>
                         </Form.Group>
 
