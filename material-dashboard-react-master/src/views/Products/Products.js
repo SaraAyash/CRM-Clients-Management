@@ -12,9 +12,16 @@ import _uniqueId from 'lodash/uniqueId';
 export default function Products() {
   const [products, setProducts] = useState([]);
   
-  const [jsonString,setJsonString] = useState([{ "insuranceName": "life", "insuranceDescription": "insuranceDescription...", "insurancePrice": "70", "insurancePicture": "lll/nnn" }
-    , { "insuranceName": "home", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
-  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
+  const [jsonString,setJsonString] = useState([
+    { "insuranceName": "life Insurance", 
+    "insuranceDescription": "Life insurance is an insurance agreement between an insurance company and the insured, which provides a monetary benefit in case of injury to the body of the insured, especially in the case of his death.", 
+    "insurancePrice": "70", 
+    "insurancePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGtMW6q6PcE_aVdYNXlJLGevi3O64ClNmvXx9z_gmn1WzGdBC8&" }
+    , { "insuranceName": "home", 
+    "insuranceDescription": "insuranceDescription...", 
+    "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
+  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", 
+  "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
   function displayProducts(jsonString) {
     const items = jsonString.map((item) =>
     

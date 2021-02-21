@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "4.10.0",
     "@material-ui/icons": "4.9.1",
+    "@progress/kendo-react-popup": "^4.4.0",
     "@react-pdf/renderer": "^1.6.13",
     "@types/googlemaps": "3.39.6",
     "@types/markerclustererplus": "2.1.33",
@@ -31,6 +32,7 @@
     "react-dom": "16.13.1",
     "react-google-maps": "^7.3.0",
     "react-icons": "^4.2.0",
+    "react-loader-spinner": "^4.0.0",
     "react-modal": "^3.12.1",
     "react-redux": "^7.2.2",
     "react-responsive-cards-table": "^0.3.0",

@@ -41,9 +41,9 @@ export default connect(mapStateToProps, mapDispatchToProps) ( withRouter(functio
   
 
   return (
-    <Card   onClick={clickProduct} style={{ width: '17rem' ,height:'27rem',margin:'1rem'}}>
+    <Card className="shadow-lg"  onClick={clickProduct} style={{ width: '17rem' ,height:'27rem',margin:'1rem'}}>
       <p></p>
-      <Card.Img variant="top" style={{ width: '6rem', position: 'relative', left: '100px' }} src={picture}/>
+      <Card.Img  variant="top" style={{ width: '6rem', position: 'relative', left: '100px' }} src={picture}/>
 
       <Card.Body>
         <Card.Title>{title}</Card.Title>

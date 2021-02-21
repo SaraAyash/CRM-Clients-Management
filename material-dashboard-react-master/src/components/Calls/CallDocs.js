@@ -73,18 +73,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
     }
 
 
-    function addCall(CauseOfCall, date, description, selectedProducts) {
-        const call = <Call CauseOfCall={CauseOfCall} date={date} description={description} selectedProducts={selectedProducts} />;
-        setCalls([...calls, call]);
-
-        const newCall = {
-            callId: Math.random(),
-            clientId: props.client.id,
-            date: date,
-            CauseOfCall: CauseOfCall,
-            description: description,
-            selectedProducts: selectedProducts
-        };
+    function addCall(newCall) {
+        const call = <Call CauseOfCall={newCall.CauseOfCall} date={newCall.date} description={newCall.description} selectedProducts={newCall.selectedProducts} />;
+        setCalls([...calls, call]);        
         addNewCall(newCall);
 
     }
