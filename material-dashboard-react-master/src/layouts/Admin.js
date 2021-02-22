@@ -6,18 +6,18 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
-import Navbar from "components/Navbars/Navbar.js"; 
+import Navbar from "components/Navbars/Navbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import { viewRoutes, generalRoutes } from "routes.js";
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/reactlogo.png"; 
+import logo from "assets/img/reactlogo.png";
 
 let ps;
 
 const switchRoutes = (
   <Switch>
-{/* add all routing  */}
+    {/* add all routing  */}
     {generalRoutes.map((prop, key) => {
       return (
         <Route
@@ -28,7 +28,7 @@ const switchRoutes = (
       );
     })
     }
-{/* add routing for view  */}
+    {/* add routing for view  */}
     {viewRoutes.map((prop, key) => {
 
       if (prop.layout === "/admin") {
@@ -92,9 +92,17 @@ export default withRouter(function Admin({ ...rest }) {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
+  const style = {
+    backgroundImage: "url(http://getwallpapers.com/wallpaper/full/3/c/2/1392833-simple-background-pictures-1920x1200-retina.jpg#.YDO8w_cK51o.link)",
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
+  }
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper}
+    style={style}  
+    >
       <Sidebar
         routes={viewRoutes}
         logoText={"CRM"}
@@ -118,7 +126,7 @@ export default withRouter(function Admin({ ...rest }) {
           </div>
         ) : null
         }
-        
+
       </div>
     </div>
   );

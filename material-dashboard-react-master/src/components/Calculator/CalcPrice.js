@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 // @material-ui/core components  
 import { Alert, ToggleButton, ButtonGroup, Button, Form, Card, Row, Col, Container } from 'react-bootstrap';
-import { FcLike, FcHome, FcAutomotive } from "react-icons/fc";
+import { FcLike, FcHome, FcAutomotive, FcCurrencyExchange,FcDebt } from "react-icons/fc";
 import CalcCar from "./CalcCar"
 import CalcApar from "./CalcApar"
-
+import CalcLife from "./CalcLife"
+import CalcMortgage from "./CalcMortgage"
 function mapStateToProps(state) {
     // debugger;
     return {
@@ -31,6 +32,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
     const [insurenceTypeValue, setInsurenceTypeValue] = useState(0);
     const [show, setShow] = useState(false);
 
+    function closeCalaulator() {
+        setShow(false);
+        setInsurenceTypeValue();
+    }
+    
+    function openCalculator() {
+        setShow(true);
+        setInsurenceTypeValue(0);
+    }
+  
     function select(value) {
         setInsurenceTypeValue(value)
     }
@@ -44,7 +55,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
     return (
         <div>
 
-            <Alert className="fixed-bottom" show={show} variant="light" style={{ width: '25rem' }}>
+            <Alert className="bottom-left" show={show} style={{ width: '25rem' }}>
 
                 <Container className="themed-container" fluid={true}>
                     <Row md={{ span: 6, offset: 6 }} >
@@ -61,16 +72,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                                             <Card.Body>
                                                 <Card.Text> <FcHome style={{ fontSize: '50' }} />  </Card.Text>
                                                 <Card.Title>Apartment and property insurance</Card.Title>
-                                            </Card.Body>
-                                        </Card>
-
-                                        <Card
-                                            className="text-center"
-                                            style={{ width: '10rem' }}
-                                            onClick={() => setInsurenceTypeValue(2)}>
-                                            <Card.Body>
-                                                <Card.Text> <FcLike style={{ fontSize: '50' }} />  </Card.Text>
-                                                <Card.Title>Life and Health insurance</Card.Title>
                                             </Card.Body>
                                         </Card>
                                         <Card
@@ -92,6 +93,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                                                 <Card.Title>Car insurance</Card.Title>
                                             </Card.Body>
                                         </Card>
+                                        <Card
+                                            className="text-center"
+                                            style={{ width: '10rem' }}
+                                            onClick={() => setInsurenceTypeValue(4)}>
+                                            <Card.Body>
+                                                <Card.Text> <FcDebt style={{ fontSize: '50' }} />  </Card.Text>
+                                                <Card.Title>Mortgage insurance</Card.Title>
+                                            </Card.Body>
+                                        </Card>
                                     </Form.Row>
 
                                 </Form.Group> : ''}
@@ -100,10 +110,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                                 <CalcApar /> : ''}
 
                             {(insurenceTypeValue === 2) ?
-                                <CalcCar /> : ''}
+                                <CalcLife /> : ''}
 
                             {(insurenceTypeValue == 3) ?
                                 <CalcCar /> : ''}
+
+                            {(insurenceTypeValue == 4) ?
+                                <CalcMortgage/> : ''}
 
                         </Form>
                         {/* </Col> */}
@@ -111,11 +124,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                 </Container>
                 <hr />
                 <div className="d-flex justify-content-end">
-                    <Button onClick={() => setShow(false)} variant="outline-success">Close</Button>
+                    <Button onClick={() => closeCalaulator()} variant="outline-success">Close</Button>
                 </div>
             </Alert>
 
-            {!show && <Button onClick={() => setShow(true)}>Open Calculetor</Button>}
+            {!show && <Button
+                variant="light"
+                className="shadow-lg"
+                style={{width: '15rem', height:'15rem', fontSize: '14px' , borderRadius:100, }}
+                onClick={() => openCalculator()}>
+                <FcCurrencyExchange style={{ width: '10rem', fontSize: '120' }} />
+                <strong style={{ color: 'green', fontSize: '24px' }} >Open insurence calculetor</strong> 
+                </Button>}
 
         </div >
 

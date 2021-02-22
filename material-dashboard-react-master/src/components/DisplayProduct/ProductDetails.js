@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(function ProductDetails(props) {
 
     const [printState, setPrintState] = useState(false);
-    const { name } = useParams();
+  
     function updateProduct(productJson) {
         axios.put('http://localhost:8080/products', productJson)
             .then(response => {
@@ -58,42 +58,40 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
     }
     useEffect(() => { }, [printState]);
-
+   
     return (
-        <div>
+        <div
+        >
             {/* <Container className="themed-container" fluid={true}>
                 <Row>
-                    <Col xs="12" md={{ size: 12, order: 2, offset: 0 }}> </Col>
+                    <Col xs="12" md={{ size: 12, order: 2, offset: 0 }}>  <ProductModal handleFunction={updateProduct} addOrUpdate="update product" ></ProductModal></Col>
                     <Col > <Button onClick={() => printCard()}>print</Button></Col>
                 </Row>
-            </Container> */}
+            </Container>
+             */}
+            {!printState ?
+                <div class="d-flex justify-content-start">
+                    <div className="text-left"> <ProductModal handleFunction={updateProduct} addOrUpdate="update product" ></ProductModal></div>
+                    <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
+                </div> :
+                ''
+            }
 
             <Container className="themed-container" fluid={true}>
                 <Row>
-                    <Col><CalcPrice/></Col>
+                    <Col  className="align-self-end" ><CalcPrice /></Col>
                     <Col>
-                    <Button onClick={() => printCard()}>print</Button>
                         <Card className="shadow-lg text-center" style={{ "width": '30rem', "height": '40rem' }}>
                             <Card.Img variant="top" src={props.product.insurancePicture} style={{ position: 'relative', left: '10rem', top: '1rem', width: '30%', height: '10vh' }} />
-
                             <Card.Body>
                                 <Card.Title ><h3><strong>{props.product.insuranceName}</strong></h3> </Card.Title>
                                 <Card.Title > title</Card.Title>
-                                <Card.Text>
-                                    {props.product.insuranceDescription}
-                                </Card.Text>
-
-
+                                <Card.Text>  {props.product.insuranceDescription}</Card.Text>
                             </Card.Body>
                             <Card.Title > Price: starting from {props.product.insurancePrice} ILS per month </Card.Title>
 
-                            <Card.Footer >
-                                <>
-                                    <ProductModal handleFunction={updateProduct} addOrUpdate="update product" ></ProductModal>
-                                </>
-                            </Card.Footer>
+                            <Card.Footer />                           
                         </Card>
-
                     </Col>
                 </Row>
             </Container>
