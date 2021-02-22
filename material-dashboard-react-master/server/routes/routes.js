@@ -2,7 +2,8 @@ const express = require('express'),
     login = require('./login.js'),
     clients = require('./clients'),
     calls = require('./calls'), 
-    products = require('./products')
+    products = require('./products'),
+    purchases = require('./purchases')
 var router = express.Router();
 
 //login
@@ -21,5 +22,14 @@ router.get('/calls/:clientID', calls.get_client_calls)
 
 //products
 router.post('/products', products.add_product);
+router.put('/products/:productID', products.update_product);
+router.get('/products', products.get_products_list);
+router.get('/products/last_week', products.get_last_products);
+
+
+//purchases
+router.post('/purchases/add', purchases.add_purchase);
+router.get('/purchases/search/:clientID', purchases.get_client_purchase);
+router.get('/purchases/last', purchases.get_last_purchase)
 
 module.exports = router;

@@ -12,16 +12,20 @@ var minuteFromNow = function(){
 var ProductSchema = new Schema({
 	price: {
 		type: Number,
-		required: 'First Name is required'
+		required: 'Product price is required'
 	},
     description: {
 		type: String,
-		required: 'Last Name is required'
+		required: 'Product description is required'
 	},
 	name: {
 		type: String,
-		required: 'Phone Number is required',
+		required: 'Product name is required',
 		//validate: [validateType, 'Please fill a valid type(people/nature), default type is nature)']
+	},
+	image: {
+		type: String,
+		required: 'Product image is required',
 	},
 	date: {
 		type: Date,
