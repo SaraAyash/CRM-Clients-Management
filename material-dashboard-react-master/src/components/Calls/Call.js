@@ -15,18 +15,7 @@ export default function Call(props) {
 
     return (
         <>
-            {/* <Card border="primary" style={{ width: '50rem' }}>
-                <Card.Body>
-                    <Card.Header class="font-weight-bold " > {CauseOfCall}</Card.Header>
-
-
-
-                    <h5> selectedProducts:</h5>
-                    <h5>   {selectedProducts.map((prod) => { return prod.name })}</h5>
-                    <h5> date is: {date}</h5>
-                    <h5> description is: {description}</h5>
-                </Card.Body>
-            </Card> */}
+            
 
             <Accordion style={{ width :"80%"}}>
                 <Card>

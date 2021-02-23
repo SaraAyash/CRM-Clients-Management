@@ -32,7 +32,6 @@ export default function Products() {
 
   function displayProducts(jsonString) {
     const items = jsonString.map((item) =>
-
       <Col md="4" > <ProductCard
         IdProduct={"6"}
         title={item.name}
@@ -44,7 +43,7 @@ export default function Products() {
     setProducts(...products, items);
 
   }
-  function initialize(productJson) {
+  function initialize() {
 
     axios.get('http://localhost:8080/products').then((response) => {
       const productJson = response.data;
@@ -87,7 +86,7 @@ export default function Products() {
 
   }
 
-  useEffect(() => { initialize(jsonString) }, []);
+  useEffect(() => { initialize() }, []);
 
   //initialize(jsonString);
   return (

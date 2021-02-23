@@ -110,8 +110,9 @@ export default withRouter(function TableList(props) {
     props.history.push("/admin/table/search")
     // updateClientsTable(clientToSearch);
 
+    debugger
 
-    axios.get('http://localhost:8080/clients/' + clientName).then((response) => {
+    axios.get('http://localhost:8080/clients/search/' + clientName).then((response) => {
       const clientToSearch = response.data;
       updateClientsTable(clientToSearch);
     }).catch(err => {

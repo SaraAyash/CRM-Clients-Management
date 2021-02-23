@@ -37,7 +37,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     const [dropdownTitle, setDropdownTitle] = useState("Select cause of call");
     const [error, setError] = useState(false);
 
-    const [call, setCall] = useState({ "clientId": props.client.id, "date": getCurrentDate(), "CauseOfCall": "Select cause of call", "description": "", "selectedProducts": selectedProducts });
+    const [call, setCall] = useState({ "clientId": props.client.id, "date": new Date().getDate(), "CauseOfCall": "Select cause of call", "description": "", "selectedProducts": selectedProducts });
 
 
 
@@ -49,7 +49,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
             setError(true);
         }
         else {
-
+            if(selectedProducts!=[]){}
             props.addCall(call);
             handleClose();
         }
