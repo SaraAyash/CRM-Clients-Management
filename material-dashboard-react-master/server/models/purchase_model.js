@@ -11,7 +11,7 @@ var minuteFromNow = function(){
 // define Schema
 var PurchaseSchema = new Schema({
 	productId: {
-		type: Schema.Types.ObjectId,        ,
+		type: Schema.Types.ObjectId,
 		required: 'Product ID is required'
 	},
     clientId: {

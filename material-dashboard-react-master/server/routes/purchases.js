@@ -1,4 +1,4 @@
-var Product = require('../models/product_model');
+var Purchase = require('../models/purchase_model');
 var mongoose = require('mongoose');
 
 module.exports = {
@@ -39,7 +39,6 @@ module.exports = {
             });
         });  
     },
-
     
     //get client purchase 
     get_client_purchase: function(req, res) {

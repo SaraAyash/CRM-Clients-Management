@@ -24,9 +24,10 @@ module.exports = {
             new_product.description = req.body.description
             new_product.name = req.body.name
             new_product.date = req.body.date
+            new_product.image = req.body.image
         
             //save model to database
-            new_product.save(function(err) {
+            new_product.save(req.body,function(err) {
                 if (err) {
                     console.log("error in adding the new product");
                     db.close()
@@ -58,11 +59,11 @@ module.exports = {
         })
         db.once('open', function() {
             console.log("connection successful!");
-            product.findByIdAndUpdate(req.params["id"], req.body, {
+            Product.findByIdAndUpdate(req.params["productID"], req.body, {
                 new: true
             }, (err, product) => {
                 if (err) {
-                    console.log("error in updating the details of product with id " + req.params["id"]);
+                    console.log("error in updating the details of product with id " + req.params["productID"]);
                     db.close()
                     res.status(500).send(err);
                 }
@@ -73,6 +74,7 @@ module.exports = {
         })
     },
 
+    //get products list
     get_products_list: function (req, res) {
         console.log("========================= in get products list=========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
@@ -103,6 +105,7 @@ module.exports = {
         });     
     },
 
+    //get last products (returns a list of products created in the last week)
     get_last_products: function(req, res) {
         console.log("========================= in get last products =========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
@@ -133,6 +136,6 @@ module.exports = {
                 res.status(200).send(products);
             })
         });
-    },
+    }
 
 }
