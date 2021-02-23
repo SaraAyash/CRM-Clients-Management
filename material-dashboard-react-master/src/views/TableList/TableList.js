@@ -73,18 +73,18 @@ export default withRouter(function TableList(props) {
   }
 
   function getAllClientFromServer() {
-    updateClientsTable([{ "id": "1", "first_name": "andris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "Agender" ,"mobile":"054444444"},{ "id": "1", "first_name": "fndris", "last_name": "nchboard", "email": "ainchboard0@weibo.com", "gender": "Agender","mobile":"054444444" },{ "id": "1", "first_name": "bndris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "bender","mobile":"054444444" }]);
+    // updateClientsTable([{ "id": "1", "first_name": "andris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "Agender" ,"mobile":"054444444"},{ "id": "1", "first_name": "fndris", "last_name": "nchboard", "email": "ainchboard0@weibo.com", "gender": "Agender","mobile":"054444444" },{ "id": "1", "first_name": "bndris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "bender","mobile":"054444444" }]);
     axios.get('http://localhost:8080/clients').then((response) => {
 
-    
+      debugger
       const clientJson = response.data;
       alert(clientJson);
       updateClientsTable(clientJson);
 
     }).catch(err => {
-     // alert(err);
+      // alert(err);
     })
-    
+
   }
 
   function addNewClient(clientJson) {
@@ -103,15 +103,16 @@ export default withRouter(function TableList(props) {
 
   const searchClient = async (clientName) => {
 
-    const clientToSearch = [{ "id": "1", "first_name": "Andris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "Agender" }];
+    // const clientToSearch = [{ "id": "1", "first_name": "Andris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "Agender" }];
     // var clientToShowInTable = [];
     // clientToShowInTable.push([clientToSearch.id, clientToSearch.first_name, clientToSearch.last_name, clientToSearch.email, clientToSearch.gender]);
     props.history.push("/admin/table/search")
-    updateClientsTable(clientToSearch);
+    // updateClientsTable(clientToSearch);
 
 
     axios.get('http://localhost:8080/clients/' + clientName).then((response) => {
-      clientToSearch = response.data;
+      const clientToSearch = response.data;
+      updateClientsTable(clientToSearch);
     }).catch(err => {
       alert(err);
     });

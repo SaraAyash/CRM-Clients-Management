@@ -27,9 +27,10 @@ module.exports = {
             new_product.image = req.body.image
         
             //save model to database
-            new_product.save(req.body,function(err) {
+            new_product.save(function(err) {
                 if (err) {
-                    console.log("error in adding the new product");
+                    
+                    console.log("error in adding the new product\n" + err);
                     db.close()
                     res.status(400).send("err: " + err + " while trying to insert product.");
                 } else {
