@@ -20,16 +20,17 @@ module.exports = {
         db.once('open', function() {
             console.log("connection successful!");
             var new_product = new Product();
+            console.log(req.body)
             new_product.price = req.body.price
             new_product.description = req.body.description
             new_product.name = req.body.name
             new_product.date = req.body.date
             new_product.image = req.body.image
-        
+            console.log("ggg")
             //save model to database
             new_product.save(function(err) {
                 if (err) {
-                    
+                    console.log(err);
                     console.log("error in adding the new product\n" + err);
                     db.close()
                     res.status(400).send("err: " + err + " while trying to insert product.");

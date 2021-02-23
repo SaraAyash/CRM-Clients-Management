@@ -90,6 +90,7 @@ export default withRouter(function TableList(props) {
   function addNewClient(clientJson) {
     axios.post('http://localhost:8080/clients', clientJson)
       .then(response => {
+        debugger
         getAllClientFromServer();
         alert(response.data);
       }

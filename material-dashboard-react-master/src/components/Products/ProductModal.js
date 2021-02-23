@@ -10,19 +10,11 @@ import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 // import { Router, Route, Switch } from "react-router"
 // import Button from "@material-ui/core/Button"
 
-const getCurrentDate = () => {
 
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-
-
-    return date + '-' + month + '-' + year;
-}
 export default function ProductModal(props) {
 
     const [show, setShow] = useState(false);
-    const [product, setProduct] = useState({ name: "", description: "", price:0, date: getCurrentDate() });
+    const [product, setProduct] = useState({ name: "", description: "", price:0, date: new Date().getDate() , image:''});
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [error, setError] = useState(false);

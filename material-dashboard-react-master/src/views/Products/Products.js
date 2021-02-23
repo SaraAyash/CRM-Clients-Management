@@ -35,10 +35,10 @@ export default function Products() {
 
       <Col md="4" > <ProductCard
         IdProduct={"6"}
-        title={item.insuranceName}
-        text={item.insuranceDescription}
-        price={item.insurancePrice}
-        picture={item.insurancePicture}
+        title={item.name}
+        text={item.description}
+        price={item.price}
+        picture={item.image}
       /></Col>
     )
     setProducts(...products, items);
@@ -62,14 +62,14 @@ export default function Products() {
   function addProduct(productJson) {
     debugger
     axios.post('http://localhost:8080/products', productJson)
-      .then(response => {
+      .then(() => {
         debugger
         const productCol = <Col md="4" > <ProductCard
           IdProduct={_uniqueId('prefix-')}
-          title={productJson.insuranceName}
-          text={productJson.insuranceDescription}
-          price={productJson.insurancePrice}
-          picture={productJson.insurancePicture}
+          title={productJson.name}
+          text={productJson.description}
+          price={productJson.price}
+          picture={productJson.image}
         /></Col>
 
         setProducts([...products, productCol]);
