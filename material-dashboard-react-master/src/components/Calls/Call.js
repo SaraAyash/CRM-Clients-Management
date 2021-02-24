@@ -14,8 +14,7 @@ export default function Call(props) {
 
 
     return (
-        <>
-            
+        <>           
 
             <Accordion style={{ width :"80%"}}>
                 <Card>

@@ -47,7 +47,7 @@ export default function Products() {
 
     axios.get('http://localhost:8080/products').then((response) => {
       const productJson = response.data;
-      alert(productJson); 
+      debugger
       displayProducts(productJson);
 
     }).catch(err => {

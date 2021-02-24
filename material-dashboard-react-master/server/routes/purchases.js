@@ -62,7 +62,7 @@ module.exports = {
                     db.close()
                     res.status(500).send(err);  
                 } 
-                console.log("details of client purchase" + req.params["clientId"] +":"+ purchase);
+                console.log("details of client purchase" + req.params["clientId"] +": "+ purchase);
                 db.close()
                 res.status(200).send(purchase);
             })

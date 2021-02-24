@@ -42,7 +42,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
                 props.setMobile(clientJson.mobile);
             }
             ).catch(err => {
-                alert(err);
+               console.log("put, http://localhost:8080/clients");
             });
 
 

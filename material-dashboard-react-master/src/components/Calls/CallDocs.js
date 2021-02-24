@@ -31,13 +31,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
         // listenURL();
     }, []);
 
-    // function listenURL() {
-    //     props.history.listen((location, action) => {
-    //         if (location.pathname === "/admin/table") {
-    //             getAllClientFromServer();
-    //         }
-    //     })
-    // }
+    
 
     function updateCalls(callsJson) {
         const call = callsJson.map(call => <Call CauseOfCall={call.CauseOfCall} date={call.date} description={call.description} selectedProducts={call.selectedProducts} />)
@@ -52,7 +46,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
                 getAllCalls()
 
             ).catch(err => {
-                alert(err);
+                 console.log("post, http://localhost:8080/calls");
             });
 
 
@@ -60,22 +54,22 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
 
     }
     const getAllCalls = async () => {
-        const callsJson = [{ "date": "17/02/2021", "CauseOfCall": "Complain", "description": "insurence not apply", "selectedProducts": [] }, { "date": "17/02/2021", "CauseOfCall": "Products", "description1": "buy  insurence", "selectedProducts": ["Insurance 1","Insurance 2"] }]
+        const callsJson = [{ "date": "17/02/2021", "CauseOfCall": "Complain", "description": "insurence not apply", "selectedProducts": [] }, { "date": "17/02/2021", "CauseOfCall": "Products", "description1": "buy  insurence", "selectedProducts": ["Insurance 1", "Insurance 2"] }]
         updateCalls(callsJson);  // until server start work
-        axios.get('http://localhost:8080/Calls/'+ props.client.id).then((response) => {
-          debugger;
-          const callsJson = response.data;
-          updateCalls(callsJson);
+        axios.get('http://localhost:8080/Calls/' + props.client.id).then((response) => {
+            debugger;
+            const callsJson = response.data;
+            updateCalls(callsJson);
 
         }).catch(err => {
-          alert(err);
+            console.log("get, http://localhost:8080/Calls/" + props.client.id);
         })
     }
 
 
     function addCall(newCall) {
         const call = <Call CauseOfCall={newCall.CauseOfCall} date={newCall.date} description={newCall.description} selectedProducts={newCall.selectedProducts} />;
-        setCalls([...calls, call]);        
+        setCalls([...calls, call]);
         addNewCall(newCall);
 
     }

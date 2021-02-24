@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 // import UserDetails from "./../DisplayUser/UserDetails.js"
-import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
+import {withRouter } from "react-router-dom";
 // import { createBrowserHistory } from "history";
 // import { render } from "react-dom";
 // import { Component } from "react";
@@ -85,8 +85,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
   function clickRow(value) {
     
-    props.history.push("/admin/table/client/" + value[1]);
-    props.setId(value.id);
+    props.history.push("/admin/table/client/" + value.client_id);
+    props.setId(value.client_id);
     props.setFirstName(value.first_name);
     props.setLastName(value.last_name);
     props.setEmail(value.email);

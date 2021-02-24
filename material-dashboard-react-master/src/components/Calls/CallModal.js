@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { Multiselect } from 'multiselect-react-dropdown';
 // @material-ui/core components 
 import { Button, Form, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
+import axios from "axios";
+import _uniqueId from 'lodash/uniqueId';
+
 // import { Router, Route, Switch } from "react-router"
 // import upsideEmit Button from "@material-ui/core/Button"
 function mapStateToProps(state) {
     return {
-        client: state.clientReducer.client
+        client: state.clientReducer.client,
+
+
     };
 }
 
@@ -17,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
     setFirstName: (company_name) => dispatch(actions.setFirstName(company_name))
 
 })
+
 
 const getCurrentDate = () => {
 
@@ -39,20 +45,67 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
     const [call, setCall] = useState({ "clientId": props.client.id, "date": new Date().getDate(), "CauseOfCall": "Select cause of call", "description": "", "selectedProducts": selectedProducts });
 
-
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    function getAllProducts(){
+        debugger
+        
+        axios.get('http://localhost:8080/products').then((response) => {
+             
+            const productJson = response.data;
+            var arr = [];
+            Object.values(productJson).map(product => arr.push({name:product.name, id:product._id} ));
+            setProducts(arr);
+            debugger
+
+
+        }).catch(err => {
+            debugger
+
+            console.log("get, 'http://localhost:8080/products\n "+ err);
+        })
+    }
+    useEffect(() => {
+        getAllProducts();
+
+
+    }, []);
+
     function SubmitCall() {
         debugger;
         if (Object.values(call).indexOf("") != -1 || call.CauseOfCall === "Select cause of call") {
             setError(true);
         }
         else {
-            if(selectedProducts!=[]){}
-            props.addCall(call);
+            if (selectedProducts != []) {
+                selectedProducts.map((p) => {
+                    addNewPurches({ productId: p.id, clientId: props.client.id, date: new Date().getDate(), totalPrice: "100" })
+                }
+
+                )
+
+            }
+            // new_purchase.productId = req.body.productId
+            // new_purchase.clientId = req.body.clientId
+            // new_purchase.totalPrice = req.body.totalPrice
+            // new_purchase.date = req.body.date
+            // props.addCall(call);
             handleClose();
         }
+
+    }
+    function addNewPurches(call) {
+        axios.post('http://localhost:8080//purchases/add', call)
+            .then(response => {
+                debugger
+
+                alert(response.data);
+            }
+
+            ).catch(err => {
+                console.log(err);
+            });
 
     }
     function onSelectProduct(selectedList, selectedItem) {
@@ -60,7 +113,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
         setSelectedProducts([...selectedProducts, { name: selectedItem.name, id: selectedItem.id }])
         debugger;
     }
-
     function onRemove(selectedList, removedItem) {
         // selectedProducts.indexOf()
         setSelectedProducts([selectedProducts.filter(prod => prod = { name: removedItem.name, id: removedItem.id })])
@@ -86,7 +138,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
                             alignRight
                             title={call.CauseOfCall}
                             id="dropdown-menu-align-right"
-                            onSelect={(eventKey) =>setCall({ ...call, CauseOfCall: eventKey }) }
+                            onSelect={(eventKey) => setCall({ ...call, CauseOfCall: eventKey })}
                         >
                             <Dropdown.Item eventKey="complaint">complaint</Dropdown.Item>
                             <Dropdown.Item eventKey="Product purchase">Product purchase</Dropdown.Item>
