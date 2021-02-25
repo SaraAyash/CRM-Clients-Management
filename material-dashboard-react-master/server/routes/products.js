@@ -30,7 +30,7 @@ module.exports = {
             //save model to database
             new_product.save(function(err) {
                 if (err) {
-                    console.log(err);
+                    // console.log(err);
                     console.log("error in adding the new product\n" + err);
                     db.close()
                     res.status(400).send("err: " + err + " while trying to insert product.");

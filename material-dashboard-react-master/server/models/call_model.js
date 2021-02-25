@@ -10,7 +10,7 @@ var minuteFromNow = function(){
 // define Schema
 var CallSchema = new Schema({
 	client_id: {
-		type: Schema.Types.ObjectId,
+		type: Schema.Types.String,
 		required: 'client ID is required'
 	},
 	date: {
@@ -26,7 +26,7 @@ var CallSchema = new Schema({
 		required: '',
 	},
     purchasedProducts: {
-		type: [String],
+		type: [JSON],
 	}
 });
 

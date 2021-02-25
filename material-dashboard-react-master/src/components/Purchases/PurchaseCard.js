@@ -27,12 +27,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCar
 
 
     useEffect(() => {
-        debugger
-        axios.get('http://localhost:8080/purchases/search/' + props.client.id).then((response) => {
-            setProductDetails(response.data)
-        }).catch(err => {
-           debugger
-        })
+        // debugger
+        // axios.get('http://localhost:8080/purchases/search/' + props.client.id).then((response) => {
+        //     debugger
+        // setProductDetails(response.data)
+        // }).catch(err => {
+        //    debugger
+        // })
     }, []);
 
     return (

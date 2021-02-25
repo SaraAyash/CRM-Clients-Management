@@ -19,7 +19,7 @@ module.exports = {
         db.once('open', function() {
             console.log("connection successful!");
             var new_call = new Call();
-            new_call.client_id = req.body.client_id
+            new_call.client_id = req.body.clientId
             new_call.date = req.body.date
             new_call.subject = req.body.subject
             new_call.description = req.body.description
@@ -29,6 +29,7 @@ module.exports = {
             //save model to database
             new_call.save(function(err) {
                 if (err) {
+                    console.log(err);
                     console.log("error in adding the new call");
                     db.close()
                     res.status(400).send("err: " + err + " while trying to insert a call.");
@@ -60,7 +61,8 @@ module.exports = {
             //save model to database
             Call.find({client_id:req.params["clientID"]}, (err, calls) => {
                 if (err){
-                    console.log(err);
+                    // console.log(err);
+                    console.log("find client_calls fail");
                     db.close()
                     res.status(500).send(err);  
                 } 

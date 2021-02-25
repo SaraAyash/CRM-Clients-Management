@@ -29,7 +29,8 @@ module.exports = {
             new_purchase.save(function(err) {
                 if (err) {
                     console.log("error in adding the new purchase");
-                    db.close()
+                    console.log(err);
+                    db.close();
                     res.status(400).send("err: " + err + " while trying to insert purchase.");
                 } else {
                     console.log("purchase added succesfuly");
@@ -58,6 +59,7 @@ module.exports = {
             console.log("connection successful!");
             Purchase.find({clientId:req.params["clientId"]}, (err, purchase) => {
                 if (err){
+                    console.log(err);
                     console.log("error in searching client " + req.params["clientId"]);
                     db.close()
                     res.status(500).send(err);  
