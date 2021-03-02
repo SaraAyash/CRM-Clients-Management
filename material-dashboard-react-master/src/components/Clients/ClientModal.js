@@ -36,11 +36,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
     const [error, setError] = useState(false);
     const [show, setShow] = useState(false);
     const genders = [{ name: 'Male', value: 'Male' }, { name: 'Female', value: 'Female' }];
-    const [client, setClient] = useState({ "firstName": "", "lastName": "", "id": "", "mobilePhone": "", "email": "", "age": "", "gender": "", "startConnectedDate": getCurrentDate() });
+    const [client, setClient] = useState({ "firstName": "", "lastName": "", "id": "", "mobilePhone": "", "email": "", "age": "", "gender": "", "startConnectedDate": new Date()});
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     function Submit() {
+
         if (Object.values(client).indexOf("") != -1) {
             setError(true);
         }
@@ -52,7 +53,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
 
     }
 
-
+    useEffect(() => {
+        if (props.addOrUpdate === "Update ") {
+            setClient({ ...client, id: props.client.id })
+        }
+    }, [])
 
 
     return (
@@ -66,13 +71,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                 keyboard={false}
             >
                 <Modal.Header closeButton>
+
                     <Modal.Title>Fill details:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-
                         <Form.Group as={Row} controlId="FirstName">
                             {error ? <Form.Label column sm="3" style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''}
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="FirstName">
                             <Form.Label column sm="3">First name:</Form.Label>
                             <Col sm="9">
                                 <Form.Control onChange={(e) => { setClient({ ...client, firstName: e.target.value }) }} />
@@ -90,7 +97,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                             <Form.Label column sm="3">ID: </Form.Label>
                             <Col sm="9">
                                 {(props.addOrUpdate === "Update ") ?
-                                    <Form.Control readOnly value={props.client.id} type="number" onChange={(e) => { setClient({ ...client, id: e.target.value }) }} />
+                                    <Form.Control readOnly value={props.client.id} type="number" />
                                     :
                                     <Form.Control type="number" onChange={(e) => { setClient({ ...client, id: e.target.value }) }} />
                                 }

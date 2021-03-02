@@ -11,79 +11,90 @@ import _uniqueId from 'lodash/uniqueId';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  
-  const [jsonString,setJsonString] = useState([
-    { "insuranceName": "life Insurance", 
-    "insuranceDescription": "Life insurance is an insurance agreement between an insurance company and the insured, which provides a monetary benefit in case of injury to the body of the insured, especially in the case of his death.", 
-    "insurancePrice": "70", 
-    "insurancePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGtMW6q6PcE_aVdYNXlJLGevi3O64ClNmvXx9z_gmn1WzGdBC8&" }
-    , { "insuranceName": "home", 
-    "insuranceDescription": "insuranceDescription...", 
-    "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
-  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", 
-  "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
+
+  const [jsonString, setJsonString] = useState([
+    {
+      "insuranceName": "life Insurance",
+      "insuranceDescription": "Life insurance is an insurance agreement between an insurance company and the insured, which provides a monetary benefit in case of injury to the body of the insured, especially in the case of his death.",
+      "insurancePrice": "70",
+      "insurancePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGtMW6q6PcE_aVdYNXlJLGevi3O64ClNmvXx9z_gmn1WzGdBC8&"
+    }
+    , {
+      "insuranceName": "home",
+      "insuranceDescription": "insuranceDescription...",
+      "insurancePrice": "60", "insurancePicture": "bbb/ccc"
+    },
+    {
+      "insuranceName": "some", "insuranceDescription": "insuranceDescription...",
+      "insurancePrice": "60", "insurancePicture": "bbb/ccc"
+    }]);
+    
+
   function displayProducts(jsonString) {
     const items = jsonString.map((item) =>
-    
-    <Col md="4" > <ProductCard
-    IdProduct={"6"}
-    title={item.insuranceName}
-    text={item.insuranceDescription}
-    price={item.insurancePrice}
-    picture={item.insurancePicture}
-  /></Col>
-)
-setProducts(...products,items);
-    
+      <Col md="4" > <ProductCard
+        IdProduct={"6"}
+        title={item.name}
+        text={item.description}
+        price={item.price}
+        picture={item.image}
+      /></Col>
+    )
+    setProducts(...products, items);
+
   }
-  function initialize(productJson) {
+  function initialize() {
 
     axios.get('http://localhost:8080/products').then((response) => {
       const productJson = response.data;
-      displayProducts(jsonString);
+      alert(productJson); 
+      displayProducts(productJson);
 
     }).catch(err => {
-  //     console.log(err);
+      //     console.log(err);
 
+
+    })
     
-   })
-  displayProducts(jsonString);}
-  
+  }
+
   function addProduct(productJson) {
+    debugger
     axios.post('http://localhost:8080/products', productJson)
-       .then(response => {
+      .then(() => {
+        debugger
         const productCol = <Col md="4" > <ProductCard
-      IdProduct={_uniqueId('prefix-')}
-      title={productJson.insuranceName}
-      text={productJson.insuranceDescription}
-      price={productJson.insurancePrice}
-      picture={productJson.insurancePicture}
-    /></Col>
-   
-    setProducts([...products, productCol]);
-       }
+          IdProduct={_uniqueId('prefix-')}
+          title={productJson.name}
+          text={productJson.description}
+          price={productJson.price}
+          picture={productJson.image}
+        /></Col>
+
+        setProducts([...products, productCol]);
+      }
 
 
-       ).catch(err => {
-           alert(err);
-       });
+      ).catch(err => {
+        alert(err);
+      });
 
 
 
 
-    
+
 
   }
 
-  useEffect(() => { initialize(jsonString) }, []);
+  useEffect(() => { initialize() }, []);
 
- //initialize(jsonString);
+  //initialize(jsonString);
   return (
     <>
-   
+
 
       <ProductModal handleFunction={addProduct} addOrUpdate="add product" ></ProductModal>
-      
+
       <Container>
         <Row>
           {products}

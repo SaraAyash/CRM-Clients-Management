@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { Multiselect } from 'multiselect-react-dropdown';
 // @material-ui/core components 
 import { Button, Form, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
+import axios from "axios";
+import _uniqueId from 'lodash/uniqueId';
+
 // import { Router, Route, Switch } from "react-router"
 // import upsideEmit Button from "@material-ui/core/Button"
 function mapStateToProps(state) {
     return {
-        client: state.clientReducer.client
+        client: state.clientReducer.client,
+
+
     };
 }
 
@@ -17,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
     setFirstName: (company_name) => dispatch(actions.setFirstName(company_name))
 
 })
+
 
 const getCurrentDate = () => {
 
@@ -30,44 +36,86 @@ const getCurrentDate = () => {
 export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(props) {
 
 
-    const [products, setProducts] = useState([{ name: 'Insurance 1', id: 1 }, { name: 'Insurance 2', id: 2 }, { name: 'Insurance 3', id: 3 }]);
-    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [products, setProducts] = useState();
 
     const [show, setShow] = useState(false);
     const [dropdownTitle, setDropdownTitle] = useState("Select cause of call");
     const [error, setError] = useState(false);
-
-    const [call, setCall] = useState({ "clientId": props.client.id, "date": getCurrentDate(), "CauseOfCall": "Select cause of call", "description": "", "selectedProducts": selectedProducts });
-
-
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [call, setCall] = useState({ clientId: props.client.id, date: new Date().toLocaleString(), subject: "Select cause of call", description: "", purchasedProducts: [] });
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true);
+        axios.get('http://localhost:8080/products').then((response) => {
+            const productJson = response.data;
+            var arr = [];
+            Object.values(productJson).map(product => arr.push({ 'name': product.name, 'id': product._id }))
+            setProducts(arr);
+            // products;
+            debugger
+
+
+        }).catch(err => {
+
+
+        })
+    }
+
+    useEffect(() => {
+        setCall({ ...call, purchasedProducts: selectedProducts })
+    }, [selectedProducts]);
+
     function SubmitCall() {
         debugger;
-        if (Object.values(call).indexOf("") != -1 || call.CauseOfCall === "Select cause of call") {
+        if (Object.values(call).indexOf("") != -1 || call.subject === "Select cause of call") {
             setError(true);
         }
         else {
+            if (call.purchasedProducts != []) {
+              
+                var arr = [];
+                Object.values(call.purchasedProducts).map(purchase => arr.push({productId:purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100"}))
+                arr.forEach((purchase)=>{
+                    addNewPurches(purchase);
+                })
+                debugger
 
+
+
+            }
+             
             props.addCall(call);
             handleClose();
         }
 
     }
+    function addNewPurches(newPurchase) {
+        debugger
+        axios.post('http://localhost:8080/purchases/add',newPurchase)
+            .then(response => {
+                debugger
+
+                alert(response.data);
+            }
+
+            ).catch(err => {
+                debugger
+                // console.log(err);
+            });
+
+
+    } 
     function onSelectProduct(selectedList, selectedItem) {
 
         setSelectedProducts([...selectedProducts, { name: selectedItem.name, id: selectedItem.id }])
         debugger;
     }
-
     function onRemove(selectedList, removedItem) {
         // selectedProducts.indexOf()
         setSelectedProducts([selectedProducts.filter(prod => prod = { name: removedItem.name, id: removedItem.id })])
         debugger;
     }
-
-
     return (
         <>
             <Button variant="warning" color="primary" onClick={handleShow}>Add Call</Button>{' '}
@@ -84,9 +132,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
                         {error ? <Form.Label style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''}
                         <DropdownButton
                             alignRight
-                            title={call.CauseOfCall}
+                            title={call.subject}
                             id="dropdown-menu-align-right"
-                            onSelect={(eventKey) =>setCall({ ...call, CauseOfCall: eventKey }) }
+                            onSelect={(eventKey) => setCall({ ...call, subject: eventKey })}
                         >
                             <Dropdown.Item eventKey="complaint">complaint</Dropdown.Item>
                             <Dropdown.Item eventKey="Product purchase">Product purchase</Dropdown.Item>
@@ -109,14 +157,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
                     </Form.Group>
 
-                    {dropdownTitle === "Product purchase" ?
-                        <Multiselect
-                            options={products} // Options to display in the dropdown
-                            onSelect={onSelectProduct} // Function will trigger on select event
-                            onRemove={onRemove} // Function will trigger on remove event
-                            displayValue="name" // Property name to display in the dropdown options
-                        />
-                        : ''}
+                    {/* {dropdownTitle === "Product purchase" ? */}
+                    <Multiselect
+                        options={products} // Options to display in the dropdown
+                        onSelect={onSelectProduct} // Function will trigger on select event
+                        onRemove={onRemove} // Function will trigger on remove event
+                        displayValue="name" // Property name to display in the dropdown options
+                    />
+                    {/* : ''} */}
 
 
 
@@ -130,9 +178,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
             {/* <h1> date from call state is : {callDate.date} sare</h1> */}
         </>
-
-
-
     );
 }
 );

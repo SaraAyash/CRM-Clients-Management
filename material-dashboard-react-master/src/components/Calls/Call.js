@@ -9,31 +9,23 @@ import { Card, ListGroup, Accordion } from 'react-bootstrap';
 
 
 export default function Call(props) {
-    const { CauseOfCall, date, description, selectedProducts } = props;
-    const products = selectedProducts.map((prod) => { return prod.name + ", " });
+    const { subject, date, description, selectedProducts } = props;
+    const products = "";
 
-
+    if (subject === "Product purchase") {
+        
+        // const productsName = selectedProducts.map((prod) => { return prod.name + ", " });
+        debugger
+    }
     return (
         <>
-            {/* <Card border="primary" style={{ width: '50rem' }}>
-                <Card.Body>
-                    <Card.Header class="font-weight-bold " > {CauseOfCall}</Card.Header>
 
-
-
-                    <h5> selectedProducts:</h5>
-                    <h5>   {selectedProducts.map((prod) => { return prod.name })}</h5>
-                    <h5> date is: {date}</h5>
-                    <h5> description is: {description}</h5>
-                </Card.Body>
-            </Card> */}
-
-            <Accordion style={{ width :"80%"}}>
+            <Accordion style={{ width: "80%" }}>
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="0">
                         <Card.Header class="font-weight-bold " >
                             <div className="d-flex justify-content-between">
-                                <div className="p-2 col-example text-left">  {CauseOfCall}</div>
+                                <div className="p-2 col-example text-left">  {subject}</div>
                                 <div className="p-2 col-example text-left">  {date}  </div>
                             </div>
 
