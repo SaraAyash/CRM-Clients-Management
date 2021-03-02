@@ -52,13 +52,14 @@ module.exports = {
         db.once('open', function() {
             console.log("connection successful!");
             var new_client = new Client();
-            new_client.client_id = req.body.id
-            new_client.first_name = req.body.firstName
-            new_client.last_name = req.body.lastName
-            new_client.phone_number = req.body.mobilePhone
+            new_client.client_id = req.body.client_id
+            new_client.first_name = req.body.first_name
+            new_client.last_name = req.body.last_name
+            new_client.phone_number = req.body.phone_number
             new_client.email = req.body.email
             new_client.gender = req.body.gender
-            new_client.age = req.body.age
+            new_client.year_of_birth = req.body.year_of_birth
+            new_client.start_connection_date = req.body.start_connection_date
         
             //save model to database
             new_client.save(function(err) {
@@ -122,7 +123,7 @@ module.exports = {
         })
         db.once('open', function() {
             console.log("connection successful!");
-            Client.findByIdAndUpdate(req.params["id"], req.body, {
+            Client.findByIdAndUpdate(req.params["clientID"], req.body, {
                 new: true
             }, (err, client) => {
                 if (err) {
@@ -137,9 +138,9 @@ module.exports = {
         })
     }, 
 
-    //get new clients (return all the clients that have been added in the last week)
-    get_new_clients: function (req, res) {
-        console.log("========================= in update client=========================");
+    //get last clients (return all the clients that have been added in the last week)
+    get_last_clients: function (req, res) {
+        console.log("========================= in get last clients =========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -151,23 +152,59 @@ module.exports = {
             res.status(400).send("connection error");
             return;
         })
-        // db.once('open', function() {
-        //     console.log("connection successful!");
-        //     Client.find(, req.body, {
-        //         new: true
-        //     }, (err, client) => {
-        //         if (err) {
-        //             console.log("error in updating the details of client with id " + req.params["id"]);
-        //             db.close()
-        //             res.status(500).send(err);
-        //         }
-        //         db.close()
-        //         console.log("client " + client + "updated succesfuly!");
-        //         res.status(200).send(client);
-        //     })
-        // })
+        db.once('open', function() {
+            console.log("connection successful!");
+            Client.find({ date: {$gte: new Date((new Date().getTime() - (7 * 24 * 60 * 60 * 1000))) } 
+            }, (err, data) => {
+                if (err) {
+                    console.log("error in getting the last week new clients");
+                    db.close()
+                    res.status(500).send(err);
+                }
+                db.close()
+                console.log("success in getting the last week new clients");
+                res.status(200).send(data);
+            })
+        })
+    },
+
+    //month distribution (return the number of the new clients for each month in the last year)
+    month_distribution: function(req, res) {
+        console.log("========================= in month distribution =========================");
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            Client.aggregate([
+                    { "$match": { "start_connection_date": {$gte: new Date((new Date().getTime() - (356 * 24 * 60 * 60 * 1000))) } } },
+                    { "$group": { 
+                        "_id": { $substrCP: [ "$start_connection_date", 0, 7 ] } , 
+                        "count": { $sum: 1 }
+                    }},
+                    { "$sort" : { "_id": 1}}
+                ]
+                , (err, data) => {
+                if (err) {
+                    console.log("error in getting the month distribution");
+                    db.close()
+                    res.status(500).send(err);
+                }
+                else{
+                    db.close()
+                    console.log("success in getting the month distribution");
+                    res.status(200).send(data);
+                }
+            })
+        })
     }
-
-
-
 }
+

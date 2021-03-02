@@ -6,29 +6,30 @@ const express = require('express'),
     purchases = require('./purchases')
 var router = express.Router();
 
-//login
+// login
 router.post('/login', login.login);
 
-//clients
-router.get('/clients', clients.get_clients_list);
-router.put('/clients/:clientID', clients.update_client)
-router.post('/clients', clients.add_client);
-router.get('/clients/search/:clientName', clients.search_client);
-router.get('/clients/new', clients.get_new_clients)
+// clients
+router.get('/clients/getList', clients.get_clients_list)
+router.put('/clients/update/:clientID', clients.update_client)
+router.post('/clients/add', clients.add_client)
+router.get('/clients/search/:clientName', clients.search_client)
+router.get('/clients/getLastWeek', clients.get_last_clients)
+router.get('/clients/monthDistribution', clients.month_distribution)
 
-//calls
-router.post('/calls', calls.add_call)
-router.get('/calls/:clientID', calls.get_client_calls)
+// calls
+router.post('/calls/add', calls.add_call)
+router.get('/calls/getList/:clientID', calls.get_client_calls)
 
-//products
-router.post('/products', products.add_product);
-router.put('/products/:productID', products.update_product);
-router.get('/products', products.get_products_list);
-router.get('/products/last_week', products.get_last_products);
+// products
+router.post('/products/add', products.add_product);
+router.put('/products/update/:productID', products.update_product);
+router.get('/products/getList', products.get_products_list);
+router.get('/products/getLastWeek', products.get_last_products);
 
-//purchases
+// purchases
 router.post('/purchases/add', purchases.add_purchase);
-router.get('/purchases/search/:clientId', purchases.get_client_purchase);
-router.get('/purchases/last', purchases.get_last_purchase)
+router.get('/purchases/getList/:clientId', purchases.get_client_purchase);
+router.get('/purchases/getLastWeek', purchases.get_last_purchase)
 
 module.exports = router;

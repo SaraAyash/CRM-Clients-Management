@@ -30,11 +30,11 @@ module.exports = {
                 if (err) {
                     console.log("error in adding the new purchase");
                     db.close()
-                    res.status(400).send("err: " + err + " while trying to insert purchase.");
+                    res.status(400).send(err);
                 } else {
                     console.log("purchase added succesfuly");
                     db.close();
-                    res.status(200).send("product added!");
+                    res.status(200).send("purchase added succesfuly");
                 }
             });
         });  
@@ -58,11 +58,11 @@ module.exports = {
             console.log("connection successful!");
             Purchase.find({clientId:req.params["clientId"]}, (err, purchase) => {
                 if (err){
-                    console.log("error in searching client " + req.params["clientId"]);
+                    console.log("error in searching client " + req.params["clientId"] + "purchase list");
                     db.close()
                     res.status(500).send(err);  
                 } 
-                console.log("details of client purchase" + req.params["clientId"] +":"+ purchase);
+                console.log("success in searching client " + req.params["clientId"] + " purchase list");
                 db.close()
                 res.status(200).send(purchase);
             })
@@ -95,7 +95,7 @@ module.exports = {
                     db.close()
                     res.status(500).send(err);  
                 } 
-                console.log("details of last purchase");
+                console.log("details of last purchase found successfuly");
                 db.close()
                 res.status(200).send(purchase);
             })

@@ -1,30 +1,45 @@
-const UsersData = [
-    {
-        "username": "a",
-        "password": "1"
-    },
-    {
-        "username": "b",
-        "password": "2"
-    },
-    {
-        "username": "c",
-        "password": "d"
-    }
-]
-
-// var isValidLogin = function(item){
-//     UsersData.forEach(user => {
-//         if (item.username == user['username'] && item.password == user[])
-//         console.log(element);
-//     });
-// };
+var Employee = require('../models/employee_model');
+var mongoose = require('mongoose');
 
 module.exports = {
+
     //login
     login: function(req, res) {
-        // isValidLogin(req.body);
         console.log(req.body);
-		res.status(200).send("login")
-    }
+        console.log("===================== in login =========================");
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error:");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            Employee.find({$and:[{email:req.body.username},{password:req.body.password}]}, function(err, result) {
+                if (err) {
+                    console.log("login error");
+                    db.close()
+                    res.status(400).send(err);
+                } else {
+                    if ( !(result.length === 0) ){
+                        console.log("login successful");
+                        db.close();
+                        res.status(200).send({
+                            token: "te123324332st123"
+                        })
+                    } else {
+                        console.log("login error");
+                        db.close()
+                        res.status(400).send("Error: " + err);
+                    }
+                }
+            })
+        });            
+        
+    },
 }

@@ -27,15 +27,15 @@ module.exports = {
             new_product.image = req.body.image
         
             //save model to database
-            new_product.save(req.body,function(err) {
+            new_product.save(function(err) {
                 if (err) {
-                    console.log("error in adding the new product");
+                    console.log(err);
                     db.close()
-                    res.status(400).send("err: " + err + " while trying to insert product.");
+                    res.status(400).send(err);
                 } else {
                     console.log("product added succesfuly");
                     db.close();
-                    res.status(200).send("product added!");
+                    res.status(200).send("product added successfuly!");
                 }
             });
         });
@@ -63,13 +63,13 @@ module.exports = {
                 new: true
             }, (err, product) => {
                 if (err) {
-                    console.log("error in updating the details of product with id " + req.params["productID"]);
+                    console.log(err);
                     db.close()
                     res.status(500).send(err);
                 }
                 db.close()
-                console.log("product " + product + "updated succesfuly!");
-                res.status(200).send(product);
+                console.log("product with id: ", req.params["productID"], " updated successfuly!");
+                res.status(200).send("product with id: ", req.params["productID"], " updated successfuly!");
             })
         })
     },
@@ -95,7 +95,7 @@ module.exports = {
                 if (err) {
                     console.log("error in getting the products list");
                     db.close()
-                    res.status(400).send("Error: " + err);
+                    res.status(400).send(err);
                 } else {
                     console.log("products list found succesfuly");
                     db.close();
@@ -127,11 +127,11 @@ module.exports = {
                 }
             }, (err, products) => {
                 if (err){
-                    console.log("error in searching last purchase ");
+                    console.log("error in searching last week new products");
                     db.close()
                     res.status(500).send(err);  
                 } 
-                console.log("details of last purchase");
+                console.log("success in searching last week new products");
                 db.close()
                 res.status(200).send(products);
             })

@@ -14,11 +14,11 @@ var minuteFromNow = function(){
 };
 
 // define Schema
-var ClientSchema = new Schema({
-	client_id: {
+var EmployeeSchema = new Schema({
+    _id: false,
+	employee_id: {
 		type: String,
-		required: 'ID is required',
-		unique: true
+		required: 'ID is required'
 	},
 	first_name: {
 		type: String,
@@ -28,7 +28,7 @@ var ClientSchema = new Schema({
 		type: String,
 		required: 'Last Name is required'
 	},
-	phone_number: {
+	password: {
 		type: String,
 		required: 'Phone Number is required',
 		//validate: [validateType, 'Please fill a valid type(people/nature), default type is nature)']
@@ -38,24 +38,16 @@ var ClientSchema = new Schema({
         //type: Email,
         required: false,
         //validate: [ isEmail, 'Invalid email' ]
+        unique:true
 	},
-    gender: {
-        type: String, 
-        enum : ['Male','Female'],
-        default: 'Male'
-    },
-	year_of_birth: {
-		type: Number,
-		// range: {
-		// 	min: 1940,
-		// 	max: 2021
-		// }
+    image: {
+		type: String,
+		required: 'Employee image is required'
 	},
-    start_connection_date: {
-        type: Date, 
-        default: minuteFromNow
+    about: {
+        type: String,
+        required: 'Employee description is required'
     }
 });
 
-module.exports = mongoose.model('client', ClientSchema); 
-
+module.exports = mongoose.model('employee', EmployeeSchema); 

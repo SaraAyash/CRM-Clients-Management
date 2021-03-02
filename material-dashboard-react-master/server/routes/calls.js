@@ -5,6 +5,7 @@ module.exports = {
 
     //add call
     add_call: function(req, res) {
+        console.log("===================== in add call =========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -12,7 +13,7 @@ module.exports = {
         var db = mongoose.connection;
 
         db.once('error', function() { //connection error
-            console.error.bind(console, 'connection error:');
+            console.error.bind(console, 'connection error');
             res.status(400).send("connection error:");
             return;
         })
@@ -31,7 +32,7 @@ module.exports = {
                 if (err) {
                     console.log("error in adding the new call");
                     db.close()
-                    res.status(400).send("err: " + err + " while trying to insert a call.");
+                    res.status(400).send(err);
                 } else {
                     console.log("call added succesfuly");
                     db.close();
@@ -42,7 +43,10 @@ module.exports = {
             
         
     },
+    
+    //get client calls
     get_client_calls: function(req, res) {
+        console.log("===================== in get client calls =========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -56,15 +60,13 @@ module.exports = {
         })
         db.once('open', function() {
             console.log("connection successful!");
-
-            //save model to database
             Call.find({client_id:req.params["clientID"]}, (err, calls) => {
                 if (err){
                     console.log(err);
                     db.close()
                     res.status(500).send(err);  
                 } 
-                console.log("calls: "+ calls);
+                console.log("calls of client with id: ",req.params["clientID"]," found successfult");
                 db.close()
                 res.status(200).send(calls);
             })

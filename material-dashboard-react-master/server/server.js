@@ -1,6 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var cors = require('cors')
+var initDB = require('./initDB')
 const port = 8080;
 var axios = require('axios');
 routes = require('./routes/routes');
@@ -11,10 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 // create application/x-www-form-urlencoded parser
 app.use(bodyParser.urlencoded({ extended: false }));
- 
+
 app.use('/', routes);
-
-
+initDB.init()
 const server = app.listen(port, () => console.log('Server is working on port ' + port));
 
 
