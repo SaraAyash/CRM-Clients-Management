@@ -22,19 +22,19 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCard(props) {
-    const [productDetails, setProductDetails] = useState([]);
+    const [productDetails, setProductDetails] = useState();
 
+useEffect(()=>{
+    
+    axios.get('http://localhost:8080/products/'+props.insuranceId).then((response) => {
+        setProductDetails(response.data)     
+    }).catch(err => {
+     
 
+    })
+},[]);
 
-    useEffect(() => {
-        // debugger
-        // axios.get('http://localhost:8080/purchases/search/' + props.client.id).then((response) => {
-        //     debugger
-        // setProductDetails(response.data)
-        // }).catch(err => {
-        //    debugger
-        // })
-    }, []);
+   
 
     return (
         <>

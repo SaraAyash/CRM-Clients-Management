@@ -23,14 +23,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
     const [purcheses, setPurcheses] = useState([]);
 
     function updatePurchases(purchesesJson) {
+        
         const purchese = purchesesJson.map(purchese => <Col xs={6} sm={4} md={4} lg={3} className="p-2 colPurchases "    >  <PurchaseCard date={purchese.date} insuranceId ={purchese.productId} />  </Col>)
         setPurcheses([...purcheses, purchese]);
 
     }
 
     useEffect(() => {
-        const purchesesJson = [{ "date": "17/02/2021", "insuranceId": "insurence 2" }, { "date": "17/02/2021", "insuranceId": "insurence 1 " }]
-        updatePurchases(purchesesJson);  // until server start work
+        // const purchesesJson = [{ "date": "17/02/2021", "insuranceId": "insurence 2" }, { "date": "17/02/2021", "insuranceId": "insurence 1 " }]
+        // updatePurchases(purchesesJson);  // until server start work
 
         axios.get('http://localhost:8080/purchases/search/' + props.client.id).then((response) => {
             debugger;

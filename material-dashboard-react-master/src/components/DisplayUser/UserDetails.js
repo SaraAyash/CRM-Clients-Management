@@ -32,9 +32,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
 
 
     function updateClientDetails(clientJson) {
-
-        axios.put('http://localhost:8080/clients', clientJson)
-            .then(() => {
+        debugger
+        axios.put('http://localhost:8080/clients/'+props.client.id, clientJson)
+            .then((response) => {
+                debugger
                 props.setId(clientJson.id);
                 props.setFirstName(clientJson.firstName);
                 props.setLastName(clientJson.lastName);
@@ -42,7 +43,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
                 props.setMobile(clientJson.mobile);
             }
             ).catch(err => {
-               console.log("put, http://localhost:8080/clients");
+                debugger
+               
             });
 
 
