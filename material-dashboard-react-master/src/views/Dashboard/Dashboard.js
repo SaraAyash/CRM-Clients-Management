@@ -37,9 +37,9 @@ import CardFooter from "components/Card/CardFooter.js";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import axios from "axios"
 
-
-import { bugs, website, server } from "variables/general.js";
+import { bugs } from "variables/general.js";
 
 import {
   dailySalesChart,
@@ -58,61 +58,76 @@ export default function Dashboard() {
   const [amountPurchases, setAmountPurchases] = useState();
   const [newProducts, setNewProducts] = useState([]);
   const [newClients, setNewClients] = useState([]);
-  const [jsonString,setJsonString] = useState([{ "insuranceName": "life", "insuranceDescription": "insuranceDescription...", "insurancePrice": "70", "insurancePicture": "lll/nnn" }
-    , { "insuranceName": "home", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
-  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
+  const [jsonString, setJsonString] = useState([]);
   const classes = useStyles();
-  function getAmountOfRecentPurchases(){
-    //axios.get('http://localhost:8080/Purchases/')
-      // .then(response => {
-        setAmountPurchases("response.data")
-       // setAmountPurchases(response.data)
-       //}
-     //  ).catch(err => {
-         //  alert(err);
-     //  });
-   
-  }
-  function  getNewPolicy() {
-    //axios.get('http://localhost:8080/products/new')
-      // .then(response => {
-        //jsonString=response.data
-        const items = jsonString.map((item,i) =>
-        <ListItem key={i} >
+  function getAmountOfRecentPurchases() {
+    // axios.get('http://localhost:8080/Purchases/')
+    //   .then(response => {
+    //     setAmountPurchases(response.data)
 
-        <div className={classes.cardCategory} ><FcDataProtection /> </div>
-        <div className={classes.cardCategory} >{item.insuranceName} </div>
-      </ListItem>
-        )
-        setNewProducts([items]) 
-       // setAmountPurchases(response.data)
-       //}
-     //  ).catch(err => {
-         //  alert(err);
-     //  });
+    //   }
+    //   ).catch(err => {
+    //     alert(err);
+    //   });
+
   }
-  function  getNewclients() {
-    //axios.get('http://localhost:8080/clients/new')
-      // .then(response => {
-        const items = jsonString.map((client, i) => (
+  function getweekRecentPurchases() {
+    axios.get('http://localhost:8080/purchases/getLastWeek')
+      .then(response => {
+        setJsonString(response.data)
+      }
+      ).catch(err => {
+        //  alert(err);
+      });
+
+  }
+
+  function getNewPolicy() {
+    axios.get('http://localhost:8080/products/getLastWeek')
+      .then(response => {
+        const jsonString = response.data;
+
+
+        const items = jsonString.map((item, i) =>
           <ListItem key={i} >
 
+            <div className={classes.cardCategory} ><FcDataProtection /> </div>
+            <div className={classes.cardCategory} >{item.name} </div>
+          </ListItem>
+        )
+        setNewProducts(items)
+        //setAmountPurchases(response.data)
+      }
+      ).catch(err => {
+        alert("lh" + err);
+      });
+  }
+
+  function getNewclients() {
+    debugger
+    axios.get('http://localhost:8080/clients/getLastWeek')
+      .then(response => {
+        const jsonString = response.data;
+        debugger;
+        const items = jsonString.map((client, i) => (
+          <ListItem key={i} >
             <div className={classes.cardCategory} ><FcBusinessman /> </div>
-            <div className={classes.cardCategory} >{client.insuranceName} </div>
+            <div className={classes.cardCategory} >{client.first_name + " " + client.last_name} </div>
           </ListItem>
         ))
         setNewClients([items])
-       // setAmountPurchases(response.data)
-       //}
-     //  ).catch(err => {
-         //  alert(err);
-     //  });
+        // setAmountPurchases(response.data)
+      }
+      ).catch(err => {
+        debugger
+      });
   }
-  useEffect(() =>
-   { getAmountOfRecentPurchases();
+  useEffect(() => {
+    getweekRecentPurchases();
+    getAmountOfRecentPurchases();
     getNewPolicy();
     getNewclients();
-   }, []);
+  }, []);
   return (
     <div>
       <GridContainer>
@@ -120,7 +135,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-              <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
+                <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
               </CardIcon>
               <p className={classes.cardCategory}>amount of recent purchases:</p>
               <h3 className={classes.cardTitle}> {amountPurchases}</h3>
@@ -283,28 +298,6 @@ export default function Dashboard() {
                     checkedIndexes={[0, 3]}
                     tasksIndexes={[0, 1, 2, 3]}
                     tasks={bugs}
-                  />
-                )
-              },
-              {
-                tabName: "Website",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                )
-              },
-              {
-                tabName: "Server",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
                   />
                 )
               }

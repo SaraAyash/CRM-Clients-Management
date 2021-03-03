@@ -47,7 +47,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     const handleClose = () => setShow(false);
     const handleShow = () => {
         setShow(true);
-        axios.get('http://localhost:8080/products').then((response) => {
+        axios.get('http://localhost:8080/products/getList').then((response) => {
             const productJson = response.data;
             var arr = [];
             Object.values(productJson).map(product => arr.push({ 'name': product.name, 'id': product._id }))
@@ -63,6 +63,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     }
 
     useEffect(() => {
+        
         setCall({ ...call, purchasedProducts: selectedProducts })
     }, [selectedProducts]);
 
@@ -73,10 +74,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
         }
         else {
             if (call.purchasedProducts != []) {
-              
+
                 var arr = [];
-                Object.values(call.purchasedProducts).map(purchase => arr.push({productId:purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100"}))
-                arr.forEach((purchase)=>{
+                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100" }))
+                arr.forEach((purchase) => {
                     addNewPurches(purchase);
                 })
                 debugger
@@ -84,7 +85,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
 
             }
-             
+
             props.addCall(call);
             handleClose();
         }
@@ -92,7 +93,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     }
     function addNewPurches(newPurchase) {
         debugger
-        axios.post('http://localhost:8080/purchases/add',newPurchase)
+        axios.post('http://localhost:8080/purchases/add', newPurchase)
             .then(response => {
                 debugger
 
@@ -105,7 +106,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
             });
 
 
-    } 
+    }
     function onSelectProduct(selectedList, selectedItem) {
 
         setSelectedProducts([...selectedProducts, { name: selectedItem.name, id: selectedItem.id }])

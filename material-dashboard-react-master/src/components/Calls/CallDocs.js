@@ -42,10 +42,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
 
 
     const addCall = async (newCall) => {
-        axios.post('http://localhost:8080/calls', newCall)
+        axios.post('http://localhost:8080/calls/add', newCall)
             .then(response => {
-                getAllCalls()
                 debugger
+                getAllCalls()
+                
             }
 
             ).catch(err => {
@@ -58,7 +59,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
 
     }
     const getAllCalls = async () => {
-        axios.get('http://localhost:8080/calls/' + props.client.id).then((response) => {
+        axios.get('http://localhost:8080/calls/getList/' + props.client.id).then((response) => {
             debugger;
             const callsJson = response.data;
             updateCalls(callsJson);
