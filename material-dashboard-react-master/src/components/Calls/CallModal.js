@@ -63,7 +63,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     }
 
     useEffect(() => {
-        
+
         setCall({ ...call, purchasedProducts: selectedProducts })
     }, [selectedProducts]);
 
@@ -74,13 +74,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
         }
         else {
             if (call.purchasedProducts != []) {
-
+                debugger
                 var arr = [];
                 Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100" }))
                 arr.forEach((purchase) => {
                     addNewPurches(purchase);
                 })
-                debugger
+
 
 
 
