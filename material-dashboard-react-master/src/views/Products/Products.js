@@ -45,7 +45,7 @@ export default function Products() {
   }
   function initialize() {
 
-    axios.get('http://localhost:8080/products').then((response) => {
+    axios.get('http://localhost:8080/products/getList').then((response) => {
       const productJson = response.data;
       alert(productJson); 
       displayProducts(productJson);
@@ -60,7 +60,7 @@ export default function Products() {
 
   function addProduct(productJson) {
     debugger
-    axios.post('http://localhost:8080/products', productJson)
+    axios.post('http://localhost:8080/products/add', productJson)
       .then(() => {
         debugger
         const productCol = <Col md="4" > <ProductCard

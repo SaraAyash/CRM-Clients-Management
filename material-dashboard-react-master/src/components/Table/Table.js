@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 // import UserDetails from "./../DisplayUser/UserDetails.js"
-import {withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 // import { createBrowserHistory } from "history";
 // import { render } from "react-dom";
 // import { Component } from "react";
@@ -73,6 +73,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
     return { items: sortedItems, requestSort, sortConfig };
   };
+ 
   const { items, requestSort, sortConfig } = useSortableData(tableData);
 
   const getClassNamesFor = (name) => {
@@ -84,7 +85,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
 
   function clickRow(value) {
-    
+
     props.history.push("/admin/table/client/" + value.client_id);
     props.setId(value.client_id);
     props.setFirstName(value.first_name);
@@ -96,7 +97,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   return (
 
     <div className={classes.tableResponsive}>
-     
+
       <Table  >
         <thead>
           <tr>
@@ -104,52 +105,52 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
               {"First name  "}
               <FaSort onClick={() => requestSort('first_name')} />
             </th>
-            
-              <th className={getClassNamesFor('last_name')}>
-                {"Last name  "}
-                <FaSort onClick={() => requestSort('last_name')} />
-              </th>
 
-              
-              <th className={getClassNamesFor('gender')}>
-                {"Gender "}
-                <FaSort onClick={() => requestSort('gender')} />
-              </th>
-              <th>
-                  {"email"}
-              </th> 
-              <th>
-                
-                  {"mobile"}
-                
-              </th>
+            <th className={getClassNamesFor('last_name')}>
+              {"Last name  "}
+              <FaSort onClick={() => requestSort('last_name')} />
+            </th>
 
-            </tr>
+
+            <th className={getClassNamesFor('gender')}>
+              {"Gender "}
+              <FaSort onClick={() => requestSort('gender')} />
+            </th>
+            <th>
+              {"email"}
+            </th>
+            <th>
+
+              {"mobile"}
+
+            </th>
+
+          </tr>
         </thead>
 
-          <tbody>
+        <tbody>
 
-            {items.map((prop, key) => {
+          {items.map((prop, key) => {
 
-              return (
-                <tr key={key} className={classes.tableBodyRow} onClick={() => clickRow(prop)}>
-                  {/* {"name":atara,"last":elmal} */}
-                  {
-                    [prop.first_name, prop.last_name, prop.gender, prop.email, prop.mobile].map((prop, key) => {
+            return (
+              <tr key={key} className={classes.tableBodyRow} onClick={() => clickRow(prop)}>
+                {/* {"name":atara,"last":elmal} */}
+                {
+                  [prop.first_name, prop.last_name, prop.gender, prop.email, prop.mobile].map((prop, key) => {
 
-                      return (
-                        <td className={classes.tableCell} key={key}>
-                          {prop}
-                        </td>
-                      );
-                    })}
-                </tr>
-              );
-            })}
+                    return (
+                      <td className={classes.tableCell} key={key}>
+                        {prop}
+                      </td>
+                    );
+                  })}
+              </tr>
+            );
+          })}
 
 
 
-          </tbody>
+        </tbody>
       </Table>
 
     </div>

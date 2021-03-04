@@ -1,31 +1,18 @@
 
- *, *:before, *:after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+ .vh-100 {
+    min-height: 100vh;
 }
-body, html {
-	font-size: 62.5% !important;
-	width: 100% !important;
-	height: 80%;
-	overflow: hidden;
-	height: 100%;
-	/*background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/slider-2.jpg");*/
-	background-size: cover;
-	overflow: auto;
-	/*font-family: "Open Sans", Helvetica, Arial, sans-serif;*/
-}
- @media (max-width: 768px) {
-	body, html {
-	font-size: 50%;
+ @media (max-width: 1000px) {
+	 html, body {
+		 font-size: 50%;
 	}
 }
  svg {
-	display: inline-block;
-	width: 2rem;
-	height: 2rem;
-	overflow: visible;
-}
+	 display: inline-block;
+	 width: 2rem;
+	 height: 2rem;
+	 overflow: visible;
+}  
  .svg-icon {
 	cursor: pointer;
 }

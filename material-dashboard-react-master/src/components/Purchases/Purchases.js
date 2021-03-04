@@ -33,7 +33,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
         // const purchesesJson = [{ "date": "17/02/2021", "insuranceId": "insurence 2" }, { "date": "17/02/2021", "insuranceId": "insurence 1 " }]
         // updatePurchases(purchesesJson);  // until server start work
 
-        axios.get('http://localhost:8080/purchases/search/' + props.client.id).then((response) => {
+        axios.get('http://localhost:8080/purchases/getList/' + props.client.id).then((response) => {
             debugger;
             const purchesesJson = response.data;
              updatePurchases(purchesesJson);

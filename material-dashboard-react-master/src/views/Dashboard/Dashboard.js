@@ -5,41 +5,31 @@ import ChartistGraph from "react-chartist";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import { FcDataProtection, FcBusinessman } from "react-icons/fc";
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
 import PolicyIcon from '@material-ui/icons/Policy';
-import Typography from '@material-ui/core/Typography';
 // core components
 // import Class  from '@material-ui/icons/Class ';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Tasks from "components/Tasks/Tasks.js";
+import EmployeesTable from "components/Employees/EmployeesTable.js"
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
-import Danger from "components/Typography/Danger.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-
-
-import { bugs, website, server } from "variables/general.js";
+import axios from "axios"
+import { tasks } from "variables/general.js";
 
 import {
   dailySalesChart,
@@ -58,61 +48,76 @@ export default function Dashboard() {
   const [amountPurchases, setAmountPurchases] = useState();
   const [newProducts, setNewProducts] = useState([]);
   const [newClients, setNewClients] = useState([]);
-  const [jsonString,setJsonString] = useState([{ "insuranceName": "life", "insuranceDescription": "insuranceDescription...", "insurancePrice": "70", "insurancePicture": "lll/nnn" }
-    , { "insuranceName": "home", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" },
-  { "insuranceName": "some", "insuranceDescription": "insuranceDescription...", "insurancePrice": "60", "insurancePicture": "bbb/ccc" }]);
+  const [jsonString, setJsonString] = useState([]);
   const classes = useStyles();
-  function getAmountOfRecentPurchases(){
-    //axios.get('http://localhost:8080/Purchases/')
-      // .then(response => {
-        setAmountPurchases("response.data")
-       // setAmountPurchases(response.data)
-       //}
-     //  ).catch(err => {
-         //  alert(err);
-     //  });
-   
-  }
-  function  getNewPolicy() {
-    //axios.get('http://localhost:8080/products/new')
-      // .then(response => {
-        //jsonString=response.data
-        const items = jsonString.map((item,i) =>
-        <ListItem key={i} >
+  function getAmountOfRecentPurchases() {
+    // axios.get('http://localhost:8080/Purchases/')
+    //   .then(response => {
+    //     setAmountPurchases(response.data)
 
-        <div className={classes.cardCategory} ><FcDataProtection /> </div>
-        <div className={classes.cardCategory} >{item.insuranceName} </div>
-      </ListItem>
-        )
-        setNewProducts([items]) 
-       // setAmountPurchases(response.data)
-       //}
-     //  ).catch(err => {
-         //  alert(err);
-     //  });
+    //   }
+    //   ).catch(err => {
+    //     alert(err);
+    //   });
+
   }
-  function  getNewclients() {
-    //axios.get('http://localhost:8080/clients/new')
-      // .then(response => {
-        const items = jsonString.map((client, i) => (
+  function getweekRecentPurchases() {
+    axios.get('http://localhost:8080/purchases/getLastWeek')
+      .then(response => {
+        setJsonString(response.data)
+      }
+      ).catch(err => {
+        //  alert(err);
+      });
+
+  }
+
+  function getNewPolicy() {
+    axios.get('http://localhost:8080/products/getLastWeek')
+      .then(response => {
+        const jsonString = response.data;
+
+
+        const items = jsonString.map((item, i) =>
           <ListItem key={i} >
 
+            <div className={classes.cardCategory} ><FcDataProtection /> </div>
+            <div className={classes.cardCategory} >{item.name} </div>
+          </ListItem>
+        )
+        setNewProducts(items)
+        //setAmountPurchases(response.data)
+      }
+      ).catch(err => {
+        alert("lh" + err);
+      });
+  }
+
+  function getNewclients() {
+    debugger
+    axios.get('http://localhost:8080/clients/getLastWeek')
+      .then(response => {
+        const jsonString = response.data;
+        debugger;
+        const items = jsonString.map((client, i) => (
+          <ListItem key={i} >
             <div className={classes.cardCategory} ><FcBusinessman /> </div>
-            <div className={classes.cardCategory} >{client.insuranceName} </div>
+            <div className={classes.cardCategory} >{client.first_name + " " + client.last_name} </div>
           </ListItem>
         ))
         setNewClients([items])
-       // setAmountPurchases(response.data)
-       //}
-     //  ).catch(err => {
-         //  alert(err);
-     //  });
+        // setAmountPurchases(response.data)
+      }
+      ).catch(err => {
+        debugger
+      });
   }
-  useEffect(() =>
-   { getAmountOfRecentPurchases();
+  useEffect(() => {
+    getweekRecentPurchases();
+    getAmountOfRecentPurchases();
     getNewPolicy();
     getNewclients();
-   }, []);
+  }, []);
   return (
     <div>
       <GridContainer>
@@ -120,7 +125,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-              <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
+                <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
               </CardIcon>
               <p className={classes.cardCategory}>amount of recent purchases:</p>
               <h3 className={classes.cardTitle}> {amountPurchases}</h3>
@@ -270,48 +275,22 @@ export default function Dashboard() {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: "Bugs",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                )
-              },
-              {
-                tabName: "Website",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                )
-              },
-              {
-                tabName: "Server",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
-                )
-              }
-            ]}
-          />
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="info">
+              <h4 className={classes.cardTitleWhite}>Tasks</h4>
+
+            </CardHeader>
+            <CardBody>
+              <Tasks />
+            </CardBody>
+          </Card>
+
+
         </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
+      </GridContainer>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="warning">
               <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
@@ -320,7 +299,8 @@ export default function Dashboard() {
               </p>
             </CardHeader>
             <CardBody>
-              <Table
+              <EmployeesTable/>
+              {/* <Table
                 tableHeaderColor="warning"
                 tableHead={["ID", "Name", "Salary", "Country"]}
                 tableData={[
@@ -329,7 +309,7 @@ export default function Dashboard() {
                   ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
                   ["4", "Philip Chaney", "$38,735", "Korea, South"]
                 ]}
-              />
+              /> */}
             </CardBody>
           </Card>
         </GridItem>

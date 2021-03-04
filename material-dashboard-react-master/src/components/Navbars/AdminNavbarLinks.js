@@ -12,15 +12,32 @@ import Poppers from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
-
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+import { actions } from '../../redux/actions'
 // core components
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
 const useStyles = makeStyles(styles);
+function mapStateToProps(state) {
+  // debugger;
+  return {
+    client: state.clientReducer.client,
+    employee: state.employeeReducer.employee
+  };
+}
 
-export default function AdminNavbarLinks() {
+const mapDispatchToProps = (dispatch) => ({
+  setId: (client_id) => dispatch(actions.setId(client_id)),
+  setFirstName: (client_name) => dispatch(actions.setFirstName(client_name)),
+  setLastName: (client_last_name) => dispatch(actions.setLastName(client_last_name)),
+  setEmail: (client_email) => dispatch(actions.setEmail(client_email)),
+  setMobile: (client_mobile) => dispatch(actions.setMobile(client_mobile))
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function AdminNavbarLinks(props) {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
@@ -31,9 +48,6 @@ export default function AdminNavbarLinks() {
       setOpenNotification(event.currentTarget);
     }
   };
-  const handleCloseNotification = () => {
-    setOpenNotification(null);
-  };
   const handleClickProfile = event => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
@@ -41,12 +55,18 @@ export default function AdminNavbarLinks() {
       setOpenProfile(event.currentTarget);
     }
   };
+  const logout = () => {
+    props.setFirstName("");
+   
+    props.history.push("/login");
+
+  };
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
   return (
     <div>
-     
+
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -86,20 +106,15 @@ export default function AdminNavbarLinks() {
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      // onClick={props.history.push("/admin/user")} // 
                       className={classes.dropdownItem}
                     >
                       Profile
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Settings
-                    </MenuItem>
+
                     <Divider light />
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={() => logout()}
                       className={classes.dropdownItem}
                     >
                       Logout
@@ -113,4 +128,4 @@ export default function AdminNavbarLinks() {
       </div>
     </div>
   );
-}
+}));

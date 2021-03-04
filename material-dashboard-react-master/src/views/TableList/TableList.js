@@ -74,9 +74,8 @@ export default withRouter(function TableList(props) {
 
   function getAllClientFromServer() {
     // updateClientsTable([{ "id": "1", "first_name": "andris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "Agender" ,"mobile":"054444444"},{ "id": "1", "first_name": "fndris", "last_name": "nchboard", "email": "ainchboard0@weibo.com", "gender": "Agender","mobile":"054444444" },{ "id": "1", "first_name": "bndris", "last_name": "Inchboard", "email": "ainchboard0@weibo.com", "gender": "bender","mobile":"054444444" }]);
-    axios.get('http://localhost:8080/clients').then((response) => { 
+    axios.get('http://localhost:8080/clients/getList').then((response) => {
       const clientJson = response.data;
-      alert(clientJson);
       updateClientsTable(clientJson);
 
     }).catch(err => {
@@ -86,11 +85,11 @@ export default withRouter(function TableList(props) {
   }
 
   function addNewClient(clientJson) {
-    axios.post('http://localhost:8080/clients', clientJson)
+    debugger
+    axios.post('http://localhost:8080/clients/add', clientJson)
       .then(response => {
         debugger
         getAllClientFromServer();
-        alert(response.data);
       }
 
       ).catch(err => {
@@ -110,7 +109,8 @@ export default withRouter(function TableList(props) {
 
     debugger
 
-    axios.get('http://localhost:8080/clients/search/' + clientName).then((response) => {
+    axios.get('http://localhost:8080/clients/search/'+clientName).then((response) => {
+      debugger
       const clientToSearch = response.data;
       updateClientsTable(clientToSearch);
     }).catch(err => {

@@ -9,12 +9,16 @@ import { Card, ListGroup, Accordion } from 'react-bootstrap';
 
 
 export default function Call(props) {
-    const { subject, date, description, selectedProducts } = props;
+    const { subject, date, description, purchasedProducts } = props;
     const products = "";
 
     if (subject === "Product purchase") {
-        
-        // const productsName = selectedProducts.map((prod) => { return prod.name + ", " });
+        debugger
+        // const productsName = purchasedProducts.map((prod) => { return prod.name + ", " });
+        const productsName="";
+        purchasedProducts.map(prod => {
+            return prod.name; 
+        });
         debugger
     }
     return (

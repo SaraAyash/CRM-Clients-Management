@@ -60,10 +60,11 @@ module.exports = {
             new_client.gender = req.body.gender
             new_client.year_of_birth = req.body.year_of_birth
             new_client.start_connection_date = req.body.start_connection_date
-        
+
             //save model to database
             new_client.save(function (err) {
                 if (err) {
+
                     console.log("error in adding the new client");
                     db.close()
                     res.status(400).send("err: " + err + " while trying to insert client.");
@@ -153,7 +154,7 @@ module.exports = {
             res.status(400).send("connection error:");
             return;
         })
-        db.once('open', function() {
+        db.once('open', function () {
             console.log("connection successful!");
             Client.find({ //query today up to tonight
                 start_connection_date: {
@@ -173,15 +174,15 @@ module.exports = {
     },
 
     //month distribution (return the number of the new clients for each month in the last year)
-    month_distribution: function(req, res) {
+    month_distribution: function (req, res) {
         console.log("========================= in month distribution =========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            });
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
         var db = mongoose.connection;
 
-        db.once('error', function() { //connection error
+        db.once('error', function () { //connection error
             console.error.bind(console, 'connection error:');
             res.status(400).send("connection error");
             return;
@@ -217,17 +218,17 @@ module.exports = {
                     }
                 ]
                 , (err, data) => {
-                if (err) {
-                    console.log("error in getting the month distribution");
-                    db.close()
-                    res.status(500).send(err);
-                }
-                else{
-                    db.close()
-                    console.log("success in getting the month distribution");
-                    res.status(200).send(data);
-                }
-            })
+                    if (err) {
+                        console.log("error in getting the month distribution");
+                        db.close()
+                        res.status(500).send(err);
+                    }
+                    else {
+                        db.close()
+                        console.log("success in getting the month distribution");
+                        res.status(200).send(data);
+                    }
+                })
         })
     }
 }

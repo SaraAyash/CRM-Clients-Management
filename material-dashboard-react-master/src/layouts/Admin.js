@@ -12,7 +12,8 @@ import { viewRoutes, generalRoutes } from "routes.js";
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
-
+import { connect } from 'react-redux'
+import { actions } from '../redux/actions'
 let ps;
 
 const switchRoutes = (
@@ -48,10 +49,25 @@ const switchRoutes = (
     <Redirect from="/admin" to="/admin/user" />
   </Switch>
 );
+function mapStateToProps(state) {
+  // debugger;
+  return {
+    client: state.clientReducer.client,
+    employee: state.employeeReducer.employee
+  };
+}
 
+const mapDispatchToProps = (dispatch) => ({
+  setId: (client_id) => dispatch(actions.setId(client_id)),
+  setFirstName: (client_name) => dispatch(actions.setFirstName(client_name)),
+  setLastName: (client_last_name) => dispatch(actions.setLastName(client_last_name)),
+  setEmail: (client_email) => dispatch(actions.setEmail(client_email)),
+  setMobile: (client_mobile) => dispatch(actions.setMobile(client_mobile))
+
+})
 const useStyles = makeStyles(styles);
 
-export default withRouter(function Admin({ ...rest }) {
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function Admin(props) {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -76,6 +92,10 @@ export default withRouter(function Admin({ ...rest }) {
   };
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
+    if(props.employee.first_name === ""){
+      props.history.push("/login");
+    }
+
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
         suppressScrollX: true,
@@ -101,7 +121,7 @@ export default withRouter(function Admin({ ...rest }) {
 
   return (
     <div className={classes.wrapper}
-    style={style}  
+      style={style}
     >
       <Sidebar
         routes={viewRoutes}
@@ -111,13 +131,13 @@ export default withRouter(function Admin({ ...rest }) {
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}
-        {...rest}
+        // {...rest}
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         <Navbar
           routes={viewRoutes}
           handleDrawerToggle={handleDrawerToggle}
-          {...rest}
+          // {...rest}
         />
 
         {getRoute() ? (
@@ -130,4 +150,6 @@ export default withRouter(function Admin({ ...rest }) {
       </div>
     </div>
   );
-});
+})
+
+);

@@ -14,7 +14,7 @@ import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 export default function ProductModal(props) {
 
     const [show, setShow] = useState(false);
-    const [product, setProduct] = useState({ name: "", description: "", price:0, date: new Date().getDate() , image:''});
+    const [product, setProduct] = useState({ name: "", description: "", price:0, date: new Date().getTime() , image:''});
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [error, setError] = useState(false);

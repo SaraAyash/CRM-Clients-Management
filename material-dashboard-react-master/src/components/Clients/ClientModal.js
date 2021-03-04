@@ -36,10 +36,23 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
     const [error, setError] = useState(false);
     const [show, setShow] = useState(false);
     const genders = [{ name: 'Male', value: 'Male' }, { name: 'Female', value: 'Female' }];
-    const [client, setClient] = useState({ "firstName": "", "lastName": "", "id": "", "mobilePhone": "", "email": "", "age": "", "gender": "", "startConnectedDate": new Date()});
+    const [client, setClient] = useState({ "first_name": "", "last_name": "", "client_id": "", "phone_number": "", "email": "", "year_of_birth": "", "gender": "", "startConnectedDate":new Date().getTime()});
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
+
+
+    /**
+     * new_client.client_id = req.body.client_id
+            new_client.first_name = req.body.first_name
+            new_client.last_name = req.body.last_name
+            new_client.phone_number = req.body.phone_number
+            new_client.email = req.body.email
+            new_client.gender = req.body.gender
+            new_client.year_of_birth = req.body.year_of_birth
+            new_client.start_connection_date = req.body.start_connection_date
+     */
     function Submit() {
 
         if (Object.values(client).indexOf("") != -1) {
@@ -55,7 +68,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
 
     useEffect(() => {
         if (props.addOrUpdate === "Update ") {
-            setClient({ ...client, id: props.client.id })
+            setClient({ ...client, client_id: props.client.client_id })
         }
     }, [])
 
@@ -76,39 +89,39 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group as={Row} controlId="FirstName">
+                        <Form.Group as={Row} controlId="first_name">
                             {error ? <Form.Label column sm="3" style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''}
                         </Form.Group>
-                        <Form.Group as={Row} controlId="FirstName">
+                        <Form.Group as={Row} controlId="first_name">
                             <Form.Label column sm="3">First name:</Form.Label>
                             <Col sm="9">
-                                <Form.Control onChange={(e) => { setClient({ ...client, firstName: e.target.value }) }} />
+                                <Form.Control onChange={(e) => { setClient({ ...client, first_name: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} controlId="LastName">
+                        <Form.Group as={Row} controlId="last_name">
                             <Form.Label column sm="3">Last name:</Form.Label>
                             <Col sm="9">
-                                <Form.Control onChange={(e) => { setClient({ ...client, lastName: e.target.value }) }} />
+                                <Form.Control onChange={(e) => { setClient({ ...client, last_name: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} controlId="id">
+                        <Form.Group as={Row} controlId="client_id">
                             <Form.Label column sm="3">ID: </Form.Label>
                             <Col sm="9">
                                 {(props.addOrUpdate === "Update ") ?
-                                    <Form.Control readOnly value={props.client.id} type="number" />
+                                    <Form.Control readOnly value={props.client.client_id} type="number" />
                                     :
-                                    <Form.Control type="number" onChange={(e) => { setClient({ ...client, id: e.target.value }) }} />
+                                    <Form.Control type="number" onChange={(e) => { setClient({ ...client, client_id: e.target.value }) }} />
                                 }
 
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} controlId="MobilePhone">
+                        <Form.Group as={Row} controlId="phone_number">
                             <Form.Label column sm="4">Mobile phone:</Form.Label>
                             <Col sm="8">
-                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, mobilePhone: e.target.value }) }} />
+                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, phone_number: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
@@ -119,10 +132,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} controlId="age">
-                            <Form.Label column sm="2">Age:</Form.Label>
+                        <Form.Group as={Row} controlId="year_of_birth">
+                            <Form.Label column sm="2">year_of_birth:</Form.Label>
                             <Col sm="3">
-                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, age: e.target.value }) }} />
+                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, year_of_birth: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
