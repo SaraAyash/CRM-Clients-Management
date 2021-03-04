@@ -15,7 +15,7 @@ var PurchaseSchema = new Schema({
 		required: 'Product ID is required'
 	},
     clientId: {
-		type: Schema.Types.String,
+		type: String,
 		required: 'Client ID is required'
 	},
 	totalPrice: {
