@@ -12,7 +12,7 @@ import _uniqueId from 'lodash/uniqueId';
 function mapStateToProps(state) {
     return {
         client: state.clientReducer.client,
-
+        employee: state.employeeReducer.employee
 
     };
 }
@@ -76,7 +76,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
             if (call.purchasedProducts != []) {
                 debugger
                 var arr = [];
-                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100" }))
+                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100", employee:  props.employee.first_name  }))
                 arr.forEach((purchase) => {
                     addNewPurches(purchase);
                 })

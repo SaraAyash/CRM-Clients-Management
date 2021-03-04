@@ -35,7 +35,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
 
 
     function updateCalls(callsJson) {
-        const call = callsJson.map(call => <Call subject={call.subject} date={call.date} description={call.description} selectedProducts={call.selectedProducts} />)
+        const call = callsJson.map(call => <Call subject={call.subject} date={call.date} description={call.description} purchasedProducts={call.purchasedProducts} />)
         setCalls([call]);
 
     }

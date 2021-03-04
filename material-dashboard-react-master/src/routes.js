@@ -18,7 +18,6 @@ export const viewRoutes = [
    {
     path: "/user",
     name: "Employee profile",
-    rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
     layout: "/admin"
@@ -26,7 +25,6 @@ export const viewRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
@@ -34,7 +32,6 @@ export const viewRoutes = [
   {
     path: "/products",
     name: "Products",
-    rtlName: "قائمة الجدول",
     icon: ProductsIcon,
     component: Products,
     layout: "/admin"
@@ -42,7 +39,6 @@ export const viewRoutes = [
   {
     path: "/table",
     name: "Clients List",
-    rtlName: "قائمة الجدول",
     icon: ContactsIcon,
     component: TableList,
     layout: "/admin"
@@ -61,12 +57,7 @@ export const generalRoutes = [
   component: ProductDetails
      
 },
-//  {
-//    path: "/login",  
-//  component: Login ,
- 
-//  }
- 
+
  
 ];
  

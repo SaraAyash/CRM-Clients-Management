@@ -1,20 +1,8 @@
-/* 
- *, *:before, *:after {
-	 box-sizing: border-box;
-	 margin: 0;
-	 padding: 0;
+
+ .vh-100 {
+    min-height: 100vh;
 }
- html, body {
-	 font-size: 62.5%;
-	 height: 100%;
-	 overflow: hidden;
-   height: 100%;
-	 background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/slider-2.jpg");
-	 background-size: cover;
-	 overflow: auto;
-	 font-family: "Open Sans", Helvetica, Arial, sans-serif;
-}
- @media (max-width: 768px) {
+ @media (max-width: 1000px) {
 	 html, body {
 		 font-size: 50%;
 	}
@@ -24,7 +12,7 @@
 	 width: 2rem;
 	 height: 2rem;
 	 overflow: visible;
-}
+}  
  .svg-icon {
 	 cursor: pointer;
 }
@@ -426,4 +414,4 @@
 		 stroke-dashoffset: 0;
 	}
 }
-  */
+ 
