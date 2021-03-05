@@ -92,7 +92,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   };
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    if(props.employee.first_name === ""){
+    
+    if(props.employee.employee_id === ""){
       props.history.push("/login");
     }
 

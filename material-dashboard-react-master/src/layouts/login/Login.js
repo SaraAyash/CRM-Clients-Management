@@ -50,8 +50,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
         // props.setEmail(response.data.email);
         // props.setPhone(response.data.phone);
         debugger         
-        props.setId(1);
-        
+        props.setId(1);       
 
         props.history.push("/admin");
 

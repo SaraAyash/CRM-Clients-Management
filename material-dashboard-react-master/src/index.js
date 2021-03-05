@@ -18,17 +18,3 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
-// ReactDOM.render(
-//   <Provider store ={store}>
-//     <Router history={hist}>
-//       <Switch>
-//         <Route path="/login" component={Login}/>
-//         <Route path="/admin" component={Admin} />
-//         <Redirect from="/" to="/login" />
-//       </Switch>
-//     </Router>
-//   </Provider>
-//   ,
-//   document.getElementById("root")
-// );
