@@ -19,9 +19,9 @@ let ps;
 const switchRoutes = (
   <Switch>
     {/* add all routing  */}
-    {generalRoutes.map((prop, key) => {
+    {generalRoutes.map((prop ) => {
       return (
-        <Route
+        <Route 
           path={prop.path}
           component={prop.component}
 

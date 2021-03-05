@@ -8,7 +8,7 @@ const express = require('express'),
 var router = express.Router();
 
 // login
-router.post('/login', login.login);
+router.get('/login', login.login);
 
 // clients
 router.get('/clients/getList', clients.get_clients_list)

@@ -3,8 +3,9 @@ import createReducer from "./ReducerUtils";
 
 
 const initialState = {
-  employee: {     
-    first_name: "atara",
+  employee: {   
+    employee_id: '',  
+    first_name: "",
     last_name: "",
     email: "",
     phone: "",     
@@ -15,7 +16,9 @@ const initialState = {
 }
 const employees = {
 
-  
+  setId(state, action) {
+    state.employee.employee_id = action.payload;
+  },
   setFirstName(state, action) {
     state.employee.first_name = action.payload;
   },

@@ -28,10 +28,10 @@ function App() {
     // const token = useState(getToken());
     const token = getToken();
     
-    if(!token) {
-      return <Login setToken={setToken} />
-    }
-    else console.log(token);
+    // if(!token) {
+    //   return <Login setToken={setToken} />
+    // }
+    // else console.log(token);
   
     return (
       <Provider store ={store}>
@@ -39,7 +39,7 @@ function App() {
           <Switch>
             <Route path="/admin" component={Admin} />
             {/* <Route path="/login" component={Login} /> */}
-            <Route path="/login" component={() => (<Login setToken="setToken" />)}/>
+            <Route path="/login" component={Login}/>
             {/* <Redirect from="/" to="/login" /> */}
           </Switch>
         </Router>
