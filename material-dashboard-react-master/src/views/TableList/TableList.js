@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios"
-
-import { Provider } from 'react-redux'
-import store from "../../redux/Store.js"
+ 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -15,8 +13,7 @@ import CardBody from "components/Card/CardBody.js";
 import Search from "components/Search/Search.js"
 import ClientModal from "components/Clients/ClientModal.js"
 import { withRouter } from "react-router-dom";
-import { createBrowserHistory } from "history";
-
+ 
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -47,8 +44,7 @@ const styles = {
   }
 };
 
-const useStyles = makeStyles(styles);
-const hist = createBrowserHistory();
+const useStyles = makeStyles(styles); 
 
 export default withRouter(function TableList(props) {
   const [clients, setClients] = useState([]);

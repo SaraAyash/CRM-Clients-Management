@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 // @material-ui/core components  
-import { Alert, ToggleButton, ButtonGroup, Button, Form, Card, Row, Col, Container } from 'react-bootstrap';
+import { Alert, Button, Form, Card, Row, Col, Container } from 'react-bootstrap';
 import { FcLike, FcHome, FcAutomotive, FcCurrencyExchange,FcDebt } from "react-icons/fc";
 import CalcCar from "./CalcCar"
 import CalcApar from "./CalcApar"
@@ -42,11 +42,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
         setInsurenceTypeValue(0);
     }
   
-    function select(value) {
-        setInsurenceTypeValue(value)
-    }
-    useEffect(() => {
-        if (insurenceTypeValue == 0)
+        useEffect(() => {
+        if (insurenceTypeValue === 0)
             debugger
         else debugger
 
@@ -61,7 +58,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                     <Row md={{ span: 6, offset: 6 }} >
                         {/* <Col md={{ span: 6, offset: 4 }}> */}
                         <Form>
-                            {(insurenceTypeValue == 0) ?
+                            {(insurenceTypeValue === 0) ?
                                 <Form.Group as={Col}>
 
                                     <Form.Row>
@@ -112,10 +109,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                             {(insurenceTypeValue === 2) ?
                                 <CalcLife /> : ''}
 
-                            {(insurenceTypeValue == 3) ?
+                            {(insurenceTypeValue === 3) ?
                                 <CalcCar /> : ''}
 
-                            {(insurenceTypeValue == 4) ?
+                            {(insurenceTypeValue === 4) ?
                                 <CalcMortgage/> : ''}
 
                         </Form>

@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import axios from "axios"
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import SaveTwoToneIcon from '@material-ui/icons/SaveTwoTone'; import Table from "@material-ui/core/Table";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import { TextField } from '@material-ui/core';
-import { FcPlus } from "react-icons/fc";
+import { Tooltip, IconButton, Table, TableRow, TableBody, TableCell, TextField } from "@material-ui/core";
 // @material-ui/icons
-import Edit from "@material-ui/icons/Edit";
-import Close from "@material-ui/icons/Close";
+import SaveTwoToneIcon from '@material-ui/icons/SaveTwoTone';
+import { Close, Edit } from '@material-ui/icons';
+import { FcPlus } from "react-icons/fc";
+
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tasksStyle.js";
 import { Button } from 'react-bootstrap';
@@ -117,9 +111,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Tasks(props
   return (
     <Table className={classes.table}>
       <TableBody >
-         
-        <Button  variant="outline-info" className="mt-2 mb-2" onClick={() => { setShowAddTaskRow(true) }}>
-         <FcPlus  className=" mb-1 mr-2" /> Add new Task
+
+        <Button variant="outline-info" className="mt-2 mb-2" onClick={() => { setShowAddTaskRow(true) }}>
+          <FcPlus className=" mb-1 mr-2" /> Add new Task
         </Button>
         {showAddTaskRow === true ?
           <TableRow key="addTaskRow" className={classes.tableRow}>
@@ -208,10 +202,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Tasks(props
   );
 
 
-  Tasks.propTypes = {
-    tasksIndexes: PropTypes.arrayOf(PropTypes.number),
-    tasks: PropTypes.arrayOf(PropTypes.node),
-    rtlActive: PropTypes.bool,
-    checkedIndexes: PropTypes.array
-  };
+
 });

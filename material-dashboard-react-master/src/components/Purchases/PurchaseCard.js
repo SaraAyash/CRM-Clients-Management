@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import { Card, ListGroup, Accordion } from 'react-bootstrap';
-// import { Router, Route, Switch } from "react-router"
-// import upsideEmit Button from "@material-ui/core/Button"
+import { Card} from 'react-bootstrap';
+import { format } from "date-fns"; 
 
 function mapStateToProps(state) {
     return {
@@ -23,6 +22,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCard(props) {
     const [productDetails, setProductDetails] = useState();
+    const formattedDate = new Date(props.date);      
+    const date = format(formattedDate, "MMMM dd, yyyy ");
 
     useEffect(() => {
 
@@ -39,7 +40,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCar
     return (
         <>
             <Card border="danger" style={{ width: "100%" }}>
-                <Card.Header>{props.date}</Card.Header>
+                <Card.Header>{date}</Card.Header>
                 <Card.Body>
                     <Card.Title>{props.insuranceId}</Card.Title>
                     <Card.Text>

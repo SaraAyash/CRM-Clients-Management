@@ -1,20 +1,11 @@
-
-// // // javascript library for creating charts
-// #############################
+ 
 var Chartist = require("chartist");
-
-// ##############################
-// // // variables used to create animation on charts
-// #############################
+ 
 var delays = 80,
   durations = 500;
 var delays2 = 80,
   durations2 = 500;
-
-// ##############################
-// // // Daily Sales
-// #############################
-
+ 
 const monthlySalesGraph = {
   data: {
     labels: ["M", "T", "W", "T", "F", "S", "S"],
@@ -25,7 +16,7 @@ const monthlySalesGraph = {
       tension: 0
     }),
     low: 0,
-    high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,
@@ -64,29 +55,9 @@ const monthlySalesGraph = {
     }
   }
 };
-
-// ##############################
-// // // Email Subscriptions
-// #############################
-
+ 
 const weeklyClientsGraph = {
-  // data: {
-  //   labels: [
-  //     "Jan",
-  //     "Feb",
-  //     "Mar",
-  //     "Apr",
-  //     "Mai",
-  //     "Jun",
-  //     "Jul",
-  //     "Aug",
-  //     "Sep",
-  //     "Oct",
-  //     "Nov",
-  //     "Dec"
-  //   ],
-  //   series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
-  // },
+  
   options: {
     axisX: {
       showGrid: false
@@ -129,11 +100,7 @@ const weeklyClientsGraph = {
     }
   }
 };
-
-// ##############################
-// // // Completed Tasks
-// #############################
-
+ 
 const completedTasksChart = {
   data: {
     labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],

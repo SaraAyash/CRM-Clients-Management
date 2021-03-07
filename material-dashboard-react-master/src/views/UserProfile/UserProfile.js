@@ -1,8 +1,6 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import { FcDataProtection } from "react-icons/fc";
-import { SiFacebook } from "react-icons/si";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -12,7 +10,6 @@ import CardBody from "components/Card/CardBody.js";
 
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import avatar from "assets/img/faces/marc.jpg";
 import axios from "axios";
 
 const styles = {
@@ -54,29 +51,37 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(function UserProfile(props) {
   const [propfile, setProfile] = useState({
-    "employee_id": 1,
-    "first_name": "Rowe",
-    "last_name": "Shallo",
-    "email": "rshallo0@yellowpages.com",
-    "password": "gagIr0xQPN",
-    "image": "https://i.pinimg.com/originals/f4/fa/98/f4fa98e899b1f9b6e19a0c9d8166a28d.jpg",
-    "about": "Chemical Engineer"
+    employee_id: props.employee.employee_id,
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    image: '',
+    about: ''
   });
+  const classes = useStyles();
 
-  useEffect(() => {
+  const getEmployeeDetails = () => {
     axios.get('http://localhost:8080/employees/' + props.employee.employee_id).then((response) => {
       setProfile(response.data);
 
     }).catch(err => {
 
     });
+    setProfile({
+      "employee_id": 1,
+      "first_name": "Rowe",
+      "last_name": "Shallo",
+      "email": "rshallo0@yellowpages.com",
+      "password": "gagIr0xQPN",
+      "image": "https://i.pinimg.com/originals/f4/fa/98/f4fa98e899b1f9b6e19a0c9d8166a28d.jpg",
+      "about": "Chemical Engineer"
+    })
+  }
+
+  useEffect(getEmployeeDetails, []);
 
 
-    
-
-
-  }, []);
-  const classes = useStyles();
   return (
     <div>
       <GridContainer>
@@ -90,11 +95,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserProfile
             </CardAvatar>
             <CardBody profile>
               <h6 className={classes.cardCategory}>{propfile.about}</h6>
-              <h3 className={classes.cardTitle}>{propfile.first_name + " " +  propfile.last_name}</h3>
-              <h3 className={classes.cardTitle}></h3>
+              <h3 className={classes.cardTitle}>{propfile.first_name + " " + propfile.last_name}</h3>
+              <h3 className={classes.cardTitle}>phone</h3>
               <p>{propfile.email} </p>
               <p> {propfile.phone} </p>
-               
+
 
             </CardBody>
           </Card>

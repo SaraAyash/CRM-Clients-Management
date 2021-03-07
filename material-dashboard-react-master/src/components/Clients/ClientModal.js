@@ -5,10 +5,7 @@ import { actions } from '../../redux/actions'
 
 
 // @material-ui/core components 
-import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { ToggleButton, ButtonGroup, Button, Form, Modal, Row, Col } from 'react-bootstrap';
-// import { Router, Route, Switch } from "react-router"
-// import Button from "@material-ui/core/Button"
 function mapStateToProps(state) {
     return {
         client: state.clientReducer.client
@@ -20,42 +17,21 @@ const mapDispatchToProps = (dispatch) => ({
     setFirstName: (company_name) => dispatch(actions.setFirstName(company_name))
 
 })
-const getCurrentDate = () => {
 
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-
-    //Alert.alert(date + '-' + month + '-' + year);
-    // You can turn it in to your desired format
-    return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal(props) {
 
     const [error, setError] = useState(false);
     const [show, setShow] = useState(false);
     const genders = [{ name: 'Male', value: 'Male' }, { name: 'Female', value: 'Female' }];
-    const [client, setClient] = useState({ "first_name": "", "last_name": "", "client_id": "", "phone_number": "", "email": "", "year_of_birth": "", "gender": "", "startConnectedDate":new Date().getTime()});
+    const [client, setClient] = useState({ "first_name": "", "last_name": "", "client_id": "", "phone_number": "", "email": "", "year_of_birth": "", "gender": "", "start_connection_date":new Date().getTime()});
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
 
-
-
-    /**
-     * new_client.client_id = req.body.client_id
-            new_client.first_name = req.body.first_name
-            new_client.last_name = req.body.last_name
-            new_client.phone_number = req.body.phone_number
-            new_client.email = req.body.email
-            new_client.gender = req.body.gender
-            new_client.year_of_birth = req.body.year_of_birth
-            new_client.start_connection_date = req.body.start_connection_date
-     */
     function Submit() {
 
-        if (Object.values(client).indexOf("") != -1) {
+        if (Object.values(client).indexOf("") !== -1) {
             setError(true);
         }
         else {
@@ -151,7 +127,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                                         variant="outline-info"
                                         name="radio"
                                         value={radio.value}
-                                        checked={client.gender == radio.value}
+                                        checked={client.gender === radio.value}
                                         onChange={(e) => { setClient({ ...client, gender: e.target.value }) }}
                                     >
                                         {radio.name}

@@ -5,9 +5,6 @@ import CallModal from "./CallModal.js"
 import Call from "./Call.js"
 import axios from "axios"
 // @material-ui/core components 
-import { Button, Form, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
-// import { Router, Route, Switch } from "react-router"
-// import upsideEmit Button from "@material-ui/core/Button"
 function mapStateToProps(state) {
     return {
         client: state.clientReducer.client
@@ -27,8 +24,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
     const [calls, setCalls] = useState([]);
 
     useEffect(() => {
-        getAllCalls();
-        // listenURL();
+        getAllCalls(); 
     }, []);
 
      
@@ -65,7 +61,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
             updateCalls(callsJson);
 
         }).catch(err => {
-            debugger
+            alert(err)
         })
     }
 

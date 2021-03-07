@@ -5,7 +5,6 @@ import { Multiselect } from 'multiselect-react-dropdown';
 // @material-ui/core components 
 import { Button, Form, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
 import axios from "axios";
-import _uniqueId from 'lodash/uniqueId';
 
 // import { Router, Route, Switch } from "react-router"
 // import upsideEmit Button from "@material-ui/core/Button"
@@ -24,25 +23,15 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 
-const getCurrentDate = () => {
-
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-
-
-    return date + '-' + month + '-' + year;
-}
 export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(props) {
 
 
     const [products, setProducts] = useState();
 
     const [show, setShow] = useState(false);
-    const [dropdownTitle, setDropdownTitle] = useState("Select cause of call");
     const [error, setError] = useState(false);
     const [selectedProducts, setSelectedProducts] = useState([]);
-    const [call, setCall] = useState({ clientId: props.client.id, date: new Date().toLocaleString(), subject: "Select cause of call", description: "", purchasedProducts: [] });
+    const [call, setCall] = useState({ clientId: props.client.id, date:  '' , subject: "Select cause of call", description: "", purchasedProducts: [] });
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -63,20 +52,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     }
 
     useEffect(() => {
-
         setCall({ ...call, purchasedProducts: selectedProducts })
     }, [selectedProducts]);
 
     function SubmitCall() {
         debugger;
-        if (Object.values(call).indexOf("") != -1 || call.subject === "Select cause of call") {
+        if (Object.values(call).indexOf("") !== -1 || call.subject === "Select cause of call") {
             setError(true);
         }
         else {
-            if (call.purchasedProducts != []) {
+            if (call.purchasedProducts !== []) {
                 debugger
                 var arr = [];
-                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: new Date().toDateString(), totalPrice: "100", employee:  props.employee.first_name  }))
+                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: call.date, totalPrice: "100", employee: props.employee.first_name }))
                 arr.forEach((purchase) => {
                     addNewPurches(purchase);
                 })
@@ -139,8 +127,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
                         >
                             <Dropdown.Item eventKey="complaint">complaint</Dropdown.Item>
                             <Dropdown.Item eventKey="Product purchase">Product purchase</Dropdown.Item>
-                            <Dropdown.Item eventKey="option-3">option 3</Dropdown.Item>
-
+                            <Dropdown.Item eventKey="Post-purchase questions">Post-purchase questions</Dropdown.Item>
+                            <Dropdown.Item eventKey="Clarification of a transaction">Clarification of a transaction</Dropdown.Item>
+                            <Dropdown.Item eventKey="information">information</Dropdown.Item>
                         </DropdownButton>
 
 
@@ -158,14 +147,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
                     </Form.Group>
 
-                    {/* {dropdownTitle === "Product purchase" ? */}
-                    <Multiselect
-                        options={products} // Options to display in the dropdown
-                        onSelect={onSelectProduct} // Function will trigger on select event
-                        onRemove={onRemove} // Function will trigger on remove event
-                        displayValue="name" // Property name to display in the dropdown options
-                    />
-                    {/* : ''} */}
+                    {call.subject === "Product purchase" ?
+                        <Multiselect
+                            options={products} // Options to display in the dropdown
+                            onSelect={onSelectProduct} // Function will trigger on select event
+                            onRemove={onRemove} // Function will trigger on remove event
+                            displayValue="name" // Property name to display in the dropdown options
+                        />
+                        : ''}
 
 
 
