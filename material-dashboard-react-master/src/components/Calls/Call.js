@@ -1,26 +1,16 @@
-import React, { useState, moment } from "react";
-import { connect } from 'react-redux'
-import { actions } from '../../redux/actions'
-import CallModal from "components/Calls/CallModal.js"
-
+import React, { useState } from "react";
 import { Card, ListGroup, Accordion } from 'react-bootstrap';
-// import { Router, Route, Switch } from "react-router"
-// import upsideEmit Button from "@material-ui/core/Button"
+import { withRouter } from "react-router-dom";
+import { format } from "date-fns";
 
-
-export default function Call(props) {
-    const { subject, date, description, purchasedProducts } = props;
-    const products = "";
-
-    if (subject === "Product purchase") {
-        debugger
-        // const productsName = purchasedProducts.map((prod) => { return prod.name + ", " });
-        const productsName="";
-        purchasedProducts.map(prod => {
-            return prod.name; 
-        });
-        debugger
-    }
+export default withRouter(function Call(props) {
+    const { subject,  description } = props;
+    const [purchasedProducts] = useState(props.purchasedProducts);     
+    const formattedDate = new Date(props.date); 
+     
+    const date = format(formattedDate, "MMMM dd, yyyy ");
+    
+    
     return (
         <>
 
@@ -36,11 +26,22 @@ export default function Call(props) {
                         </Card.Header></Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
-                            <ListGroup.Item class="font-weight-bold ">Description Call: {description}</ListGroup.Item>
-                            {/* <ListGroup.Item class="font-weight-bold ">{date}</ListGroup.Item> */}
-                            {products.length > 0 ?
-                                <ListGroup.Item class="font-weight-bold ">Purchased products:  {products} </ListGroup.Item>
-                                : ''}
+                            <ListGroup.Item ><p class="font-weight-bold ">Description Call:</p> {description}</ListGroup.Item>
+                            {purchasedProducts.length  > 0 ? <>
+                                <ListGroup.Item>
+                                    <p class="font-weight-bold ">Purchased products:</p>
+                                    {purchasedProducts.map((purchased) =>
+                                        <li
+                                            key={purchased.id}
+                                            onClick={() => { props.history.push("/admin/products/" + purchased.id) }}>
+                                            {purchased.name}
+                                        </li>
+                                    )}
+
+                                </ListGroup.Item>
+
+                            </> : ''}
+
 
 
                         </Card.Body>
@@ -55,4 +56,4 @@ export default function Call(props) {
 
 
     );
-}  
+});

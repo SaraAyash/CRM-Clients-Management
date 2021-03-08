@@ -58,6 +58,7 @@ module.exports = {
         })
         db.once('open', function () {
             console.log("connection successful!");
+            console.log(req.body);
             Task.findByIdAndUpdate(req.params["taskId"], req.body, {
                 new: true
             }, (err, task) => {

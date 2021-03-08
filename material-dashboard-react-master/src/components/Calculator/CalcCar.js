@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import Loader from "react-loader-spinner";
 
 // @material-ui/core components 
 // import { Router, Route, Switch } from "react-router"
-import { Spinner, ButtonGroup, Button, Form, Modal, Row, Col, Container } from 'react-bootstrap';
+import { Spinner, Button, Form, Col, Container } from 'react-bootstrap';
 
 function mapStateToProps(state) {
     // debugger;
@@ -48,7 +47,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
 
     function nextStep() {
         if (driverDetails) {
-            if (score.age != 0 && score.licenseYearNum != 0) {
+            if (score.age !==0 && score.licenseYearNum !==0) {
                 setShowError(false);
                 setDriverDetails(false)
                 setCarDetails1(true);
@@ -60,7 +59,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
 
         }
         else if (carDetails1) {
-            if (score.year != 0) {
+            if (score.year !==0) {
                 setShowError(false);
                 setDriverDetails(false)
                 setCarDetails1(false);
@@ -72,7 +71,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
         }
         else if (carDetails2) {
             debugger
-            if (score.safety != "") {
+            if (score.safety !=="") {
                 setNextButtonName(' Calculate')
                 setTimeout(() => {
                     setShowError(false);
@@ -202,7 +201,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
                                             label={safety.name}
                                             type="checkbox"
                                             value={safety.value}
-                                            checked={score.safety == safety.value}
+                                            checked={score.safety === safety.value}
                                             onChange={(e) => { setScore({ ...score, safety: e.target.value }) }}
                                         /> </Form.Row>
                                 )}
@@ -246,7 +245,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
                                 <>
 
                                     <Button onClick={nextStep} >
-                                        {nextButtonName != " Next" ? <Spinner
+                                        {nextButtonName !==" Next" ? <Spinner
                                             as="span"
                                             animation="grow"
                                             size="sm"

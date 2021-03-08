@@ -1,21 +1,12 @@
-// ##############################
-// // // javascript library for creating charts
-// #############################
+ 
 var Chartist = require("chartist");
-
-// ##############################
-// // // variables used to create animation on charts
-// #############################
+ 
 var delays = 80,
   durations = 500;
 var delays2 = 80,
   durations2 = 500;
-
-// ##############################
-// // // Daily Sales
-// #############################
-
-const dailySalesChart = {
+ 
+const monthlySalesGraph = {
   data: {
     labels: ["M", "T", "W", "T", "F", "S", "S"],
     series: [[12, 17, 7, 17, 23, 18, 38]]
@@ -35,7 +26,7 @@ const dailySalesChart = {
   },
   // for animation
   animation: {
-    draw: function(data) {
+    draw: function (data) {
       if (data.type === "line" || data.type === "area") {
         data.element.animate({
           d: {
@@ -64,35 +55,15 @@ const dailySalesChart = {
     }
   }
 };
-
-// ##############################
-// // // Email Subscriptions
-// #############################
-
-const emailsSubscriptionChart = {
-  data: {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
-  },
+ 
+const weeklyClientsGraph = {
+  
   options: {
     axisX: {
       showGrid: false
     },
     low: 0,
-    high: 1000,
+    high: 100,
     chartPadding: {
       top: 0,
       right: 5,
@@ -106,7 +77,7 @@ const emailsSubscriptionChart = {
       {
         seriesBarDistance: 5,
         axisX: {
-          labelInterpolationFnc: function(value) {
+          labelInterpolationFnc: function (value) {
             return value[0];
           }
         }
@@ -114,7 +85,7 @@ const emailsSubscriptionChart = {
     ]
   ],
   animation: {
-    draw: function(data) {
+    draw: function (data) {
       if (data.type === "bar") {
         data.element.animate({
           opacity: {
@@ -129,11 +100,7 @@ const emailsSubscriptionChart = {
     }
   }
 };
-
-// ##############################
-// // // Completed Tasks
-// #############################
-
+ 
 const completedTasksChart = {
   data: {
     labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
@@ -153,7 +120,7 @@ const completedTasksChart = {
     }
   },
   animation: {
-    draw: function(data) {
+    draw: function (data) {
       if (data.type === "line" || data.type === "area") {
         data.element.animate({
           d: {
@@ -184,7 +151,7 @@ const completedTasksChart = {
 };
 
 module.exports = {
-  dailySalesChart,
-  emailsSubscriptionChart,
+  monthlySalesGraph,
+  weeklyClientsGraph,
   completedTasksChart
 };

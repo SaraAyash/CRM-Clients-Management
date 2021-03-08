@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import Loader from "react-loader-spinner";
 import { MdSmokingRooms, MdSmokeFree } from "react-icons/md";
 // @material-ui/core components 
 // import { Router, Route, Switch } from "react-router"
-import { Spinner, ButtonGroup, Button, Form, ToggleButton, Row, Col, Container } from 'react-bootstrap';
+import { Spinner, ButtonGroup, Button, Form, ToggleButton,Col, Container } from 'react-bootstrap';
 
 function mapStateToProps(state) {
     // debugger;
@@ -27,8 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(function CalcLife(props) {
 
-    const propertyType = ["Apartment in a building", "Private house", "A two-family house"];
-
+ 
     const [score, setScore] = useState({ gender: '', city: '', street: '', numberHouse: '', birthDay: '', firstName: '', lastName: '', id: '', smoke: '' });
     const [price, setPrice] = useState(0);
     const [showPrice, setShowPrice] = useState(false);
@@ -46,7 +44,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcLife(pr
 
     function nextStep() {
         if (clientDetails) {
-            if (score.firstName != "" && score.lastName != "" && score.id != "" && score.birthDay != "") {
+            if (score.firstName !=="" && score.lastName !=="" && score.id !=="" && score.birthDay !=="") {
                 setShowError(false);
                 setClientDetails(false);
                 setAddrassDetails(true);
@@ -57,7 +55,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcLife(pr
 
         }
         else if (addrassDetails) {
-            if (score.city != "" && score.street != "" && score.numberHouse != "") {
+            if (score.city !=="" && score.street !=="" && score.numberHouse !=="") {
                 setShowError(false);
                 setClientDetails(false);
                 setAddrassDetails(false);
@@ -68,7 +66,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcLife(pr
             }
         }
         else if (smoke) {
-            if (score.smoke != "") {
+            if (score.smoke !=="") {
 
                 setNextButtonName(' Calculate')
                 setTimeout(() => {
@@ -242,7 +240,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcLife(pr
                                 <>
 
                                     <Button onClick={nextStep} >
-                                        {nextButtonName != " Next" ? <Spinner
+                                        {nextButtonName !==" Next" ? <Spinner
                                             as="span"
                                             animation="grow"
                                             size="sm"

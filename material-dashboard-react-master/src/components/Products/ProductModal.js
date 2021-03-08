@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { connect } from 'react-redux'
-import { actions } from '../../redux/actions'
-import _uniqueId from 'lodash/uniqueId';
-
+ 
 // @material-ui/core components 
-import { BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 
 // import { Router, Route, Switch } from "react-router"
@@ -21,7 +17,7 @@ export default function ProductModal(props) {
 
     function UdpateDetails() {
         // setFirstName();
-        if (product.name == "" || product.description == "" || product.price == 0 || product.image == "")
+        if (product.name === "" || product.description === "" || product.price === 0 || product.image === "")
             setError(true);
         else {
             debugger

@@ -5,23 +5,26 @@ import ChartistGraph from "react-chartist";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
+import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import { FcDataProtection, FcBusinessman } from "react-icons/fc";
+import Store from "@material-ui/icons/Store";
+import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
+import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
+import Code from "@material-ui/icons/Code";
+import Cloud from "@material-ui/icons/Cloud";
 import PolicyIcon from '@material-ui/icons/Policy';
+import Typography from '@material-ui/core/Typography';
 // core components
 // import Class  from '@material-ui/icons/Class ';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
-import Tasks from "components/Tasks/Tasks.js";
-import EmployeesTable from "components/Employees/EmployeesTable.js"
-import CustomTabs from "components/CustomTabs/CustomTabs.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
@@ -29,38 +32,167 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import ListItem from "@material-ui/core/ListItem";
 import axios from "axios"
-import { tasks } from "variables/general.js";
+import Tasks from "components/Tasks/Tasks.js";
+import EmployeesTable from "components/Employees/EmployeesTable.js"
+
 
 import {
-  dailySalesChart,
-  emailsSubscriptionChart,
+  monthlySalesGraph,
+  weeklyClientsGraph,
   completedTasksChart
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import { card } from "assets/jss/material-dashboard-react";
 
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const [products, setPro] = useState(["atara", "sara"]);
-  //const [newClients, setClients] = useState(["sara", "atara"]);
+  const [days, setDays] = useState(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
+  const [months, setMonths] = useState(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
   const [amountPurchases, setAmountPurchases] = useState();
   const [newProducts, setNewProducts] = useState([]);
   const [newClients, setNewClients] = useState([]);
   const [jsonString, setJsonString] = useState([]);
+  const [lastPurchasesNum, setLastPurchasesNum] = useState([]);
+  const [monthlySales, setMonthlySales] = useState(
+    {
+      labels: [],
+      series: []
+    })
+  const [weeklyClients, setWeeklyClients] = useState(
+    {
+      labels: [],
+      series: [[]]
+    })
   const classes = useStyles();
-  function getAmountOfRecentPurchases() {
-    // axios.get('http://localhost:8080/Purchases/')
-    //   .then(response => {
-    //     setAmountPurchases(response.data)
+  function getMonthlySales() {
+    // const jsonString =  {Tue: 2, Thu: 1};
+    axios.get('http://localhost:8080/purchases/dayDistribution')
+      .then(response => {
+        const jsonString = response.data[0].data;
 
-    //   }
-    //   ).catch(err => {
-    //     alert(err);
-    //   });
+        // setMonthlySales({ labels: Object.keys( jsonString), series: [Object.values( jsonString)] })
+        const d = Object.keys(jsonString);
+        const v = Object.values(jsonString);
+        const date1 = new Date().toDateString();
+        const date = date1.split(" ")[0];
+
+        var i = 9;
+        var fl = 0;
+        for (const [index, value] of days.entries()) {
+          if (fl === 1) {
+            monthlySales.labels.push(value);
+          }
+          if (value === date) {
+            i = index;
+            fl = 1;
+          }
+
+        }
+
+        for (const [index, value] of days.entries()) {
+          if (value === date) {
+            monthlySales.labels.push(value);
+            break;
+
+          }
+          else {
+            monthlySales.labels.push(value);
+          }
+        }
+        var f = [0, 0, 0, 0, 0, 0, 0]
+        for (const [index, value] of monthlySales.labels.entries()) {
+          if (d.includes(value)) {
+            // debugger
+            f[index] = v[d.indexOf(value)]
+            setMonthlySales({ labels: monthlySales.labels, series: [f] })
+          }
+
+        }
+        debugger;
+      }
+      ).catch(err => {
+        alert("m" + err);
+
+      });
+
 
   }
+
+
+  function getWeeklyClients() {
+
+    axios.get('http://localhost:8080/clients/monthDistribution')
+      .then(response => {
+        const jsonString = response.data[0].data;
+        const d = Object.keys(jsonString);
+        const v = Object.values(jsonString);
+        const date1 = new Date().toDateString();
+        const date = date1.split(" ")[1];
+
+        var i = 9;
+        var fl = 0;
+
+
+        for (const [index, value] of months.entries()) {
+          if (fl === 1) {
+            weeklyClients.labels.push(value);
+          }
+          if (value === date) {
+            i = index;
+            fl = 1;
+          }
+
+        }
+
+        for (const [index, value] of months.entries()) {
+          if (value === date) {
+            weeklyClients.labels.push(value);
+            break;
+
+          }
+          else {
+            weeklyClients.labels.push(value);
+          }
+        }
+        var f = [0, 0, 0, 0, 0, 0, 0]
+        for (const [index, value] of weeklyClients.labels.entries()) {
+          if (d.includes(value)) {
+            // debugger
+            f[index] = v[d.indexOf(value)]
+            setWeeklyClients({ labels: weeklyClients.labels, series: [f] })
+          }
+
+        }
+        debugger;
+      }
+        //setWeeklyClients({ labels: Object.keys(jsonString), series: [Object.values(jsonString)] })
+
+
+      ).catch(err => {
+        alert("m" + err);
+
+      });
+
+
+
+  }
+
+
+  function getAmountOfRecentPurchases() {
+    axios.get('http://localhost:8080/purchases/getLastWeek')
+      .then(response => {
+        const jsonString = response.data.length;
+        setLastPurchasesNum(jsonString)
+      }
+      ).catch(err => {
+        alert(err);
+
+      });
+
+  }
+
   function getweekRecentPurchases() {
     axios.get('http://localhost:8080/purchases/getLastWeek')
       .then(response => {
@@ -89,18 +221,38 @@ export default function Dashboard() {
         //setAmountPurchases(response.data)
       }
       ).catch(err => {
-        alert("lh" + err);
+        alert("policy" + err);
       });
   }
+  // function getLastPurchases() {
+  //   axios.get('http://localhost:8080/purchases/getLastWeek')
+  //     .then(response => {
+  //       const jsonString = response.data;
+  //       const items = jsonString.map((item, i) =>
+  //         <ListItem key={i}  >
+
+  //           <div className={classes.cardCategory} ><FcDataProtection /> </div>
+  //           <div className={classes.cardCategory} >{item.clientId} </div>
+  //           <div className={classes.cardCategory} >{item.productId} </div>
+  //         </ListItem>
+  //       )
+  //       setLastPurchases(items)
+  //       //setAmountPurchases(response.data)
+  //     }
+  //     ).catch(err => {
+  //       alert("lh" + err);
+  //     });
+  // }
+
 
   function getNewclients() {
-    debugger
     axios.get('http://localhost:8080/clients/getLastWeek')
       .then(response => {
+
         const jsonString = response.data;
-        debugger;
+        debugger
         const items = jsonString.map((client, i) => (
-          <ListItem key={i} >
+          <ListItem button key={i}  >
             <div className={classes.cardCategory} ><FcBusinessman /> </div>
             <div className={classes.cardCategory} >{client.first_name + " " + client.last_name} </div>
           </ListItem>
@@ -110,11 +262,16 @@ export default function Dashboard() {
       }
       ).catch(err => {
         debugger
+        alert(err);
       });
   }
   useEffect(() => {
-    getweekRecentPurchases();
+    //alert("lk"+monthlySales)
+  }, [weeklyClients, monthlySales]);
+  useEffect(() => {
     getAmountOfRecentPurchases();
+    getMonthlySales();
+    getWeeklyClients();
     getNewPolicy();
     getNewclients();
   }, []);
@@ -128,7 +285,7 @@ export default function Dashboard() {
                 <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
               </CardIcon>
               <p className={classes.cardCategory}>amount of recent purchases:</p>
-              <h3 className={classes.cardTitle}> {amountPurchases}</h3>
+              <h3 className={classes.cardTitle}> {lastPurchasesNum}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -138,30 +295,6 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-
-        {/* <GridItem xs={12} sm={6} md={2}>
-          <Card>
-            <CardHeader color="warning" stats icon>
-              <CardIcon color="warning">
-                <Icon>content_copy</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
-              <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Danger>
-                  <Warning />
-                </Danger>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Get more space
-                </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem> */}
         <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="success" stats icon>
@@ -175,7 +308,7 @@ export default function Dashboard() {
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Last 24 Hours
+                New insurences from the last two weeks
               </div>
             </CardFooter>
           </Card>
@@ -188,12 +321,11 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>New Client:</p>
               {newClients}
-
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-      Just Updated
+      New clients from the last two weeks
     </div>
             </CardFooter>
           </Card>
@@ -201,19 +333,19 @@ export default function Dashboard() {
 
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
+        <GridItem xs={12} sm={12} md={5}>
           <Card chart>
             <CardHeader color="success">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={monthlySales}
                 type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
+                options={monthlySalesGraph.options}
+                listener={monthlySalesGraph.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>Weekly sales:</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
@@ -228,20 +360,20 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
+        <GridItem xs={12} sm={12} md={5}>
           <Card chart>
             <CardHeader color="warning">
               <ChartistGraph
                 className="ct-chart"
-                data={emailsSubscriptionChart.data}
+                data={weeklyClients}
                 type="Bar"
-                options={emailsSubscriptionChart.options}
-                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                listener={emailsSubscriptionChart.animation}
+                options={weeklyClientsGraph.options}
+                responsiveOptions={weeklyClientsGraph.responsiveOptions}
+                listener={weeklyClientsGraph.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
+              <h4 className={classes.cardTitle}>New customers this month:</h4>
               <p className={classes.cardCategory}>Last Campaign Performance</p>
             </CardBody>
             <CardFooter chart>
@@ -296,24 +428,16 @@ export default function Dashboard() {
               <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
               <p className={classes.cardCategoryWhite}>
                 New employees on 15th September, 2016
-              </p>
+      </p>
             </CardHeader>
             <CardBody>
-              <EmployeesTable/>
-              {/* <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                ]}
-              /> */}
+              <EmployeesTable />
+
             </CardBody>
           </Card>
         </GridItem>
       </GridContainer>
+
     </div>
   );
 }

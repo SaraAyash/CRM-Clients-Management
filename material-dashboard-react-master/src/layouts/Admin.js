@@ -19,9 +19,9 @@ let ps;
 const switchRoutes = (
   <Switch>
     {/* add all routing  */}
-    {generalRoutes.map((prop, key) => {
+    {generalRoutes.map((prop ) => {
       return (
-        <Route
+        <Route 
           path={prop.path}
           component={prop.component}
 
@@ -92,7 +92,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   };
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    if(props.employee.first_name === ""){
+    
+    if(props.employee.employee_id === ""){
       props.history.push("/login");
     }
 

@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react"; 
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { withRouter } from "react-router-dom";
 import { FcLock, FcBusinessman, FcCheckmark } from "react-icons/fc";
-import { FormGroup, Button, Container, InputGroup, FormControl, Form, Modal, Row, Col } from 'react-bootstrap';
-import './Login.css';
-import { FaAlignCenter } from "react-icons/fa";
-const style = {
-  backgroundImage: "url( https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/slider-2.jpg)",
-  'font-size': "62.5%"
-}
+import { Container, InputGroup, FormControl, Form, Row, Col } from 'react-bootstrap';
+
 
 function mapStateToProps(state) {
   // debugger;
@@ -21,11 +15,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-
-  setFirstName: (employee_name) => dispatch(actions.setFirstName(employee_name)),
-  setLastName: (employee_last_name) => dispatch(actions.setLastName(employee_last_name)),
-  setEmail: (employee_email) => dispatch(actions.setEmail(employee_email)),
-  setPhone: (employee_phone) => dispatch(actions.setPhone(employee_phone))
+  setId: (employee_id) => dispatch(actions.setId(employee_id)),
+  setFirstName: (client_name) => dispatch(actions.setFirstName(client_name)),
+  setLastName: (client_last_name) => dispatch(actions.setLastName(client_last_name)),
 
 })
 
@@ -36,7 +28,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   const [password, setPassword] = useState('');
   //sending a post request to the server with the username and password inserted by the user.
   async function loginUser(credentials) {
-    debugger
+    
     console.log(JSON.stringify(credentials));
     return fetch('http://localhost:8080/login', {
       method: 'POST',
@@ -46,33 +38,30 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
       body: JSON.stringify(credentials)
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
+        // props.setId(response.data.employee_id);
         // props.setFirstName(response.data.first_name);
         // props.setLastName(response.data.last_name);
         // props.setEmail(response.data.email);
         // props.setPhone(response.data.phone);
-        debugger
-        props.setFirstName("response.data.first_name");
-        props.setLastName("response.data.last_name");
-        props.setEmail("response.data.email");
-        props.setPhone("response.data.phone");
+         
+        props.setId(1);
+
         props.history.push("/admin");
 
       }).catch(err => {
-        debugger
-
+         
       });
   };
   //handling the press on the submut button.
   const handleSubmit = e => {
-    debugger
     e.preventDefault();
-    const token = loginUser({
+    loginUser({
       username,
       password
     });
-    debugger
-    //setToken(token);
+
+
   }
 
 
@@ -159,9 +148,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
     </>
   );
 
-  Login.propTypes = {
-    setToken: PropTypes.func.isRequired
-  }
+  
 })
 
 );

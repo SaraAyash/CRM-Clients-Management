@@ -140,16 +140,16 @@ module.exports = {
         })
     },
 
-    //get last clients (return all the clients that have been added in the last week)
-    get_last_clients: function(req, res) {
+    //get last clients (return all the clients that have been added in the last 2 week)
+    get_last_clients: function (req, res) {
         console.log("========================= in get last clients =========================");
         mongoose.connect('mongodb://localhost:27017/CRM', {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            });
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
         var db = mongoose.connection;
 
-        db.once('error', function() { //connection error
+        db.once('error', function () { //connection error
             console.error.bind(console, 'connection error:');
             res.status(400).send("connection error:");
             return;
@@ -158,14 +158,14 @@ module.exports = {
             console.log("connection successful!");
             Client.find({ //query today up to tonight
                 start_connection_date: {
-                    $gte: new Date((new Date().getTime() - (7 * 24 * 60 * 60 * 1000)))
+                    $gte: new Date((new Date().getTime() - (14 * 24 * 60 * 60 * 1000)))
                 }
             }, (err, client) => {
-                if (err){
+                if (err) {
                     console.log("error in searching last week new clients");
                     db.close()
-                    res.status(500).send(err);  
-                } 
+                    res.status(500).send(err);
+                }
                 console.log("success in searching last week new clients");
                 db.close()
                 res.status(200).send(client);
@@ -187,36 +187,38 @@ module.exports = {
             res.status(400).send("connection error");
             return;
         })
-        db.once('open', function() {
-            const monthsArray = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+        db.once('open', function () {
+            const monthsArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
             console.log("connection successful!");
             Client.aggregate([
-                    { "$match": { "start_connection_date": {$gte: new Date((new Date().getTime() - (356 * 24 * 60 * 60 * 1000))) } } },
-                    { "$group": { 
-                        "_id":{ "month": {$substrCP: [ "$start_connection_date", 0, 7 ] }} , 
+                { "$match": { "start_connection_date": { $gte: new Date((new Date().getTime() - (356 * 24 * 60 * 60 * 1000))) } } },
+                {
+                    "$group": {
+                        "_id": { "month": { $substrCP: ["$start_connection_date", 0, 7] } },
                         "count": { $sum: 1 }
-                    }},
-                    { "$sort" : { "_id.month": 1}},
-                    { 
-                        "$project": { 
-                            "_id": 0, 
-                            "count": 1, 
-                            "month": { $arrayElemAt: [ monthsArray, { $subtract: [ { $toInt: { $substrCP: [ "$_id.month", 5, 2 ] } }, 1 ] } ] }
-                        } 
-                    },
-                    { 
-                        "$group": { 
-                            "_id": null, 
-                            "data": { $push: { k: "$month", v: "$count" } }
-                        } 
-                    },
-                    {
-                        "$project": { 
-                            "data": { $arrayToObject: "$data" }, 
-                            "_id": 0 
-                        } 
                     }
-                ]
+                },
+                { "$sort": { "_id.month": 1 } },
+                {
+                    "$project": {
+                        "_id": 0,
+                        "count": 1,
+                        "month": { $arrayElemAt: [monthsArray, { $subtract: [{ $toInt: { $substrCP: ["$_id.month", 5, 2] } }, 1] }] }
+                    }
+                },
+                {
+                    "$group": {
+                        "_id": null,
+                        "data": { $push: { k: "$month", v: "$count" } }
+                    }
+                },
+                {
+                    "$project": {
+                        "data": { $arrayToObject: "$data" },
+                        "_id": 0
+                    }
+                }
+            ]
                 , (err, data) => {
                     if (err) {
                         console.log("error in getting the month distribution");

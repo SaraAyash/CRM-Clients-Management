@@ -2,14 +2,10 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 // @material-ui/core components 
-import { useParams, BrowserRouter, Router, Switch, Route, Redirect, withRouter } from "react-router-dom";
-import PrintClient from "components/DisplayUser/PrintClient.js"
 import ClientModal from "components/Clients/ClientModal.js"
 import Purchases from "components/Purchases/Purchases.js"
 import axios from "axios"
-
-// import { Router, Route, Switch } from "react-router"
-import { Button, Row, Col, Container } from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
 import CallDocs from "../Calls/CallDocs.js"
 function mapStateToProps(state) {
     return {

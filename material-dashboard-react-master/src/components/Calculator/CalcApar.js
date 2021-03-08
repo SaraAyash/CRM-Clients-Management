@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import Loader from "react-loader-spinner";
 
 // @material-ui/core components 
 // import { Router, Route, Switch } from "react-router"
-import { Spinner, ButtonGroup, Button, Form, Modal, Row, Col, Container } from 'react-bootstrap';
+import { Spinner, Button, Form, Col, Container } from 'react-bootstrap';
 
 function mapStateToProps(state) {
     // debugger;
@@ -57,7 +56,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
             setClientDetails(false);
         }
         else if (addrassDetails) {
-            if (score.city != "" && score.street != "" && score.numberHouse != "") {
+            if (score.city !=="" && score.street !=="" && score.numberHouse !=="") {
                 setShowError(false);
                 setPropertyTypes(false)
                 setAddrassDetails(false);
@@ -70,7 +69,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
             }
         }
         else if (ageAndArea) {
-            if (score.yearsOld != 0 && score.area != 0) {
+            if (score.yearsOld !==0 && score.area !==0) {
                 setShowError(false);
                 setPropertyTypes(false)
                 setAddrassDetails(false);
@@ -83,7 +82,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
             }
         }
         else if (moreHomeDetails) {
-            if (score.livers != 0) {
+            if (score.livers !==0) {
                 setShowError(false);
                 setPropertyTypes(false)
                 setAddrassDetails(false);
@@ -98,7 +97,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
 
         else if (clientDetails) {
             debugger
-            if (score.firstName != "" && score.lastName != "" && score.id != "") {
+            if (score.firstName !=="" && score.lastName !=="" && score.id !=="") {
                 setNextButtonName(' Calculate')
                 setTimeout(() => {
                     setShowError(false);
@@ -120,7 +119,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
 
     function CalcPrice() {
         var sumScore = 0;
-        (score.property != "Apartment in a building") ? sumScore += 10 : sumScore += 4;
+        (score.property !=="Apartment in a building") ? sumScore += 10 : sumScore += 4;
         (score.yearsOld < 10) ? sumScore += 4 : sumScore += 14;
         (score.area < 100) ? sumScore += 4 : sumScore += 10;
         (score.livers < 5) ? sumScore += 10 : sumScore += 4;
@@ -272,7 +271,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
                                 <>
 
                                     <Button onClick={nextStep} >
-                                        {nextButtonName != " Next" ? <Spinner
+                                        {nextButtonName !==" Next" ? <Spinner
                                             as="span"
                                             animation="grow"
                                             size="sm"

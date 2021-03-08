@@ -38,7 +38,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
   const useStyles = makeStyles(styles);
   const classes = useStyles();
-  const { tableHead, tableData } = props;
+  const {  tableData } = props;
   const useSortableData = (items, config = null) => {
     const [sortConfig, setSortConfig] = React.useState(config);
 
