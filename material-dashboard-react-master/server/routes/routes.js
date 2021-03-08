@@ -4,7 +4,8 @@ const express = require('express'),
     calls = require('./calls'), 
     products = require('./products'),
     purchases = require('./purchases'),
-    tasks = require('./tasks')
+    tasks = require('./tasks'),
+    employees = require('./employees')
 var router = express.Router();
 
 // login
@@ -27,6 +28,7 @@ router.post('/products/add', products.add_product);
 router.put('/products/update/:productID', products.update_product);
 router.get('/products/getList', products.get_products_list);
 router.get('/products/getLastWeek', products.get_last_products);
+router.get('/products/getProduct/:productId', products.get_product);
 
 // purchases
 router.post('/purchases/add', purchases.add_purchase);
@@ -34,12 +36,19 @@ router.get('/purchases/getList/:clientId', purchases.get_client_purchase);
 router.get('/purchases/getLastWeek', purchases.get_last_purchase)
 router.get('/purchases/monthDistribution', purchases.month_distribution);
 router.get('/purchases/dayDistribution', purchases.day_distribution);
+router.get('/purchases/productDistribution', purchases.product_distribution);
 
 //tasks
 router.post('/tasks/add', tasks.add_task);
 router.put('/tasks/update/:taskId', tasks.update_task);
 router.get('/tasks/getList', tasks.get_tasks_list);
 router.delete('/tasks/delete/:taskId', tasks.delete_task);
+
+//employees
+router.get('/employees/getList', employees.get_employees_list);
+router.get('/employees/getEmployeeById/:employeeId', employees.get_employees_by_id);
+router.get('/employees/getEmployeeByEmail/:employeeEmail', employees.get_employees_by_Email);
+
 
 
 

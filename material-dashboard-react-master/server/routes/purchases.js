@@ -25,6 +25,7 @@ module.exports = {
             new_purchase.clientId = req.body.clientId
             new_purchase.totalPrice = req.body.totalPrice
             new_purchase.date = req.body.date
+            new_purchase.employeeId = req.body.employeeId
         
             //save model to database
             new_purchase.save(function(err) {
@@ -217,6 +218,64 @@ module.exports = {
                 else{
                     db.close()
                     console.log("success in getting the month distribution");
+                    res.status(200).send(data);
+                }
+            })
+        })
+    },
+
+    //product_distribution
+    product_distribution: function(req, res) {
+        console.log("========================= in product distribution =========================");
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            Purchase.aggregate([
+                {
+                    "$group": {
+                        "_id": {"product":"$productId"},
+                        "count": { $sum: 1 }
+                    }
+                },
+                { 
+                    "$project": { 
+                        "_id": 0, 
+                        "count": 1, 
+                        "product": "$_id.product"
+                    } 
+                },
+                { 
+                    "$group": { 
+                        "_id": null, 
+                        "data": { $push: { k: "$product", v: "$count" } }
+                    } 
+                },
+                {
+                    "$project": { 
+                        "data": { $arrayToObject: "$data" }, 
+                        "_id": 0 
+                    } 
+                }
+            ]
+                , (err, data) => {
+                if (err) {
+                    console.log("error in getting the product distribution");
+                    db.close()
+                    res.status(500).send(err);
+                }
+                else{
+                    db.close()
+                    console.log("success in getting the product distribution");
                     res.status(200).send(data);
                 }
             })

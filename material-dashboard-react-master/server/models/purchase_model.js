@@ -25,6 +25,10 @@ var PurchaseSchema = new Schema({
 	date: {
 		type: Date,
         required: false,
+	},
+	employeeId: {
+		type: Schema.Types.String,
+		required: 'Employee ID is required'
 	}
 });
 

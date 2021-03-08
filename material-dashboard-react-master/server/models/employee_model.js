@@ -47,7 +47,11 @@ var EmployeeSchema = new Schema({
     about: {
         type: String,
         required: 'Employee description is required'
-    }
+    },
+	phone_number: {
+		type: String,
+		required: "phone number is required"
+	}
 });
 
 module.exports = mongoose.model('employee', EmployeeSchema); 

@@ -137,6 +137,36 @@ module.exports = {
                 res.status(200).send(products);
             })
         });
+    },
+
+    //get_product
+    get_product: function(req, res) {
+        console.log("========================= in get_product =========================");
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+        var db = mongoose.connection;
+
+        db.once('error', function() { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error:");
+            return;
+        })
+        db.once('open', function() {
+            console.log("connection successful!");
+            Product.find({ _id:req.params["productId"]
+            }, (err, product) => {
+                if (err){
+                    console.log("error in searching product with id:" + req.params["productId"]);
+                    db.close()
+                    res.status(500).send(err);  
+                } 
+                console.log("success in searching product with id:" + req.params["productId"]);
+                db.close()
+                res.status(200).send(product);
+            })
+        });
     }
 
 }
