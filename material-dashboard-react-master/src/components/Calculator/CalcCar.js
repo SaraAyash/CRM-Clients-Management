@@ -119,7 +119,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
 
     return (
         <div>
-            <Container className="themed-container" fluid={true}>
+            <Container ClassName="themed-container" fluid={true}>
                 <Form>
 
                     <hr></hr>

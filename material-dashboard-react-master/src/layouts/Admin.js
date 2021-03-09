@@ -21,7 +21,7 @@ const switchRoutes = (
     {/* add all routing  */}
     {generalRoutes.map((prop ) => {
       return (
-        <Route 
+        <Route
           path={prop.path}
           component={prop.component}
 

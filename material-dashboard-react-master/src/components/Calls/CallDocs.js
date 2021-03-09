@@ -4,6 +4,8 @@ import { actions } from '../../redux/actions'
 import CallModal from "./CallModal.js"
 import Call from "./Call.js"
 import axios from "axios"
+import { Col } from 'react-bootstrap';
+
 // @material-ui/core components 
 function mapStateToProps(state) {
     return {
@@ -70,6 +72,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
         <>
 
             {calls}
+            {calls.length === 0 ? <Col><p>No calls documentation to show</p></Col> : ''}
             <CallModal addCall={addCall} />
 
         </>

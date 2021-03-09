@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import { Card} from 'react-bootstrap';
-import { format } from "date-fns"; 
+import { Card } from 'react-bootstrap';
+import { format } from "date-fns";
 
 function mapStateToProps(state) {
     return {
@@ -21,19 +21,28 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCard(props) {
-    const [productDetails, setProductDetails] = useState();
-    const formattedDate = new Date(props.date);      
+    const [productDetails, setProductDetails] = useState({
+        description: '',
+        name: 'sara',
+        price: 70
+    });
+    const formattedDate = new Date(props.date);
     const date = format(formattedDate, "MMMM dd, yyyy ");
+    const totalPrice = props.totalPrice;
 
-    useEffect(() => {
+    const getProductDetails = () => {
 
-        axios.get('http://localhost:8080/products/' + props.insuranceId).then((response) => {
-            setProductDetails(response.data)
+        axios.get('http://localhost:8080/products/getProduct/' + props.insuranceId).then((response) => {
+
+            const productJson = response.data[0];
+            setProductDetails({ ...productDetails, description: productJson.description, name: productJson.name, price: productJson.price })
+            debugger
         }).catch(err => {
-
+            debugger
 
         })
-    }, []);
+    }
+    useEffect(getProductDetails, []);
 
 
 
@@ -41,11 +50,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCar
         <>
             <Card border="danger" style={{ width: "100%" }}>
                 <Card.Header>{date}</Card.Header>
-                <Card.Body>
-                    <Card.Title>{props.insuranceId}</Card.Title>
-                    <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk
-                        of the card's content. </Card.Text>
+                <Card.Body >
+                    <Card.Title>{productDetails.name}</Card.Title>
+
+                    <Card.Text > {totalPrice} ILS</Card.Text>
+                       
                 </Card.Body>
             </Card>
 

@@ -52,15 +52,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
         }
     }, [printState]);
 
-
+    
 
     return (
         <div>
 
             {!printState ?
-                <div class="d-flex justify-content-start">
-                    <div className="text-left"><ClientModal handleFunction={updateClientDetails} addOrUpdate="Update " /></div>
-                    <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
+                <div className="d-flex justify-content-start">
+                    <div className="text-left"><ClientModal   handleFunction={updateClientDetails} addOrUpdate="Update " /></div>
+                    <div className="pl-2 text-rigth"> <Button  onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
                 </div> :
                 ''
             }

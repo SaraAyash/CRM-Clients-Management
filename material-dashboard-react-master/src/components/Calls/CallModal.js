@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { Multiselect } from 'multiselect-react-dropdown';
 // @material-ui/core components 
-import { Button, Form, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Button, Form, Modal, Dropdown, DropdownButton, Toast } from 'react-bootstrap';
 import axios from "axios";
-
+import CalcPrice from '../Calculator/CalcPrice.js'
+import { FormGroup } from "@material-ui/core";
 // import { Router, Route, Switch } from "react-router"
 // import upsideEmit Button from "@material-ui/core/Button"
 function mapStateToProps(state) {
@@ -25,13 +26,18 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(props) {
 
+    const [showA, setShowA] = useState(false);
+
+    const toggleShowA = () => setShowA(!showA);
 
     const [products, setProducts] = useState();
 
     const [show, setShow] = useState(false);
     const [error, setError] = useState(false);
     const [selectedProducts, setSelectedProducts] = useState([]);
-    const [call, setCall] = useState({ clientId: props.client.id, date:  '' , subject: "Select cause of call", description: "", purchasedProducts: [] });
+    const [call, setCall] = useState({ clientId: props.client.id, date: '', subject: "Select cause of call", description: "", purchasedProducts: [] });
+    const [showCalc, setShowCalc] = useState(false);
+    const [price, setPrice] = useState(0);
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -50,10 +56,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
         })
     }
+    const handleCalcPrice = () => {
+        debugger
+        setShowCalc(!showCalc);
+    }
 
     useEffect(() => {
         setCall({ ...call, purchasedProducts: selectedProducts })
-    }, [selectedProducts]);
+    }, [selectedProducts, price]);
+
+    useEffect(() => {
+
+    }, [handleCalcPrice]);
 
     function SubmitCall() {
         debugger;
@@ -64,19 +78,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
             if (call.purchasedProducts !== []) {
                 debugger
                 var arr = [];
-                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: call.date, totalPrice: "100", employee: props.employee.first_name }))
+                Object.values(call.purchasedProducts).map(purchase => arr.push({ productId: purchase.id, clientId: props.client.id, date: call.date, totalPrice: purchase.totalPrice, employeeId: props.employee.employee_id }))
                 arr.forEach((purchase) => {
                     addNewPurches(purchase);
                 })
-
-
-
-
             }
-
             props.addCall(call);
             handleClose();
         }
+        setCall({ ...call, subject: "Select cause of call" });
+        setPrice(0);
 
     }
     function addNewPurches(newPurchase) {
@@ -95,11 +106,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
 
     }
-    function onSelectProduct(selectedList, selectedItem) {
 
-        setSelectedProducts([...selectedProducts, { name: selectedItem.name, id: selectedItem.id }])
-        debugger;
+    function onSelectProduct(product) {
+        if (price === 0) {
+            setShowA(true);
+        }
+        else {
+            setSelectedProducts([...selectedProducts, { name: product.name, id: product.id, totalPrice: price }])
+            setPrice(0);
+            debugger
+        }
+
+
     }
+
     function onRemove(selectedList, removedItem) {
         // selectedProducts.indexOf()
         setSelectedProducts([selectedProducts.filter(prod => prod = { name: removedItem.name, id: removedItem.id })])
@@ -107,6 +127,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
     }
     return (
         <>
+
+
+
             <Button variant="warning" color="primary" onClick={handleShow}>Add Call</Button>{' '}
             <p></p>
             <Modal
@@ -117,6 +140,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
             >
 
                 <Modal.Body>
+                    <Toast show={showA} onClose={toggleShowA}>
+                        <Toast.Header>
+
+                            <strong className="mr-auto">Insurece not purchesed</strong>
+                        </Toast.Header>
+                        <Toast.Body>Please insert total price</Toast.Body>
+                    </Toast>
                     <Form.Group controlId="date">
                         {error ? <Form.Label style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''}
                         <DropdownButton
@@ -148,23 +178,48 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
                     </Form.Group>
 
                     {call.subject === "Product purchase" ?
-                        <Multiselect
-                            options={products} // Options to display in the dropdown
-                            onSelect={onSelectProduct} // Function will trigger on select event
-                            onRemove={onRemove} // Function will trigger on remove event
-                            displayValue="name" // Property name to display in the dropdown options
-                        />
+
+                        products.map((prod) =>
+                            <Form.Group>
+                                <Form.Row>
+                                    <Form.Label >{prod.name}</Form.Label>
+                                    <Form.Control type="number" onChange={(event) => { setPrice(event.target.value) }} />
+                                    <Button variant="secondary" onClick={() => onSelectProduct(prod)}>Insert Price</Button>
+                                </Form.Row>
+                            </Form.Group>
+
+                        )
+
+
+                        // < Multiselect
+                        //     options={products} // Options to display in the dropdown
+                        //     onSelect={onSelectProduct} // Function will trigger on select event
+                        //     onRemove={onRemove} // Function will trigger on remove event
+                        //     displayValue="name" // Property name to display in the dropdown options
+                        // >
+
+
+                        // </Multiselect>
                         : ''}
 
-
-
+                    {call.subject === "Product purchase" ?
+                        <FormGroup className="text-center">
+                            <CalcPrice />
+                        </FormGroup>
+                        : ''}
 
                 </Modal.Body>
+
+
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Cancel</Button>
                     <Button variant="primary" onClick={SubmitCall}>Add call documentition</Button>
                 </Modal.Footer>
+
+
+
             </Modal>
+
 
             {/* <h1> date from call state is : {callDate.date} sare</h1> */}
         </>

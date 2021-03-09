@@ -22,34 +22,30 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(props) {
     const [purcheses, setPurcheses] = useState([]);
 
-    function updatePurchases(purchesesJson) {
-        
-        const purchese = purchesesJson.map(purchese => <Col xs={6} sm={4} md={4} lg={3} className="p-2 colPurchases "    >  <PurchaseCard date={purchese.date} insuranceId ={purchese.productId} />  </Col>)
-        setPurcheses([...purcheses, purchese]);
+    const getAllPurchases = () => {
+
+        axios.get('http://localhost:8080/purchases/getList/' + props.client.id).then((response) => {
+
+            const purchesesJson = response.data;
+            const purchese = purchesesJson.map(purchese => <Col xs={6} sm={4} md={4} lg={3} className="p-2 colPurchases "    >  <PurchaseCard date={purchese.date} insuranceId={purchese.productId} totalPrice={purchese.totalPrice} />  </Col>)
+            setPurcheses([purchese]);
+
+        }).catch(err => {
+
+            
+        })
+       
 
     }
 
-    useEffect(() => {
-        // const purchesesJson = [{ "date": "17/02/2021", "insuranceId": "insurence 2" }, { "date": "17/02/2021", "insuranceId": "insurence 1 " }]
-        // updatePurchases(purchesesJson);  // until server start work
-
-        axios.get('http://localhost:8080/purchases/getList/' + props.client.id).then((response) => {
-            debugger;
-            const purchesesJson = response.data;
-             updatePurchases(purchesesJson);
-
-        }).catch(err => {
-            debugger;
-            // alert(err);
-        })
-
-    },[]);
+    useEffect(getAllPurchases, [purcheses]);
 
 
     return (
         <>
             <Container fluid >
-                <Row className="row overflow-auto">
+                <Row className="row overflow-auto">                   
+                    {purcheses.length === 0 ? <Col><p>No purcheses to show</p></Col> : ''} 
                     {purcheses}
                 </Row>
             </Container>
@@ -59,4 +55,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
 
 
     );
-}); 
+});

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { withRouter } from "react-router-dom";
-
+import axios from 'axios'
 import { Table } from 'react-bootstrap';
 
 
@@ -26,9 +26,16 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function EmployeesTable(props) {
 
-    const [employees, setEmployees] = useState([{ first_name: 'sara', last_name: 'ayash', email: '00404004', phone: '05040404004' }])
+    const [employees, setEmployees] = useState([])
     useEffect(() => {
-
+        axios.get('http://localhost:8080/employees/getList').then((response) => {
+            const employeeJson = response.data;
+            setEmployees(employeeJson);
+      
+          }).catch(err => {
+          })
+      
+        
     }, [])
 
     return (
@@ -47,11 +54,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
                 </thead>
 
                 <tbody>
-                    {employees.map((prop, key) => {
+                    {employees.map((employee, key) => {
                         return (
                             <tr key={key}  >
                                 {
-                                    [prop.first_name, prop.last_name, prop.email, prop.phone].map((prop, key) => {
+                                    [employee.first_name, employee.last_name, employee.email, employee.phone_number].map((prop, key) => {
                                         return (
                                             <td key={key}>
                                                 {prop}
