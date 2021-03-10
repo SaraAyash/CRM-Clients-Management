@@ -294,7 +294,8 @@ export default function Dashboard() {
                 <PolicyIcon />
               </CardIcon>
               <h1 className={classes.cardCategory} > New policy:</h1>
-              {newProducts}
+              {newProducts.length === 0 ? 'No data to show' :
+                newProducts}
 
             </CardHeader>
             <CardFooter stats>
@@ -338,12 +339,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>Weekly sales:</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today sales.
-              </p>
+               
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
@@ -365,11 +361,11 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>New customers this month:</h4>
+              <h4 className={classes.cardTitle}>New customers this Year:</h4>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime /> data about last year
               </div>
             </CardFooter>
           </Card>

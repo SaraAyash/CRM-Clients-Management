@@ -96,14 +96,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
             <hr></hr>
             <h3>Client Details:</h3>
 
-            <h3 class="font-weight-bold "> ID: <small>{client.client_id}</small></h3>
-            <h3 class="font-weight-bold "> First Name: <small>{client.first_name}</small></h3>
-            <h3 class="font-weight-bold "> Last Name: <small>{client.last_name}</small></h3>
-            <h3 class="font-weight-bold "> Email: <small>{client.email}</small></h3>
-            <h3 class="font-weight-bold "> Mobile: <small>{client.phone_number}</small></h3>
-            <h3 class="font-weight-bold "> Year of birth: <small>{client.year_of_birth}</small></h3>
+            <h3 className="font-weight-bold "> ID: <small>{client.client_id}</small></h3>
+            <h3 className="font-weight-bold "> First Name: <small>{client.first_name}</small></h3>
+            <h3 className="font-weight-bold "> Last Name: <small>{client.last_name}</small></h3>
+            <h3 className="font-weight-bold "> Email: <small>{client.email}</small></h3>
+            <h3 className="font-weight-bold "> Mobile: <small>{client.phone_number}</small></h3>
+            <h3 className="font-weight-bold "> Year of birth: <small>{client.year_of_birth}</small></h3>
 
-            <h3 class="font-weight-bold "> Start connection date: <small>{client.start_connection_date}</small></h3>
+            <h3 className="font-weight-bold "> Start connection date: <small>{client.start_connection_date}</small></h3>
 
             <hr></hr>
             <h3> Purchases:</h3>

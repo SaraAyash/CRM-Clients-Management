@@ -111,7 +111,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
         }
         else {
             setSelectedProducts([...selectedProducts, { name: product.name, id: product.id, totalPrice: price }])
-            setPrice(0);
+            setShowA(false);
             debugger
         }
 
