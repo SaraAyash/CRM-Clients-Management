@@ -293,16 +293,18 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
           <Card>
-            <CardHeader color="info" stats icon>
-              <CardIcon color="info">
-                <Accessibility />
+            <CardHeader color="warning" stats icon>
+              <CardIcon color="warning">
+                <PolicyIcon />
+
               </CardIcon>
               <p className={classes.cardCategory}>Products Amount:</p>
+              <h3 className={classes.cardTitle}>
+                {productAmount}</h3>
 
             </CardHeader>
-            <CardBody  >
-              {productAmount}
-            </CardBody>
+
+
             <CardFooter stats>
               <div className={classes.stats}><Update />New clients from the last two weeks </div>
             </CardFooter>
