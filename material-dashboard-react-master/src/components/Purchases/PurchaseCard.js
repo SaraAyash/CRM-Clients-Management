@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCard(props) {
     const [productDetails, setProductDetails] = useState({
-        description: '',
+      
         name: 'sara',
         price: 70
     });
@@ -33,16 +33,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCar
     const getProductDetails = () => {
 
         axios.get('http://localhost:8080/products/getProduct/' + props.insuranceId).then((response) => {
-
+ 
             const productJson = response.data[0];
-            setProductDetails({ ...productDetails, description: productJson.description, name: productJson.name, price: productJson.price })
-            debugger
+            setProductDetails({ ...productDetails, name: productJson.name, price: productJson.price })
+           
         }).catch(err => {
             debugger
 
         })
     }
-    useEffect(getProductDetails, []);
+    useEffect(getProductDetails, [productDetails]);
+    
 
 
 

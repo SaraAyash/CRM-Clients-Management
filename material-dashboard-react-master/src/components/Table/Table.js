@@ -119,11 +119,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
             <th>
               {"email"}
             </th>
-            <th>
-
-              {"mobile"}
-
-            </th>
+           
 
           </tr>
         </thead>

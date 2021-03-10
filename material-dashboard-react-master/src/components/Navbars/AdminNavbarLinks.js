@@ -24,7 +24,7 @@ const useStyles = makeStyles(styles);
 function mapStateToProps(state) {
   // debugger;
   return {
-    client: state.clientReducer.client,
+     
     employee: state.employeeReducer.employee
   };
 }
@@ -49,7 +49,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
     }
   };
   const logout = () => {
-    props.setFirstName("");
+    props.setId("");
    
     props.history.push("/login");
 
@@ -60,7 +60,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   return (
     <div>
 
-      <div className={classes.manager}>
+      <div className={classes.manager}> 
+      Hi, {props.employee.first_name}
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}

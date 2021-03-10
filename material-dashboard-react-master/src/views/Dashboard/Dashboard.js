@@ -5,22 +5,14 @@ import ChartistGraph from "react-chartist";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import { FcDataProtection, FcBusinessman } from "react-icons/fc";
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
 import PolicyIcon from '@material-ui/icons/Policy';
-import Typography from '@material-ui/core/Typography';
 // core components
 // import Class  from '@material-ui/icons/Class ';
 import GridItem from "components/Grid/GridItem.js";
@@ -34,7 +26,8 @@ import ListItem from "@material-ui/core/ListItem";
 import axios from "axios"
 import Tasks from "components/Tasks/Tasks.js";
 import EmployeesTable from "components/Employees/EmployeesTable.js"
-
+import { Button } from 'react-bootstrap';
+import './Dashboard.css'
 
 import {
   monthlySalesGraph,
@@ -47,7 +40,6 @@ import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js"
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
-  const [products, setPro] = useState(["atara", "sara"]);
   const [days, setDays] = useState(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
   const [months, setMonths] = useState(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
   const [amountPurchases, setAmountPurchases] = useState();
@@ -60,6 +52,8 @@ export default function Dashboard() {
       labels: [],
       series: []
     })
+  const [printState, setPrintState] = useState(false);
+
   const [weeklyClients, setWeeklyClients] = useState(
     {
       labels: [],
@@ -113,7 +107,7 @@ export default function Dashboard() {
         debugger;
       }
       ).catch(err => {
-        alert("m" + err);
+
 
       });
 
@@ -171,7 +165,7 @@ export default function Dashboard() {
 
 
       ).catch(err => {
-        alert("m" + err);
+
 
       });
 
@@ -187,7 +181,7 @@ export default function Dashboard() {
         setLastPurchasesNum(jsonString)
       }
       ).catch(err => {
-        alert(err);
+
 
       });
 
@@ -199,7 +193,7 @@ export default function Dashboard() {
         setJsonString(response.data)
       }
       ).catch(err => {
-        //  alert(err);
+
       });
 
   }
@@ -221,28 +215,9 @@ export default function Dashboard() {
         //setAmountPurchases(response.data)
       }
       ).catch(err => {
-        alert("policy" + err);
+
       });
   }
-  // function getLastPurchases() {
-  //   axios.get('http://localhost:8080/purchases/getLastWeek')
-  //     .then(response => {
-  //       const jsonString = response.data;
-  //       const items = jsonString.map((item, i) =>
-  //         <ListItem key={i}  >
-
-  //           <div className={classes.cardCategory} ><FcDataProtection /> </div>
-  //           <div className={classes.cardCategory} >{item.clientId} </div>
-  //           <div className={classes.cardCategory} >{item.productId} </div>
-  //         </ListItem>
-  //       )
-  //       setLastPurchases(items)
-  //       //setAmountPurchases(response.data)
-  //     }
-  //     ).catch(err => {
-  //       alert("lh" + err);
-  //     });
-  // }
 
 
   function getNewclients() {
@@ -258,16 +233,30 @@ export default function Dashboard() {
           </ListItem>
         ))
         setNewClients([items])
-        // setAmountPurchases(response.data)
+
       }
       ).catch(err => {
-        debugger
-        alert(err);
+
       });
   }
   useEffect(() => {
-    //alert("lk"+monthlySales)
+
   }, [weeklyClients, monthlySales]);
+
+  useEffect(() => {
+    if (printState) {
+
+      // var originalContents = document.body.innerHTML;
+      // var printReport= document.getElementsByClassName('dashboardContainer').innerHTML;
+      // document.body.innerHTML = printReport;
+      window.print();
+      // document.body.innerHTML = originalContents;
+
+      
+      setPrintState(false);
+    }
+  }, [printState]);
+
   useEffect(() => {
     getAmountOfRecentPurchases();
     getMonthlySales();
@@ -276,16 +265,20 @@ export default function Dashboard() {
     getNewclients();
   }, []);
   return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={6} md={4}>
+    <div >
+      <GridContainer  >
+        <GridItem xs={12} sm={12} md={4}>
+          <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
+<hr/>
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
                 <ShoppingBasketIcon>info_outline</ShoppingBasketIcon>
               </CardIcon>
               <p className={classes.cardCategory}>amount of recent purchases:</p>
-              <h3 className={classes.cardTitle}> {lastPurchasesNum}</h3>
+              <h3 className={classes.cardTitle}>
+
+                {lastPurchasesNum}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -294,8 +287,9 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={4}>
+
+
+
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
@@ -312,21 +306,24 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
+
+
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+
+        <GridItem xs={12} sm={12} md={4}>
           <Card>
             <CardHeader color="info" stats icon>
               <CardIcon color="info">
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>New Client:</p>
-              {newClients}
+
             </CardHeader>
+            <CardBody className="newClients">
+              {newClients}
+            </CardBody>
             <CardFooter stats>
-              <div className={classes.stats}>
-                <Update />
-      New clients from the last two weeks
-    </div>
+              <div className={classes.stats}><Update />New clients from the last two weeks </div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -383,7 +380,7 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
+        <GridItem xs={12} sm={12} md={5}>
           <Card chart>
             <CardHeader color="danger">
               <ChartistGraph

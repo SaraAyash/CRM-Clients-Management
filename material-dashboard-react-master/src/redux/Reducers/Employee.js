@@ -5,10 +5,10 @@ import createReducer from "./ReducerUtils";
 const initialState = {
   employee: {   
     employee_id: '',  
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",     
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',     
    
   },
 
@@ -16,19 +16,19 @@ const initialState = {
 }
 const employees = {
 
-  setId(state, action) {
+  setIdEmployee(state, action) {
     state.employee.employee_id = action.payload;
   },
-  setFirstName(state, action) {
+  setFirstNameEmployee(state, action) {
     state.employee.first_name = action.payload;
   },
-  setLastName(state, action) {
+  setLastNameEmployee(state, action) {
     state.employee.last_name = action.payload;
   },
-  setEmail(state, action) {
+  setEmailEmployee(state, action) {
     state.employee.email = action.payload;
   },
-  setPhone(state, action) {
+  setPhoneEmployee(state, action) {
     state.employee.phone = action.payload;
   },
   

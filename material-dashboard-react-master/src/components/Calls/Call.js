@@ -26,10 +26,10 @@ export default withRouter(function Call(props) {
                         </Card.Header></Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
-                            <ListGroup.Item ><p class="font-weight-bold ">Description Call:</p> {description}</ListGroup.Item>
+                            <ListGroup.Item ><p className="font-weight-bold ">Description Call:</p> {description}</ListGroup.Item>
                             {purchasedProducts.length  > 0 ? <>
                                 <ListGroup.Item>
-                                    <p class="font-weight-bold ">Purchased products:</p>
+                                    <p className="font-weight-bold ">Purchased products:</p>
                                     {purchasedProducts.map((purchased) =>
                                         <li
                                             key={purchased.id}
@@ -52,8 +52,5 @@ export default withRouter(function Call(props) {
             <p></p>
 
         </>
-
-
-
     );
 });
