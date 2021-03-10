@@ -38,7 +38,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
         axios.put('http://localhost:8080/products/update/' + props.product.insuranceId, productJson)
             .then(response => {
-                debugger
                 getProduct();
                 props.setInsuranceName(productJson.insuranceName);
                 props.setInsuranceDescription(productJson.insuranceDescription);
@@ -49,7 +48,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
 
             ).catch(err => {
-                debugger
             });
 
 
@@ -61,10 +59,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
 
     }
+
     useEffect(() => {
         getProduct();
 
-    }, [product]);
+    }, []);
 
     const getProduct = () => {
 

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-
-
+import axios from 'axios'
 
 // @material-ui/core components 
 import { ToggleButton, ButtonGroup, Button, Form, Modal, Row, Col } from 'react-bootstrap';
@@ -24,10 +23,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
     const [error, setError] = useState(false);
     const [show, setShow] = useState(false);
     const genders = [{ name: 'Male', value: 'Male' }, { name: 'Female', value: 'Female' }];
-    const [client, setClient] = useState({ "first_name": "", "last_name": "", "client_id": "", "phone_number": "", "email": "", "year_of_birth": "", "gender": "", "start_connection_date":new Date().getTime()});
+    const [client, setClient] = useState({ "first_name": "", "last_name": "", "client_id": "", "phone_number": "", "email": "", "year_of_birth": "", "gender": "", "start_connection_date": new Date().getTime() });
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    const [uniqeId, setUniqeId] = useState('');
 
     function Submit() {
 
@@ -42,8 +41,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
 
     }
 
+    const getClientById = () => {
+        axios.get('http://localhost:8080/clients/getClientById/' + props.client.id).then((response) => {
+            debugger
+            setClient(response.data[0])
+            setUniqeId(response.data[0]._id)
+
+        }).catch(err => {
+
+        });
+    }
+
     useEffect(() => {
         if (props.addOrUpdate === "Update ") {
+            getClientById();
             setClient({ ...client, client_id: props.client.client_id })
         }
     }, [])
@@ -65,20 +76,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group as={Row} controlId="first_name">
-                            {error ? <Form.Label column sm="3" style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''}
-                        </Form.Group>
+                        {error ? <Form.Label column sm="3" style={{ color: "red" }}>Please fill all fields.</Form.Label> : ''}
                         <Form.Group as={Row} controlId="first_name">
                             <Form.Label column sm="3">First name:</Form.Label>
                             <Col sm="9">
-                                <Form.Control onChange={(e) => { setClient({ ...client, first_name: e.target.value }) }} />
+                                <Form.Control defaultValue={client.first_name} onChange={(e) => { setClient({ ...client, first_name: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="last_name">
                             <Form.Label column sm="3">Last name:</Form.Label>
                             <Col sm="9">
-                                <Form.Control onChange={(e) => { setClient({ ...client, last_name: e.target.value }) }} />
+                                <Form.Control defaultValue={client.last_name} onChange={(e) => { setClient({ ...client, last_name: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
@@ -97,21 +106,21 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ClientModal
                         <Form.Group as={Row} controlId="phone_number">
                             <Form.Label column sm="4">Mobile phone:</Form.Label>
                             <Col sm="8">
-                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, phone_number: e.target.value }) }} />
+                                <Form.Control defaultValue={client.phone_number} onChange={(e) => { setClient({ ...client, phone_number: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="Email">
                             <Form.Label column sm="4">Email address:</Form.Label>
                             <Col sm="8">
-                                <Form.Control type="email" onChange={(e) => { setClient({ ...client, email: e.target.value }) }} />
+                                <Form.Control type="email" defaultValue={client.email} onChange={(e) => { setClient({ ...client, email: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="year_of_birth">
-                            <Form.Label column sm="2">year_of_birth:</Form.Label>
+                            <Form.Label column sm="2">Year birth:</Form.Label>
                             <Col sm="3">
-                                <Form.Control type="number" onChange={(e) => { setClient({ ...client, year_of_birth: e.target.value }) }} />
+                                <Form.Control defaultValue={client.year_of_birth} type="number" onChange={(e) => { setClient({ ...client, year_of_birth: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
