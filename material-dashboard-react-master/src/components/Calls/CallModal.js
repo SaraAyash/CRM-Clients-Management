@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
-import { Multiselect } from 'multiselect-react-dropdown';
-// @material-ui/core components 
+ // @material-ui/core components 
 import { Button, Form, Modal, Dropdown, DropdownButton, Toast } from 'react-bootstrap';
 import axios from "axios";
 import CalcPrice from '../Calculator/CalcPrice.js'
@@ -55,6 +54,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
 
         })
+        setError(false);
     }
     const handleCalcPrice = () => {
         debugger
@@ -94,14 +94,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
         debugger
         axios.post('http://localhost:8080/purchases/add', newPurchase)
             .then(response => {
-                debugger
-
-                alert(response.data);
+              
+                 
             }
 
             ).catch(err => {
-                debugger
-                // console.log(err);
+                
             });
 
 
@@ -120,11 +118,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
 
     }
 
-    function onRemove(selectedList, removedItem) {
-        // selectedProducts.indexOf()
-        setSelectedProducts([selectedProducts.filter(prod => prod = { name: removedItem.name, id: removedItem.id })])
-        debugger;
-    }
+    
     return (
         <>
 

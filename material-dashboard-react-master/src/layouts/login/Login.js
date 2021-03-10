@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { withRouter } from "react-router-dom";
-import { FcLock, FcBusinessman, FcCheckmark } from "react-icons/fc";
-import { Container, InputGroup, FormControl, Form, Row, Col } from 'react-bootstrap';
-
+import { FcLock, FcAddressBook, FcNeutralDecision, FcBusinessman, FcCheckmark, FcGraduationCap, FcPhone, FcCompactCamera, FcAssistant, FcAddImage } from "react-icons/fc";
+import { Container, InputGroup, FormControl, Form, Row, Col, Button } from 'react-bootstrap';
+import axios from 'axios'
 
 function mapStateToProps(state) {
   // debugger;
@@ -15,20 +15,31 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setId: (employee_id) => dispatch(actions.setId(employee_id)),
-  setFirstName: (client_name) => dispatch(actions.setFirstName(client_name)),
-  setLastName: (client_last_name) => dispatch(actions.setLastName(client_last_name)),
+  setIdEmployee: (employee_id) => dispatch(actions.setIdEmployee(employee_id)),
+  setFirstNameEmployee: (client_name) => dispatch(actions.setFirstNameEmployee(client_name)),
+  setLastNameEmployee: (client_last_name) => dispatch(actions.setLastNameEmployee(client_last_name)),
 
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function Login(props) {
 
-
+  const [newEmployee, setNewEmployee] = useState({
+    employee_id: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    image: '',
+    about: '',
+    phone_number: ''
+  });
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [loginState, setLoginState] = useState(true);
   //sending a post request to the server with the username and password inserted by the user.
   async function loginUser(credentials) {
-    
+
     console.log(JSON.stringify(credentials));
     return fetch('http://localhost:8080/login', {
       method: 'POST',
@@ -38,19 +49,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
       body: JSON.stringify(credentials)
     })
       .then(response => {
-        // console.log(response);
-        // props.setId(response.data.employee_id);
-        // props.setFirstName(response.data.first_name);
-        // props.setLastName(response.data.last_name);
-        // props.setEmail(response.data.email);
-        // props.setPhone(response.data.phone);
-         
-        props.setId(1);
+        axios.get('http://localhost:8080/employees/getEmployeeByEmail/' + username).then((response) => {
 
-        props.history.push("/admin");
+
+          props.setIdEmployee(response.data[0].employee_id);
+          props.setFirstNameEmployee(response.data[0].first_name);
+          props.history.push("/admin");
+          debugger
+        }).catch(err => {
+
+        });
+
 
       }).catch(err => {
-         
+
       });
   };
   //handling the press on the submut button.
@@ -60,19 +72,42 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
       username,
       password
     });
+  }
+  const putUser = (e) => {
+    setUserName(e.target.value);
+    setNewEmployee({ ...newEmployee, email: e.target.value });
+  }
+  const putPassword = (e) => {
+    setPassword(e.target.value);
+    setNewEmployee({ ...newEmployee, password: e.target.value });
+  }
+  const handleNewEmployee = e => {
+    // setUserName(newEmployee.email);
+    // setPassword(newEmployee.password);
 
+    e.preventDefault();
+    axios.post("http://localhost:8080/employees/add", newEmployee).then((response) => {
+      debugger
+      loginUser({
+        username,
+        password
+      });
+    }).catch(err => {
+      debugger
+    });
 
   }
-
-
-  useEffect(() => { }, [username, password]);
+  useEffect(() => { props.setIdEmployee("") }, []);
+  useEffect(() => { }, [username, password, newEmployee]);
   const style = {
-    backgroundImage: "url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/slider-2.jpg)",
+    backgroundImage: "url(https://i.pinimg.com/564x/ae/74/7c/ae747c669ede5a97c191aea61eb675df.jpg)",
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     overflow: 'auto',
     backgroundRepeat: 'no-repeat'
   }
+
+
   return (
     <>
       <div id="root">
@@ -80,35 +115,105 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
 
         <div style={style} className="vh-100 align-items-center" >
           <Container className="vh-100 align-items-center"   >
-            <Row></Row>
-            <Row md="4" className="justify-content-md-center ">
+
+            <Row md="4" className="justify-content-md-center lg">
+              <Col>
+
+              </Col>
               <Col md="4" className="text-center align-items-center" style={{ height: '100%', backgroundColor: 'rgba(238, 238, 238, 0.5) ' }}>
                 <FcCheckmark FaAlignCenter style={{ width: 200, height: 200 }} />
-                <Form onSubmit={handleSubmit} >
+                {loginState === true ?
+                  <Form onSubmit={handleSubmit} >
 
-                  <InputGroup className="mt-5 mb-2" >
-                    <InputGroup.Prepend>
-                      <InputGroup.Text><FcBusinessman /></InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl size="lg" placeholder="Username" onChange={e => setUserName(e.target.value)} />
+                    <InputGroup className="mt-5 mb-2" >
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcBusinessman /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" placeholder="Username" onChange={e => setUserName(e.target.value)} />
 
-                  </InputGroup>
+                    </InputGroup>
 
-                  <InputGroup className="mb-2">
-                    <InputGroup.Prepend>
-                      <InputGroup.Text><FcLock /></InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl type="password" size="lg" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                  </InputGroup>
+                    <InputGroup className="mb-2">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcLock /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl type="password" size="lg" placeholder="Password" onChange={e => putPassword} />
+                    </InputGroup>
 
-
-                  <Form.Group className="mt-5 mb-5"> <button type="submit" className="login__submit">Sign in</button></Form.Group>
-
-
+                    <Form.Label style={{ color: "green", size: '25px' }} onClick={() => setLoginState(false)}>New Employee? confirm here</Form.Label>
+                    <Form.Group className="mt-5 mb-5"> <Button type="submit" className="login__submit">Sign in</Button></Form.Group>
 
 
-                </Form>
+                  </Form>
+                  :
+                  <Form onSubmit={handleNewEmployee} >
 
+                    <InputGroup className="mb-2" >
+                      {/* {error ? <Form.Label style={{ color: "red" }}>Please fill all fiels.</Form.Label> : ''} */}
+
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcAssistant /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" defaultValue='' placeholder="First Name" onChange={e => setNewEmployee({ ...newEmployee, first_name: e.target.value })} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-2" >
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcAssistant /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" defaultValue='' placeholder="Last Name" onChange={e => setNewEmployee({ ...newEmployee, last_name: e.target.value })} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-2">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcNeutralDecision /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl type="number" size="lg" placeholder="ID:" onChange={e => setNewEmployee({ ...newEmployee, employee_id: e.target.value })} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-2" >
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcAddressBook /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" placeholder="Email address" onChange={e => { putUser(e) }} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-2" >
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcLock /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" placeholder="Password" onChange={e => { putPassword(e) }} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-2">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcPhone /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl type="number" size="lg" placeholder="Phone number" onChange={e => setNewEmployee({ ...newEmployee, phone_number: e.target.value })} />
+                    </InputGroup>
+
+
+
+                    <InputGroup className="mb-2">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcGraduationCap /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" placeholder="About you" onChange={e => setNewEmployee({ ...newEmployee, about: e.target.value })} />
+                    </InputGroup>
+
+
+                    <InputGroup className="mb-2">
+                      <InputGroup.Prepend>
+                        <InputGroup.Text><FcCompactCamera /></InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl size="lg" placeholder="Insert URL for image profile" onChange={e => setNewEmployee({ ...newEmployee, image: e.target.value })} />
+                    </InputGroup>
+                    <Form.Group className="mt-5 mb-5" > <Button variant="danger" type="submit" className="login__submit">Confirm</Button></Form.Group>
+                    <InputGroup className="mb-5 mt-5">
+                    </InputGroup>
+                  </Form>
+
+                }
               </Col>
             </Row>
           </Container>
@@ -148,7 +253,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
     </>
   );
 
-  
+
 })
 
 );

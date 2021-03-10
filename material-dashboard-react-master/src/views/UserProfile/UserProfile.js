@@ -11,6 +11,7 @@ import CardBody from "components/Card/CardBody.js";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import axios from "axios";
+import CardHeader from "components/Card/CardHeader";
 
 const styles = {
   cardCategoryWhite: {
@@ -62,21 +63,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserProfile
   const classes = useStyles();
 
   const getEmployeeDetails = () => {
-    axios.get('http://localhost:8080/employees/' + props.employee.employee_id).then((response) => {
-      setProfile(response.data);
-
+    
+    axios.get('http://localhost:8080/employees/getEmployeeById/' + props.employee.employee_id).then((response) => {
+ 
+    
+    setProfile(response.data[0]);
+      
     }).catch(err => {
-
+     
     });
-    setProfile({
-      "employee_id": 1,
-      "first_name": "Rowe",
-      "last_name": "Shallo",
-      "email": "rshallo0@yellowpages.com",
-      "password": "gagIr0xQPN",
-      "image": "https://i.pinimg.com/originals/f4/fa/98/f4fa98e899b1f9b6e19a0c9d8166a28d.jpg",
-      "about": "Chemical Engineer"
-    })
+    
   }
 
   useEffect(getEmployeeDetails, []);
@@ -93,13 +89,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserProfile
                 <img src={propfile.image} alt="..." />
               </a>
             </CardAvatar>
-            <CardBody profile>
+            <CardBody >
               <h6 className={classes.cardCategory}>{propfile.about}</h6>
               <h3 className={classes.cardTitle}>{propfile.first_name + " " + propfile.last_name}</h3>
-              <h3 className={classes.cardTitle}>phone</h3>
-              <p>{propfile.email} </p>
-              <p> {propfile.phone} </p>
-
+              <h3 className={classes.cardTitle}>{propfile.email}</h3>
+              <h3 className={classes.cardTitle}>{propfile.phone_number}</h3> 
+             
 
             </CardBody>
           </Card>

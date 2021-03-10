@@ -15,8 +15,7 @@ var minuteFromNow = function(){
 
 // define Schema
 var EmployeeSchema = new Schema({
-    _id: false,
-	employee_id: {
+    employee_id: {
 		type: String,
 		required: 'ID is required'
 	},

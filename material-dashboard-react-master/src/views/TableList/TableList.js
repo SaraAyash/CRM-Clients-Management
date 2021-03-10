@@ -75,7 +75,7 @@ export default withRouter(function TableList(props) {
       updateClientsTable(clientJson);
 
     }).catch(err => {
-      // alert(err);
+       
     })
 
   }
@@ -89,7 +89,7 @@ export default withRouter(function TableList(props) {
       }
 
       ).catch(err => {
-        alert(err);
+        
       });
 
 
@@ -110,7 +110,7 @@ export default withRouter(function TableList(props) {
       const clientToSearch = response.data;
       updateClientsTable(clientToSearch);
     }).catch(err => {
-      alert(err);
+     
     });
 
   }
@@ -135,7 +135,7 @@ export default withRouter(function TableList(props) {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["id", "First Name", "Last Name", "Email", "Mobile"]}
+              tableHead={["id", "First Name", "Last Name", "Email" ]}
               tableData={clients}
 
             />

@@ -5,7 +5,7 @@ import { actions } from '../../redux/actions'
 import ClientModal from "components/Clients/ClientModal.js"
 import Purchases from "components/Purchases/Purchases.js"
 import axios from "axios"
-import { Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import CallDocs from "../Calls/CallDocs.js"
 function mapStateToProps(state) {
     return {
@@ -25,42 +25,65 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails(props) {
 
     const [printState, setPrintState] = useState(false);
+    const [client, setClient] = useState({
+        client_id: '',
+        first_name: '',
+        last_name: '',
+        phone_number: '',
+        email: '',
+        year_of_birth: '',
+        start_connection_date: '',
 
+    });
 
+    const [uniqeId, setUniqeId] = useState('');
     function updateClientDetails(clientJson) {
         debugger
-        axios.put('http://localhost:8080/clients/'+props.client.id, clientJson)
+        axios.put('http://localhost:8080/clients/update/' + uniqeId, clientJson)
             .then((response) => {
                 debugger
-                props.setId(clientJson.id);
-                props.setFirstName(clientJson.firstName);
-                props.setLastName(clientJson.lastName);
-                props.setEmail(clientJson.email);
-                props.setMobile(clientJson.mobile);
+                getClientById();
+                // props.setId(clientJson.id);
+                // props.setFirstName(clientJson.firstName);
+                // props.setLastName(clientJson.lastName);
+                // props.setEmail(clientJson.email);
+                // props.setMobile(clientJson.mobile);
             }
             ).catch(err => {
                 debugger
-               
+
             });
 
 
     }
     useEffect(() => {
+        getClientById();
         if (printState) {
             window.print();
             setPrintState(false);
         }
-    }, [printState]);
+    }, [printState,client]);
 
+
+
+    const getClientById = () => {
+        axios.get('http://localhost:8080/clients/getClientById/' + props.client.id).then((response) => {
+            
+            setClient(response.data[0])
+            setUniqeId(response.data[0]._id)
+
+        }).catch(err => {
+           
+        });
+    }
     
-
     return (
         <div>
 
             {!printState ?
                 <div className="d-flex justify-content-start">
-                    <div className="text-left"><ClientModal   handleFunction={updateClientDetails} addOrUpdate="Update " /></div>
-                    <div className="pl-2 text-rigth"> <Button  onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
+                    <div className="text-left"><ClientModal handleFunction={updateClientDetails} client={client} addOrUpdate="Update " /></div>
+                    <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
                 </div> :
                 ''
             }
@@ -68,11 +91,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
             <p></p>
             <hr></hr>
             <h3>Client Details:</h3>
-            <h4>ID: {props.client.id}</h4>
-            <h4>First Name: {props.client.firstName}</h4>
-            <h4>Last Name: {props.client.lastName}</h4>
-            <h4>Email: {props.client.email}</h4>
-            <h4>Mobile: {props.client.mobile}</h4>
+
+            <h3 class="font-weight-bold "> ID: <small>{client.client_id}</small></h3>
+            <h3 class="font-weight-bold "> First Name: <small>{client.first_name}</small></h3>
+            <h3 class="font-weight-bold "> Last Name: <small>{client.last_name}</small></h3>
+            <h3 class="font-weight-bold "> Email: <small>{client.email}</small></h3>
+            <h3 class="font-weight-bold "> Mobile: <small>{client.phone_number}</small></h3>
+            <h3 class="font-weight-bold "> Mobile: <small>{client.year_of_birth}</small></h3>
+
+            <h3 class="font-weight-bold "> Mobile: <small>{client.start_connection_date}</small></h3>
 
             <hr></hr>
             <h3> Purchases:</h3>
@@ -86,3 +113,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
 
     );
 });
+
+

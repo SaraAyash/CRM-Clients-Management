@@ -1,0 +1,8 @@
+.newClients{
+    flex: 1 1 auto;
+    padding: 0.9375rem 20px;
+    position: relative;
+    -webkit-box-flex: 1;    
+   height: 300px;
+    overflow-y: scroll;
+}

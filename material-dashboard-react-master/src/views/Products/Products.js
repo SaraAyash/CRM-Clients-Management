@@ -30,7 +30,7 @@ export default function Products() {
       displayProducts(productJson);
 
     }).catch(err => {
-      alert(err);
+      
     })
 
   }

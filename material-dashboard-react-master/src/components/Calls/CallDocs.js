@@ -34,7 +34,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
 
     function updateCalls(callsJson) {
         const call = callsJson.map(call => <Call subject={call.subject} date={call.date} description={call.description} purchasedProducts={call.purchasedProducts} />)
-        setCalls([call]);
+        setCalls(call);
 
     }
 
@@ -63,7 +63,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallDocs(pr
             updateCalls(callsJson);
 
         }).catch(err => {
-            alert(err)
+          
         })
     }
 

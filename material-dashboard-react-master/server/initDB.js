@@ -12,18 +12,18 @@ var db = mongoose.connection;
 mongoose.Promise = global.Promise
 
 const clients = [
-    {"client_id":"1","first_name":"Garry","last_name":"Vizard","email":"gvizard0@1und1.de","gender":"Male","phone_number":"607-870-8273","year_of_birth":1954,"start_connection_date":"2021-01-16"},
-    {"client_id":"2","first_name":"Reggi","last_name":"Speeks","email":"rspeeks1@opera.com","gender":"Male","phone_number":"495-893-9156","year_of_birth":1957,"start_connection_date":"2021-02-15"},
+    {"client_id":"1","first_name":"Garry","last_name":"Vizard","email":"gvizard0@1und1.de","gender":"Male","phone_number":"607-870-8273","year_of_birth":1954,"start_connection_date":"2021-03-08"},
+    {"client_id":"2","first_name":"Reggi","last_name":"Speeks","email":"rspeeks1@opera.com","gender":"Male","phone_number":"495-893-9156","year_of_birth":1957,"start_connection_date":"2021-03-08"},
     {"client_id":"3","first_name":"Merrie","last_name":"Whorton","email":"mwhorton2@bbc.co.uk","gender":"Female","phone_number":"478-969-2057","year_of_birth":2004,"start_connection_date":"2020-12-20"},
     {"client_id":"4","first_name":"Margaret","last_name":"Riccione","email":"mriccione3@umn.edu","gender":"Male","phone_number":"616-108-7882","year_of_birth":1986,"start_connection_date":"2020-03-10"},
     {"client_id":"5","first_name":"Betteanne","last_name":"Cochrane","email":"bcochrane4@google.com.au","gender":"Male","phone_number":"781-856-8316","year_of_birth":2013,"start_connection_date":"2021-02-14"},
-    {"client_id":"6","first_name":"Tremaine","last_name":"Vallance","email":"tvallance5@deliciousdays.com","gender":"Male","phone_number":"996-958-3664","year_of_birth":1985,"start_connection_date":"2021-02-24"},
+    {"client_id":"6","first_name":"Tremaine","last_name":"Vallance","email":"tvallance5@deliciousdays.com","gender":"Male","phone_number":"996-958-3664","year_of_birth":1985,"start_connection_date":"2021-03-08"},
     {"client_id":"7","first_name":"Chiquia","last_name":"M'Barron","email":"cmbarron6@cloudflare.com","gender":"Female","phone_number":"629-225-7046","year_of_birth":1972,"start_connection_date":"2020-03-19"},
     {"client_id":"8","first_name":"Joice","last_name":"Danilevich","email":"jdanilevich7@quantcast.com","gender":"Male","phone_number":"669-734-1395","year_of_birth":2003,"start_connection_date":"2020-04-05"},
     {"client_id":"9","first_name":"Nikki","last_name":"Eddington","email":"neddington8@google.nl","gender":"Male","phone_number":"245-952-1675","year_of_birth":1967,"start_connection_date":"2020-04-07"},
     {"client_id":"10","first_name":"Katusha","last_name":"Glendining","email":"kglendining9@webnode.com","gender":"Female","phone_number":"495-131-7720","year_of_birth":1966,"start_connection_date":"2021-02-19"},
     {"client_id":"11","first_name":"Doralyn","last_name":"Niese","email":"dniesea@tripod.com","gender":"Female","phone_number":"464-309-1253","year_of_birth":2006,"start_connection_date":"2020-10-21"},
-    {"client_id":"12","first_name":"Noreen","last_name":"Olenin","email":"noleninb@netscape.com","gender":"Female","phone_number":"378-605-0739","year_of_birth":1948,"start_connection_date":"2021-01-21"},
+    {"client_id":"12","first_name":"Noreen","last_name":"Olenin","email":"noleninb@netscape.com","gender":"Female","phone_number":"378-605-0739","year_of_birth":1948,"start_connection_date":"2021-03-08"},
     {"client_id":"13","first_name":"Stormie","last_name":"Tredinnick","email":"stredinnickc@hugedomains.com","gender":"Male","phone_number":"991-889-9869","year_of_birth":2007,"start_connection_date":"2020-07-31"},
     {"client_id":"14","first_name":"Janette","last_name":"Georgescu","email":"jgeorgescud@bbc.co.uk","gender":"Male","phone_number":"881-518-0205","year_of_birth":1965,"start_connection_date":"2020-06-16"},
     {"client_id":"15","first_name":"Nestor","last_name":"Christon","email":"nchristone@psu.edu","gender":"Male","phone_number":"500-872-4246","year_of_birth":1966,"start_connection_date":"2020-09-07"},

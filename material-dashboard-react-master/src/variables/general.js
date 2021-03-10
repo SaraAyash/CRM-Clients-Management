@@ -10,7 +10,7 @@ var tasks = [
 ];
 
 const updateTask = (task, index) => {
-  alert(index);
+   
   tasks[index] = task;
 }
 module.exports = {

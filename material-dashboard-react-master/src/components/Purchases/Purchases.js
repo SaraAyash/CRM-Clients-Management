@@ -25,16 +25,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
     const getAllPurchases = () => {
 
         axios.get('http://localhost:8080/purchases/getList/' + props.client.id).then((response) => {
-
+            debugger
             const purchesesJson = response.data;
             const purchese = purchesesJson.map(purchese => <Col xs={6} sm={4} md={4} lg={3} className="p-2 colPurchases "    >  <PurchaseCard date={purchese.date} insuranceId={purchese.productId} totalPrice={purchese.totalPrice} />  </Col>)
-            setPurcheses([purchese]);
+            setPurcheses(purchese);
 
         }).catch(err => {
 
-            
+
         })
-       
+
 
     }
 
@@ -44,10 +44,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
     return (
         <>
             <Container fluid >
-                <Row className="row overflow-auto">                   
-                    {purcheses.length === 0 ? <Col><p>No purcheses to show</p></Col> : ''} 
+                <Row className="row overflow-auto">
                     {purcheses}
                 </Row>
+                <Row>
+                    {purcheses === 0 ? 'No purcheses to show' : ''}
+                </Row>
+
             </Container>
 
         </>
