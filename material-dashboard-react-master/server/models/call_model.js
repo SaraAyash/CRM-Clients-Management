@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var minuteFromNow = function(){
-    var timeObject = new Date();
-    timeObject.setTime(timeObject.getTime() + 1000 * 60);
-    return timeObject;
-};
-
 // define Schema
 var CallSchema = new Schema({
 	client_id: {

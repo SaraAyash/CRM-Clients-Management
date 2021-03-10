@@ -2,17 +2,6 @@ const { Email } = require('@material-ui/icons');
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-
-var validateType = function(type) {
-	return type == "nature" || type == "people";
-}
-
-var minuteFromNow = function(){
-    var timeObject = new Date();
-    timeObject.setTime(timeObject.getTime() + 1000 * 60);
-    return timeObject;
-};
-
 // define Schema
 var EmployeeSchema = new Schema({
     employee_id: {
