@@ -101,8 +101,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
             {!printState ?
                 <div class="d-flex justify-content-start">
-                    <div className="text-left"> <ProductModal handleFunction={updateProduct} addOrUpdate="update product" ></ProductModal></div>
-                    <div className="pl-2 text-rigth"> <Button onClick={() => printCard()}>Print Client Card</Button> </div>
+                    <div className="text-left"> <ProductModal handleFunction={updateProduct} addOrUpdate="Update " ></ProductModal></div>
+                    <div className="pl-2 text-rigth"> <Button onClick={() => printCard()}>Print Product</Button> </div>
                 </div> :
                 ''
             }

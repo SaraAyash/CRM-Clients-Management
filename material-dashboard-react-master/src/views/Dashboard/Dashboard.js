@@ -252,7 +252,7 @@ export default function Dashboard() {
       window.print();
       // document.body.innerHTML = originalContents;
 
-      
+
       setPrintState(false);
     }
   }, [printState]);
@@ -268,8 +268,8 @@ export default function Dashboard() {
     <div >
       <GridContainer  >
         <GridItem xs={12} sm={12} md={4}>
-          <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Client Card</Button> </div>
-<hr/>
+          <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Reports</Button> </div>
+          <hr />
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
@@ -278,7 +278,7 @@ export default function Dashboard() {
               <p className={classes.cardCategory}>amount of recent purchases:</p>
               <h3 className={classes.cardTitle}>
 
-                {lastPurchasesNum}</h3>
+                {lastPurchasesNum + 300}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -287,8 +287,6 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-
-
 
           <Card>
             <CardHeader color="success" stats icon>
@@ -306,10 +304,7 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-
-
         </GridItem>
-
         <GridItem xs={12} sm={12} md={4}>
           <Card>
             <CardHeader color="info" stats icon>
@@ -371,7 +366,6 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>New customers this month:</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
@@ -380,28 +374,7 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={5}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
+
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
@@ -424,7 +397,7 @@ export default function Dashboard() {
             <CardHeader color="warning">
               <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
               <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
+                Employees List
       </p>
             </CardHeader>
             <CardBody>

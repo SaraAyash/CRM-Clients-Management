@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios'
 
+import { connect } from 'react-redux'
+import { actions } from '../../redux/actions'
 // @material-ui/core components 
 import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 
 // import { Router, Route, Switch } from "react-router"
 // import Button from "@material-ui/core/Button"
+function mapStateToProps(state) {
+    // debugger;
+    return {
+        product: state.productReducer.product
+    };
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    setInsuranceId: (insurance_Id) => dispatch(actions.setInsuranceId(insurance_Id)),
+    setInsuranceName: (insurance_Name) => dispatch(actions.setInsuranceName(insurance_Name)),
+    setInsuranceDescription: (Insurance_Description) => dispatch(actions.setInsuranceDescription(Insurance_Description)),
+    setInsurancePrice: (insurance_Price) => dispatch(actions.setInsurancePrice(insurance_Price)),
+    setInsurancePicture: (insurance_Picture) => dispatch(actions.setInsurancePicture(insurance_Picture))
+
+})
 
 
-export default function ProductModal(props) {
+
+export default connect(mapStateToProps, mapDispatchToProps)(function ProductModal(props) {
 
     const [show, setShow] = useState(false);
     const [product, setProduct] = useState({ name: "", description: "", price: 0, date: new Date().getTime(), image: '' });
@@ -27,7 +46,32 @@ export default function ProductModal(props) {
             handleClose();
         }
     }
-    useEffect(() => { }, [product])
+    const getProduct = () => {
+        axios.get('http://localhost:8080/products/getProduct/' + props.product.insuranceId).then((response) => {
+            debugger
+            const productJson = response.data[0];
+            setProduct({
+                ...product,
+                name: productJson.name,
+                price: productJson.price,
+                description: productJson.description,
+                date: productJson.date,
+                image: productJson.image
+
+            })
+
+        }).catch(err => {
+            debugger
+
+        })
+    }
+    useEffect(() => {
+        if (props.addOrUpdate === "Update ") {
+            getProduct();
+        }
+    }, [product])
+
+
     return (
         <>
             {/* <label >hello {props.client.firstName}</label> */}
@@ -49,7 +93,7 @@ export default function ProductModal(props) {
                         <Form.Group as={Row} controlId="NameInsurance">
                             <Form.Label column sm="3">Name of Insurance:</Form.Label>
                             <Col sm="9">
-                                <Form.Control onChange={(e) => { setProduct({ ...product, name: e.target.value }) }} />
+                                <Form.Control defaultValue={product.name} onChange={(e) => { setProduct({ ...product, name: e.target.value }) }} />
 
                             </Col>
                         </Form.Group>
@@ -57,20 +101,20 @@ export default function ProductModal(props) {
                         <Form.Group as={Row} controlId="description">
                             <Form.Label column sm="3">Description of insurance:</Form.Label>
                             <Col sm="9">
-                                <Form.Control maxLength="250" placeholder="enter until 250 characters" onChange={(e) => { setProduct({ ...product, description: e.target.value }) }} />
+                                <Form.Control defaultValue={product.description} maxLength="250" placeholder="enter until 250 characters" onChange={(e) => { setProduct({ ...product, description: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="price">
                             <Form.Label column sm="4">Price of insurance:</Form.Label>
                             <Col sm="8">
-                                <Form.Control type="number" onChange={(e) => { setProduct({ ...product, price: e.target.value }) }} />
+                                <Form.Control defaultValue={product.price} type="number" onChange={(e) => { setProduct({ ...product, price: e.target.value }) }} />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} controlId="picture">
                             <Form.Label column sm="5">Picture of insurance:</Form.Label>
                             <Col sm="8">
-                                <Form.Control onChange={(e) => { setProduct({ ...product, image: e.target.value }) }} />
+                                <Form.Control defaultValue={product.image} onChange={(e) => { setProduct({ ...product, image: e.target.value }) }} />
                             </Col>
                         </Form.Group>
 
@@ -88,5 +132,5 @@ export default function ProductModal(props) {
 
 
     );
-}
-;
+})
+    ;
