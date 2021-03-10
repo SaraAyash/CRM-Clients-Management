@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 // @material-ui/core components  
 import { Alert, Button, Form, Card, Row, Col, Container } from 'react-bootstrap';
-import { FcLike, FcHome, FcAutomotive, FcCurrencyExchange,FcDebt } from "react-icons/fc";
+import { FcLike, FcHome, FcAutomotive, FcCurrencyExchange, FcDebt } from "react-icons/fc";
 import CalcCar from "./CalcCar"
 import CalcApar from "./CalcApar"
 import CalcLife from "./CalcLife"
@@ -36,13 +36,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
         setShow(false);
         setInsurenceTypeValue();
     }
-    
+
     function openCalculator() {
         setShow(true);
         setInsurenceTypeValue(0);
     }
-  
-        useEffect(() => {
+
+    useEffect(() => {
         if (insurenceTypeValue === 0)
             debugger
         else debugger
@@ -113,7 +113,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
                                 <CalcCar /> : ''}
 
                             {(insurenceTypeValue === 4) ?
-                                <CalcMortgage/> : ''}
+                                <CalcMortgage /> : ''}
 
                         </Form>
                         {/* </Col> */}
@@ -128,11 +128,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcPrice(p
             {!show && <Button
                 variant="light"
                 className="shadow-lg"
-                style={{width: '15rem', height:'15rem', fontSize: '14px' , borderRadius:100, }}
+                style={{ width: '15rem', height: '15rem', fontSize: '14px', borderRadius: 100, }}
                 onClick={() => openCalculator()}>
                 <FcCurrencyExchange style={{ width: '10rem', fontSize: '120' }} />
-                <strong style={{ color: 'green', fontSize: '24px' }} >Open insurence calculetor</strong> 
-                </Button>}
+                <strong style={{ color: 'green', fontSize: '24px' }} >Open insurence calculetor</strong>
+            </Button>}
 
         </div >
 

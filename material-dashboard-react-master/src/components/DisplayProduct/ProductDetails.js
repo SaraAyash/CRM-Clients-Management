@@ -35,9 +35,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
     const [printState, setPrintState] = useState(false);
 
     function updateProduct(productJson) {
-
+        if(productJson.date === undefined){
+            
+            productJson.date = new Date().getTime();
+        }
+        debugger
         axios.put('http://localhost:8080/products/update/' + props.product.insuranceId, productJson)
             .then(response => {
+                debugger
                 getProduct();
                 props.setInsuranceName(productJson.insuranceName);
                 props.setInsuranceDescription(productJson.insuranceDescription);
@@ -48,6 +53,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
 
             ).catch(err => {
+                debugger
             });
 
 
@@ -69,10 +75,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
 
         axios.get('http://localhost:8080/products/getProduct/' + props.product.insuranceId).then((response) => {
-            debugger
+           
             const productJson = response.data[0];
             setProduct({
-                ...product,
+               
                 name: productJson.name,
                 price: productJson.price,
                 description: productJson.description,

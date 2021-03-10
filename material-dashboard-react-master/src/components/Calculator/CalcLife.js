@@ -93,8 +93,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcLife(pr
         (score.smoke === 'Yes') ? sumScore += 10 : sumScore += 0;
          
 
-        setPrice(parseInt(props.product.insurancePrice) + sumScore);
-
+        if (parseInt(props.product.insurancePrice) === NaN) {
+            setPrice(parseInt(50) + sumScore);
+        }
+        else {
+            setPrice(parseInt(props.product.insurancePrice) + sumScore);
+        }
 
         setShowPrice(true);
 

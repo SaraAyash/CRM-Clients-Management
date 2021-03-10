@@ -47,7 +47,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
 
     function nextStep() {
         if (driverDetails) {
-            if (score.age !==0 && score.licenseYearNum !==0) {
+            if (score.age !== 0 && score.licenseYearNum !== 0) {
                 setShowError(false);
                 setDriverDetails(false)
                 setCarDetails1(true);
@@ -59,7 +59,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
 
         }
         else if (carDetails1) {
-            if (score.year !==0) {
+            if (score.year !== 0) {
                 setShowError(false);
                 setDriverDetails(false)
                 setCarDetails1(false);
@@ -71,7 +71,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
         }
         else if (carDetails2) {
             debugger
-            if (score.safety !=="") {
+            if (score.safety !== "") {
                 setNextButtonName(' Calculate')
                 setTimeout(() => {
                     setShowError(false);
@@ -99,10 +99,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
         (score.safety === '1') ? sumScore += 2 : sumScore += 4;
         (score.own === 'Company ownership') ? sumScore += 2 : sumScore += 4;
 
-
-
-        setPrice(parseInt(props.product.insurancePrice) + sumScore);
-
+        if (parseInt(props.product.insurancePrice) === NaN) {
+            setPrice(parseInt(50) + sumScore);
+        }
+        else {
+            setPrice(parseInt(props.product.insurancePrice) + sumScore);
+        }
+ 
 
         setShowPrice(true);
 
@@ -245,7 +248,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcCar(pro
                                 <>
 
                                     <Button onClick={nextStep} >
-                                        {nextButtonName !==" Next" ? <Spinner
+                                        {nextButtonName !== " Next" ? <Spinner
                                             as="span"
                                             animation="grow"
                                             size="sm"

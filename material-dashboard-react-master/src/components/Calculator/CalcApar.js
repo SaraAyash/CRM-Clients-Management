@@ -124,8 +124,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CalcApr(pro
         (score.area < 100) ? sumScore += 4 : sumScore += 10;
         (score.livers < 5) ? sumScore += 10 : sumScore += 4;
 
-        setPrice(parseInt(props.product.insurancePrice) + sumScore);
-
+        if (parseInt(props.product.insurancePrice) === NaN) {
+            setPrice(parseInt(50) + sumScore);
+        }
+        else {
+            setPrice(parseInt(props.product.insurancePrice) + sumScore);
+        }
 
         setShowPrice(true);
 

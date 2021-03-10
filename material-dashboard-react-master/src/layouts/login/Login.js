@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import { withRouter } from "react-router-dom";
-import { FcLock, FcAddressBook, FcNeutralDecision, FcBusinessman, FcCheckmark, FcGraduationCap, FcPhone, FcCompactCamera, FcAssistant, FcAddImage } from "react-icons/fc";
+import { FcLock, FcAddressBook, FcNeutralDecision, FcBusinessman, FcCheckmark, FcGraduationCap, FcPhone, FcCompactCamera, FcAssistant } from "react-icons/fc";
 import { Container, InputGroup, FormControl, Form, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios'
 
@@ -35,7 +35,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(function 
   });
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
   const [loginState, setLoginState] = useState(true);
   //sending a post request to the server with the username and password inserted by the user.
   async function loginUser(credentials) {

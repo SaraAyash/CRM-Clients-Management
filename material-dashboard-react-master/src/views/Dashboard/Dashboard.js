@@ -43,6 +43,7 @@ export default function Dashboard() {
   const [days, setDays] = useState(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
   const [months, setMonths] = useState(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
   const [amountPurchases, setAmountPurchases] = useState();
+  const [productAmount, setProductAmount] = useState();
   const [newProducts, setNewProducts] = useState([]);
   const [newClients, setNewClients] = useState([]);
   const [jsonString, setJsonString] = useState([]);
@@ -239,20 +240,23 @@ export default function Dashboard() {
 
       });
   }
+  function getNumOfProducts() {
+    axios.get('http://localhost:8080/products/getList').then((response) => {
+
+
+      setProductAmount(response.data.length)
+    }).catch(err => {
+
+    })
+  }
+
   useEffect(() => {
 
   }, [weeklyClients, monthlySales]);
 
   useEffect(() => {
     if (printState) {
-
-      // var originalContents = document.body.innerHTML;
-      // var printReport= document.getElementsByClassName('dashboardContainer').innerHTML;
-      // document.body.innerHTML = printReport;
       window.print();
-      // document.body.innerHTML = originalContents;
-
-
       setPrintState(false);
     }
   }, [printState]);
@@ -263,11 +267,12 @@ export default function Dashboard() {
     getWeeklyClients();
     getNewPolicy();
     getNewclients();
+    getNumOfProducts();
   }, []);
   return (
     <div >
       <GridContainer  >
-        <GridItem xs={12} sm={12} md={4}>
+        <GridItem xs={12} sm={12} md={3}>
           <div className="pl-2 text-rigth"> <Button onClick={() => setPrintState(true)}>Print Reports</Button> </div>
           <hr />
           <Card>
@@ -287,7 +292,23 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
+          <Card>
+            <CardHeader color="info" stats icon>
+              <CardIcon color="info">
+                <Accessibility />
+              </CardIcon>
+              <p className={classes.cardCategory}>Products Amount:</p>
 
+            </CardHeader>
+            <CardBody  >
+              {productAmount}
+            </CardBody>
+            <CardFooter stats>
+              <div className={classes.stats}><Update />New clients from the last two weeks </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
@@ -305,8 +326,13 @@ export default function Dashboard() {
               </div>
             </CardFooter>
           </Card>
+
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
+
+
+      </GridContainer>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="info" stats icon>
               <CardIcon color="info">
@@ -339,7 +365,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>Weekly sales:</h4>
-               
+
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>

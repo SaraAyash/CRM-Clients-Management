@@ -48,10 +48,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductModa
     }
     const getProduct = () => {
         axios.get('http://localhost:8080/products/getProduct/' + props.product.insuranceId).then((response) => {
-            debugger
+         
             const productJson = response.data[0];
+            if(productJson.date === undefined){
+                productJson.date = new Date().getTime();
+            }
             setProduct({
-                ...product,
+                
                 name: productJson.name,
                 price: productJson.price,
                 description: productJson.description,
@@ -67,7 +70,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductModa
     }
     useEffect(() => {
         if (props.addOrUpdate === "Update ") {
-            getProduct();
+            //getProduct();
         }
     }, [product])
 

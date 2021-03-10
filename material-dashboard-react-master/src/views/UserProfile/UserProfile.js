@@ -11,8 +11,7 @@ import CardBody from "components/Card/CardBody.js";
 import { connect } from 'react-redux'
 import { actions } from '../../redux/actions'
 import axios from "axios";
-import CardHeader from "components/Card/CardHeader";
-
+ 
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
