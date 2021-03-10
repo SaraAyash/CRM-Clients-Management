@@ -18,6 +18,7 @@ router.post('/clients/add', clients.add_client)
 router.get('/clients/search/:clientName', clients.search_client)
 router.get('/clients/getLastWeek', clients.get_last_clients)
 router.get('/clients/monthDistribution', clients.month_distribution)
+router.get('/clients/getClientById/:clientId', clients.get_client_by_id);
 
 // calls
 router.post('/calls/add', calls.add_call)
@@ -48,7 +49,7 @@ router.delete('/tasks/delete/:taskId', tasks.delete_task);
 router.get('/employees/getList', employees.get_employees_list);
 router.get('/employees/getEmployeeById/:employeeId', employees.get_employees_by_id);
 router.get('/employees/getEmployeeByEmail/:employeeEmail', employees.get_employees_by_Email);
-
+router.post('/employees/add', employees.add_employee)
 
 
 

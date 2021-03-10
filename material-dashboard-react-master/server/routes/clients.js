@@ -2,7 +2,38 @@ var Client = require('../models/client_model');
 var mongoose = require('mongoose');
 
 module.exports = {
+    //get_employees_by_id
+    get_client_by_id: function (req, res) {
+        console.log("===================== in get_clients_by_id =========================");
+        mongoose.connect('mongodb://localhost:27017/CRM', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        var db = mongoose.connection;
 
+        db.once('error', function () { //connection error
+            console.error.bind(console, 'connection error:');
+            res.status(400).send("connection error:");
+            return;
+        })
+        db.once('open', function () {
+            console.log("connection successful!");
+            Client.find({ client_id: req.params["clientId"] }, (err, client) => {
+                if (err) {
+                    // console.log(err);
+                    console.log("find client by id failed");
+                    db.close()
+                    res.status(500).send(err);
+                }
+                console.log("success in finding client by id");
+                db.close()
+                console.log(client)
+                res.status(200).send(client);
+            })
+        });
+
+
+    },
     //clients list
     get_clients_list: function (req, res) {
         console.log("===================== in get clients list =========================");
