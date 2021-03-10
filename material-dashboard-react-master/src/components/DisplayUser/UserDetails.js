@@ -7,6 +7,8 @@ import Purchases from "components/Purchases/Purchases.js"
 import axios from "axios"
 import { Button } from 'react-bootstrap';
 import CallDocs from "../Calls/CallDocs.js"
+import { format } from "date-fns";
+
 function mapStateToProps(state) {
     return {
         client: state.clientReducer.client
@@ -23,6 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails(props) {
+
 
     const [printState, setPrintState] = useState(false);
     const [client, setClient] = useState({
@@ -41,16 +44,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
         debugger
         axios.put('http://localhost:8080/clients/update/' + uniqeId, clientJson)
             .then((response) => {
-                debugger
+
                 getClientById();
-                // props.setId(clientJson.id);
-                // props.setFirstName(clientJson.firstName);
-                // props.setLastName(clientJson.lastName);
-                // props.setEmail(clientJson.email);
-                // props.setMobile(clientJson.mobile);
             }
             ).catch(err => {
-                debugger
 
             });
 
@@ -73,9 +70,21 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
     const getClientById = () => {
         axios.get('http://localhost:8080/clients/getClientById/' + props.client.id).then((response) => {
             debugger
-            setClient(response.data[0])
-            setUniqeId(response.data[0]._id)
 
+            setUniqeId(response.data[0]._id)
+            const formattedDate = new Date(response.data[0].start_connection_date);
+            
+            setClient(
+                {
+                    client_id: response.data[0].client_id,
+                    first_name: response.data[0].first_name,
+                    last_name: response.data[0].last_name,
+                    phone_number: response.data[0].phone_number,
+                    email: response.data[0].email,
+                    year_of_birth: response.data[0].year_of_birth,
+                    start_connection_date: format(formattedDate, "MMMM dd, yyyy "),
+                }
+            )
         }).catch(err => {
 
         });

@@ -25,7 +25,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
     const getAllPurchases = () => {
 
         axios.get('http://localhost:8080/purchases/getList/' + props.client.id).then((response) => {
-            debugger
+          
             const purchesesJson = response.data;
             const purchese = purchesesJson.map(purchese => <Col xs={6} sm={4} md={4} lg={3} className="p-2 colPurchases "    >  <PurchaseCard date={purchese.date} insuranceId={purchese.productId} totalPrice={purchese.totalPrice} />  </Col>)
             setPurcheses(purchese);
