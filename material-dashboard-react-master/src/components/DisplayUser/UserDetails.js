@@ -56,27 +56,31 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
 
 
     }
+
     useEffect(() => {
-        getClientById();
         if (printState) {
             window.print();
             setPrintState(false);
         }
-    }, [printState,client]);
+    }, [printState]);
 
+    useEffect(() => {
+        getClientById();
+
+    }, []);
 
 
     const getClientById = () => {
         axios.get('http://localhost:8080/clients/getClientById/' + props.client.id).then((response) => {
-            
+            debugger
             setClient(response.data[0])
             setUniqeId(response.data[0]._id)
 
         }).catch(err => {
-           
+
         });
     }
-    
+
     return (
         <div>
 
@@ -97,9 +101,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(function UserDetails
             <h3 class="font-weight-bold "> Last Name: <small>{client.last_name}</small></h3>
             <h3 class="font-weight-bold "> Email: <small>{client.email}</small></h3>
             <h3 class="font-weight-bold "> Mobile: <small>{client.phone_number}</small></h3>
-            <h3 class="font-weight-bold "> Mobile: <small>{client.year_of_birth}</small></h3>
+            <h3 class="font-weight-bold "> Year of birth: <small>{client.year_of_birth}</small></h3>
 
-            <h3 class="font-weight-bold "> Mobile: <small>{client.start_connection_date}</small></h3>
+            <h3 class="font-weight-bold "> Start connection date: <small>{client.start_connection_date}</small></h3>
 
             <hr></hr>
             <h3> Purchases:</h3>

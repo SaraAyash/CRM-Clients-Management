@@ -1,5 +1,5 @@
-import React, { useState } from "react";
- 
+import React, { useEffect, useState } from "react";
+
 // @material-ui/core components 
 import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 
@@ -10,7 +10,7 @@ import { Button, Form, Modal, Row, Col } from 'react-bootstrap';
 export default function ProductModal(props) {
 
     const [show, setShow] = useState(false);
-    const [product, setProduct] = useState({ name: "", description: "", price:0, date: new Date().getTime() , image:''});
+    const [product, setProduct] = useState({ name: "", description: "", price: 0, date: new Date().getTime(), image: '' });
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [error, setError] = useState(false);
@@ -27,6 +27,7 @@ export default function ProductModal(props) {
             handleClose();
         }
     }
+    useEffect(() => { }, [product])
     return (
         <>
             {/* <label >hello {props.client.firstName}</label> */}

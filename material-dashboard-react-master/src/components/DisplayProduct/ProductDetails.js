@@ -6,6 +6,7 @@ import { Button, Row, Col, Container, Card } from 'react-bootstrap';
 import ProductModal from "components/Products/ProductModal";
 import CalcPrice from "../Calculator/CalcPrice"
 import axios from "axios"
+import { get_product } from "../../../server/routes/products";
 function mapStateToProps(state) {
     // debugger;
     return {
@@ -33,6 +34,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
         axios.put('http://localhost:8080/products/update/' + props.product.insuranceId, productJson)
             .then(response => {
                 debugger
+
                 props.setInsuranceName(productJson.insuranceName);
                 props.setInsuranceDescription(productJson.insuranceDescription);
                 props.setInsurancePrice(productJson.insurancePrice);
@@ -54,6 +56,29 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
     }
     useEffect(() => {
+        getClientById();
+
+    }, []);
+
+
+    const getClientById = () => {
+        axios.get('http://localhost:8080/clients/getClientById/' + props.client.id).then((response) => {
+            debugger
+            setClient(response.data[0])
+            setUniqeId(response.data[0]._id)
+
+        }).catch(err => {
+
+        });
+    }
+    const [product, setProduct] = useState(
+
+    );
+
+    const get_product = () => { }
+    useEffect(() => {
+
+
         if (printState) {
             window.print();
             setPrintState(false);

@@ -42,7 +42,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function PurchaseCar
 
         })
     }
-    useEffect(getProductDetails, [productDetails]);
+    useEffect(getProductDetails, []);
     
 
 

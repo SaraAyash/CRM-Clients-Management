@@ -185,15 +185,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(function CallModal(p
                         )
 
 
-                        // < Multiselect
-                        //     options={products} // Options to display in the dropdown
-                        //     onSelect={onSelectProduct} // Function will trigger on select event
-                        //     onRemove={onRemove} // Function will trigger on remove event
-                        //     displayValue="name" // Property name to display in the dropdown options
-                        // >
-
-
-                        // </Multiselect>
+                      
                         : ''}
 
                     {call.subject === "Product purchase" ?

@@ -38,8 +38,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(function Purchases(p
 
     }
 
-    useEffect(getAllPurchases, [purcheses]);
+     
+    useEffect(() => {
+        getAllPurchases(); 
 
+    }, [purcheses]);
 
     return (
         <>
