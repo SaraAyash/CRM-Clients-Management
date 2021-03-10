@@ -1,13 +1,8 @@
-// const User = require('../app/models/user.js')
-// const Account = require('../app/models/account.js')
-
 var Client = require('./models/client_model');
 var Product = require('./models/product_model');
 var Employee = require('./models/employee_model');
 
 var mongoose = require('mongoose');
-
-// mongoose.connect(dbConf.url, { useMongoClient: true })
 
 mongoose.connect('mongodb://localhost:27017/CRM', {
         useUnifiedTopology: true
@@ -1066,7 +1061,7 @@ const employees = [
   "email": "rshallo0@yellowpages.com",
   "password": "gagIr0xQPN",
   "image": "https://i.pinimg.com/originals/f4/fa/98/f4fa98e899b1f9b6e19a0c9d8166a28d.jpg",
-  "about": "Chemical Engineer",
+  "about": "Customer support",
   "phone_number":"054-563-9177"
 }, {
   "employee_id": 2,
@@ -1180,7 +1175,3 @@ module.exports = {
       db.close()
   }
 }
-
-
-// doBoth();
-
