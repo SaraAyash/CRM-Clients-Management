@@ -6,7 +6,6 @@ import { Button, Row, Col, Container, Card } from 'react-bootstrap';
 import ProductModal from "components/Products/ProductModal";
 import CalcPrice from "../Calculator/CalcPrice"
 import axios from "axios"
-import { get_product } from "../../../server/routes/products";
 function mapStateToProps(state) {
     // debugger;
     return {
@@ -26,7 +25,13 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(function ProductDetails(props) {
-
+    const [product, setProduct] = useState({
+        name: '',
+        price: '',
+        descr: '',
+        date: '',
+        image: '',
+    });
     const [printState, setPrintState] = useState(false);
 
     function updateProduct(productJson) {
@@ -34,11 +39,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
         axios.put('http://localhost:8080/products/update/' + props.product.insuranceId, productJson)
             .then(response => {
                 debugger
-
+                getProduct();
                 props.setInsuranceName(productJson.insuranceName);
                 props.setInsuranceDescription(productJson.insuranceDescription);
                 props.setInsurancePrice(productJson.insurancePrice);
                 props.setInsurancePicture(productJson.insurancePicture);
+
             }
 
 
@@ -56,26 +62,31 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
 
     }
     useEffect(() => {
-        getClientById();
+        getProduct();
 
-    }, []);
+    }, [product]);
+
+    const getProduct = () => {
 
 
-    const getClientById = () => {
-        axios.get('http://localhost:8080/clients/getClientById/' + props.client.id).then((response) => {
+        axios.get('http://localhost:8080/products/getProduct/' + props.product.insuranceId).then((response) => {
             debugger
-            setClient(response.data[0])
-            setUniqeId(response.data[0]._id)
+            const productJson = response.data[0];
+            setProduct({
+                ...product,
+                name: productJson.name,
+                price: productJson.price,
+                description: productJson.description,
+                date: productJson.date,
+                image: productJson.image
+
+            })
 
         }).catch(err => {
+            debugger
 
-        });
+        })
     }
-    const [product, setProduct] = useState(
-
-    );
-
-    const get_product = () => { }
     useEffect(() => {
 
 
@@ -103,13 +114,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(function ProductDeta
                         <Col className="align-self-end" ><CalcPrice /></Col> : ''}
                     <Col>
                         <Card className="shadow-lg text-center" style={{ "width": '30rem', "height": '40rem' }}>
-                            <Card.Img variant="top" src={props.product.insurancePicture} style={{ position: 'relative', left: '10rem', top: '1rem', width: '30%', height: '10vh' }} />
+                            <Card.Img variant="top" src={product.image} style={{ position: 'relative', left: '10rem', top: '1rem', width: '30%', height: '10vh' }} />
                             <Card.Body>
-                                <Card.Title ><h3><strong>{props.product.insuranceName}</strong></h3> </Card.Title>
+                                <Card.Title ><h3><strong>{product.name}</strong></h3> </Card.Title>
 
-                                <Card.Text>  {props.product.insuranceDescription}</Card.Text>
+                                <Card.Text>  {product.description}</Card.Text>
                             </Card.Body>
-                            <Card.Title > Price: starting from {props.product.insurancePrice} ILS per month </Card.Title>
+                            <Card.Title > Price: starting from {product.price} ILS per month </Card.Title>
 
                             <Card.Footer />
                         </Card>
